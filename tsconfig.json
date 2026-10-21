@@ -1,0 +1,42 @@
+{
+	"compilerOptions": {
+		"target": "ES2020",
+		"useDefineForClassFields": true,
+		"lib": ["ES2020", "DOM", "DOM.Iterable"],
+		"module": "ESNext",
+		"skipLibCheck": true,
+		"esModuleInterop": true,
+
+		"moduleResolution": "bundler",
+		"allowImportingTsExtensions": true,
+		"resolveJsonModule": true,
+		"noEmit": true,
+		"jsx": "react-jsx",
+
+		"strict": true,
+		"noUncheckedIndexedAccess": true,
+		"noPropertyAccessFromIndexSignature": true,
+		"erasableSyntaxOnly": true,
+		"forceConsistentCasingInFileNames": true,
+		"allowUnreachableCode": false,
+
+		"declaration": true,
+		"declarationMap": true,
+		"sourceMap": true, // open
+
+		"paths": {
+			"@Components/*": ["./src/components/*"],
+			"@Pages/*": ["./src/pages/*"],
+			"@SharedStyles/*": ["./src/styles/*"],
+			"@Constants/*": ["./src/constants/*"],
+			"@Utils/*": ["./src/utils/*"],
+			"@Hooks/*": ["./src/hooks/*"],
+			"@Helpers/*": ["./src/helpers/*"],
+			"@Types/*": ["./src/types/*"],
+			"@Theme/*": ["./src/theme/*"],
+			"@Assets/*": ["./src/assets/*"]
+		}
+	},
+	"include": ["src", "vitest.setup.ts", "tests/**/*", "e2e/**/*"],
+	"references": [{ "path": "./tsconfig.node.json" }]
+}

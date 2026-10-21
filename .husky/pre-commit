@@ -1,0 +1,13 @@
+echo "Running lint-staged (ESLint + Prettier)..."
+pnpm lint-staged || exit 1
+
+echo "Running type check..."
+pnpm type-check || exit 1
+
+echo "Running unit tests..."
+pnpm test || exit 1
+
+echo "Running audit (high and critical)..."
+pnpm audit --audit-level=high || exit 1
+
+echo "✔️ All pre-commit checks passed!"

@@ -1,0 +1,12 @@
+node_modules
+dist
+dist-test
+coverage
+build
+.cache
+.vscode
+.idea
+*.log
+.DS_Store
+eslint-tests/
+*.yml

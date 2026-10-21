@@ -1,0 +1,30 @@
+name: CI
+
+on:
+    push:
+        branches:
+            - main
+            - develop
+    pull_request:
+        branches:
+            - main
+            - develop
+
+env:
+    NODE_VERSION: '24.21.0'
+
+jobs:
+    audit:
+        name: Dependency vulnerability audit
+        runs-on: ubuntu-latest
+
+        steps:
+            - uses: actions/checkout@v7
+
+            - uses: ./.github/actions/setup-deps
+              with:
+                  node-version: ${{ env.NODE_VERSION }}
+                  cache-version: v1
+
+            - name: pnpm audit
+              run: pnpm audit --audit-level=high
