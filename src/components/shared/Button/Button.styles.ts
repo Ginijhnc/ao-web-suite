@@ -62,5 +62,32 @@ export const primaryButtonStyle = css`
 	}
 `;
 
-// TO DO - Pendiente
-export const secondaryButtonStyle = css``;
+export const secondaryButtonStyle = css`
+	border-color: hsl(0, 5%, 25%);
+	color: ${theme.palette.text.secondary};
+	transition:
+		border-color 0.2s,
+		background-color 0.2s;
+
+	svg {
+		fill: ${theme.palette.text.secondary};
+	}
+
+	&:hover {
+		border-color: hsl(0, 5%, 40%);
+		background-color: hsl(0, 5%, 12%);
+	}
+
+	&:active {
+		background-color: hsl(0, 5%, 8%);
+	}
+
+	&:disabled {
+		border-color: hsl(0, 3%, 15%);
+		color: hsl(0, 3%, 30%);
+
+		svg {
+			fill: hsl(0, 3%, 30%);
+		}
+	}
+`;
