@@ -75,16 +75,17 @@ export const secondaryButtonStyle = css`
 
 	&:hover {
 		border-color: hsl(0, 5%, 40%);
-		background-color: hsl(0, 5%, 12%);
+		background-color: hsl(0, 5%, 12%, 40%);
 	}
 
 	&:active {
-		background-color: hsl(0, 5%, 8%);
+		background-color: hsl(0, 5%, 8%, 30%);
 	}
 
 	&:disabled {
 		border-color: hsl(0, 3%, 15%);
 		color: hsl(0, 3%, 30%);
+		background-color: hsl(0, 3%, 10%, 20%);
 
 		svg {
 			fill: hsl(0, 3%, 30%);

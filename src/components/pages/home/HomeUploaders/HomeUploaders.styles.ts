@@ -6,7 +6,7 @@ export const uploadersContainerStyle = css`
 	align-items: center;
 	gap: 2rem;
 	padding: 2.5em 2em 3em 2em;
-	background-color: hsl(0, 5%, 10%, 80%);
+	background-color: hsl(25, 20%, 12%, 20%);
 	border-radius: 1em;
 	margin-top: 1.5rem;
 	width: 100%;
