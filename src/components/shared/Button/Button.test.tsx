@@ -9,7 +9,7 @@ describe('Button', () => {
 		const handleClick = vi.fn();
 		const user = userEvent.setup();
 		render(
-			<Button variant="primary" onClick={handleClick}>
+			<Button size="md" variant="primary" onClick={handleClick}>
 				Click me
 			</Button>,
 		);
