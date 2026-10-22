@@ -42,6 +42,7 @@
 - **Theme**: Import `theme` from `@Theme/theme` to reference colors and breakpoints in styles.
 - **Use HSL for colors**: All color values use HSL format (e.g., `hsl(357, 75%, 58%)`).
 - **Breakpoints**: Mobile-first. Access via `theme.breakpoints.values.lg`. Values are in em: `@media (min-width: ${theme.breakpoints.values.lg}em)`.
+- **Spacing units**: Use `rem` for `font-size` and layout spacing (`gap`, `margin`). Use `em` for internal component proportions (`padding`, `border-radius`, icon sizes) so they scale with the component's font size. When in doubt: if the property defines the component's internal breathing room, use `em`. If it spaces elements in a layout, use `rem`.
 
 ## Comments
 
