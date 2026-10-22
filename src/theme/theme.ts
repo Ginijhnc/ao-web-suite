@@ -1,3 +1,4 @@
+import brownBackgroundTexture from '@Assets/images/textures/brown_background_texture.png';
 import { createTheme } from '@mui/material/styles';
 
 declare module '@mui/material/Button' {
@@ -43,6 +44,18 @@ const theme = createTheme({
 		},
 		warning: {
 			main: 'hsl(36, 90%, 55%)',
+		},
+	},
+	components: {
+		MuiCssBaseline: {
+			styleOverrides: {
+				body: {
+					backgroundImage: `url(${brownBackgroundTexture})`,
+					backgroundRepeat: 'no-repeat',
+					backgroundSize: 'cover',
+					backgroundAttachment: 'fixed',
+				},
+			},
 		},
 	},
 	breakpoints: {
