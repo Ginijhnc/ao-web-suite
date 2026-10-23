@@ -34,6 +34,7 @@ export default defineConfig({
 			'@Constants': path.resolve(__dirname, './src/constants'),
 			'@Theme': path.resolve(__dirname, './src/theme'),
 			'@Assets': path.resolve(__dirname, './src/assets'),
+			'@Contexts': path.resolve(__dirname, './src/contexts'),
 		},
 	},
 });

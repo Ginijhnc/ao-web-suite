@@ -34,7 +34,8 @@
 			"@Helpers/*": ["./src/helpers/*"],
 			"@Types/*": ["./src/types/*"],
 			"@Theme/*": ["./src/theme/*"],
-			"@Assets/*": ["./src/assets/*"]
+			"@Assets/*": ["./src/assets/*"],
+			"@Contexts/*": ["./src/contexts/*"]
 		}
 	},
 	"include": ["src", "vitest.setup.ts", "tests/**/*", "e2e/**/*"],

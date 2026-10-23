@@ -1,3 +1,4 @@
+import { LoadingOverlayProvider } from '@Contexts/LoadingOverlayContext';
 import CssBaseline from '@mui/material/CssBaseline';
 import { StyledEngineProvider, ThemeProvider } from '@mui/material/styles';
 import { HomePage } from '@Pages/HomePage';
@@ -9,7 +10,9 @@ export const App = (): React.ReactElement => {
 		<StyledEngineProvider injectFirst>
 			<ThemeProvider theme={theme}>
 				<CssBaseline />
-				<HomePage />
+				<LoadingOverlayProvider>
+					<HomePage />
+				</LoadingOverlayProvider>
 			</ThemeProvider>
 		</StyledEngineProvider>
 	);

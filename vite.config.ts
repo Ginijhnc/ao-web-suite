@@ -44,6 +44,10 @@ export default defineConfig({
 			),
 			'@Theme': path.resolve(import.meta.dirname, './src/theme'),
 			'@Assets': path.resolve(import.meta.dirname, './src/assets'),
+			'@Contexts': path.resolve(
+				import.meta.dirname,
+				'./src/contexts',
+			),
 		},
 	},
 	build: {
