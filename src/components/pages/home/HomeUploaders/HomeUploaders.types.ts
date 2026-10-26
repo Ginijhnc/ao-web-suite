@@ -1,12 +1,14 @@
-/* FILE_TYPES is a constant, but we use `import type` because in this file it's only
-   referenced as `typeof FILE_TYPES` to derive FileType, never as a value. `import type`
-   is valid here since TypeScript erases type-only imports at compile time, avoiding
-   a circular value dependency at runtime */
-import type { FILE_TYPES } from './HomeUploaders';
+import type { FILE_TYPES } from '@Constants/database';
+import type { ValueOf } from '@Types/utility-types';
 
-export type FileType = (typeof FILE_TYPES)[number];
+export type FileType = ValueOf<typeof FILE_TYPES>;
 
 export type FileTypeSelectorProps = {
 	selected: FileType;
 	onSelect: (type: FileType) => void;
+};
+
+export type UploaderActionsProps = {
+	onUpload: () => void;
+	onClear: () => void;
 };

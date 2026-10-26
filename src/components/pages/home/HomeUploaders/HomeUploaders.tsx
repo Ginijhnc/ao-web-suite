@@ -3,6 +3,8 @@ import type { IconName } from '@Components/icons';
 import { Button } from '@Components/shared/Button';
 import { Chip } from '@Components/shared/Chip';
 import { Text } from '@Components/shared/Text';
+import { FILE_TYPES } from '@Constants/database';
+import { useFileUploader } from '@Hooks/useFileUploader';
 import {
 	actionsRowStyle,
 	chipsRowStyle,
@@ -12,14 +14,13 @@ import {
 import {
 	type FileType,
 	type FileTypeSelectorProps,
+	type UploaderActionsProps,
 } from './HomeUploaders.types';
 
-export const FILE_TYPES = ['Gráficos', 'Índices', 'Dats'] as const;
-
 const FILE_TYPE_ICONS: Record<FileType, IconName> = {
-	Gráficos: 'ImageIcon',
-	Índices: 'IndexingDataIcon',
-	Dats: 'DatsIcon',
+	[FILE_TYPES.GRAPHICS]: 'ImageIcon',
+	[FILE_TYPES.INDICES]: 'IndexingDataIcon',
+	[FILE_TYPES.DATS]: 'DatsIcon',
 };
 
 const FileTypeSelector = ({
@@ -32,7 +33,7 @@ const FileTypeSelector = ({
 				Seleccionar tipo de archivo
 			</Text>
 			<div className={chipsRowStyle}>
-				{FILE_TYPES.map((type) => {
+				{Object.values(FILE_TYPES).map((type) => {
 					return (
 						<Chip
 							key={type}
@@ -50,13 +51,26 @@ const FileTypeSelector = ({
 	);
 };
 
-const UploaderActions = (): React.ReactElement => {
+const UploaderActions = ({
+	onUpload,
+	onClear,
+}: UploaderActionsProps): React.ReactElement => {
 	return (
 		<div className={actionsRowStyle}>
-			<Button size="md" variant="primary" startIcon="UploadIcon">
+			<Button
+				size="md"
+				variant="primary"
+				startIcon="UploadIcon"
+				onClick={onUpload}
+			>
 				Subir
 			</Button>
-			<Button size="md" variant="secondary" startIcon="TrashIcon">
+			<Button
+				size="md"
+				variant="secondary"
+				startIcon="TrashIcon"
+				onClick={onClear}
+			>
 				Borrar
 			</Button>
 		</div>
@@ -64,12 +78,26 @@ const UploaderActions = (): React.ReactElement => {
 };
 
 export const HomeUploaders = (): React.ReactElement => {
-	const [selected, setSelected] = useState<FileType>(FILE_TYPES[0]);
+	const [selected, setSelected] = useState<FileType>(
+		FILE_TYPES.GRAPHICS,
+	);
+	const { openFilePicker, clearFiles } = useFileUploader();
+
+	const handleUpload = (): void => {
+		openFilePicker(selected);
+	};
+
+	const handleClear = (): void => {
+		void clearFiles(selected);
+	};
 
 	return (
 		<section className={uploadersContainerStyle}>
 			<FileTypeSelector selected={selected} onSelect={setSelected} />
-			<UploaderActions />
+			<UploaderActions
+				onUpload={handleUpload}
+				onClear={handleClear}
+			/>
 		</section>
 	);
 };
