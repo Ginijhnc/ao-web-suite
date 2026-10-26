@@ -49,6 +49,10 @@ export default defineConfig({
 				'./src/contexts',
 			),
 			'@Stores': path.resolve(import.meta.dirname, './src/stores'),
+			'@Validators': path.resolve(
+				import.meta.dirname,
+				'./src/validators',
+			),
 		},
 	},
 	build: {
