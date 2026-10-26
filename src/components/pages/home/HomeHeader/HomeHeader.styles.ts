@@ -2,17 +2,17 @@ import { css, keyframes } from '@emotion/css';
 import { BREAKPOINTS } from '@Theme/theme';
 
 const fireAnimation = keyframes`
-  0%   { opacity: 0.47; width: 95px;  height: 95px;  }
-  10%  { opacity: 0.60; width: 105px; height: 105px; }
-  20%  { opacity: 0.52; width: 98px;  height: 98px;  }
-  30%  { opacity: 0.62; width: 106px; height: 106px; }
-  40%  { opacity: 0.55; width: 100px; height: 100px; }
-  50%  { opacity: 0.64; width: 108px; height: 108px; }
-  60%  { opacity: 0.54; width: 99px;  height: 99px;  }
-  70%  { opacity: 0.61; width: 105px; height: 105px; }
-  80%  { opacity: 0.57; width: 102px; height: 102px; }
-  90%  { opacity: 0.63; width: 107px; height: 107px; }
-  100% { opacity: 0.47; width: 95px;  height: 95px;  }
+  0%   { opacity: 0.47; scale: 0.88; }
+  10%  { opacity: 0.60; scale: 0.97; }
+  20%  { opacity: 0.52; scale: 0.91; }
+  30%  { opacity: 0.62; scale: 0.98; }
+  40%  { opacity: 0.55; scale: 0.93; }
+  50%  { opacity: 0.64; scale: 1.00; }
+  60%  { opacity: 0.54; scale: 0.92; }
+  70%  { opacity: 0.61; scale: 0.97; }
+  80%  { opacity: 0.57; scale: 0.94; }
+  90%  { opacity: 0.63; scale: 0.99; }
+  100% { opacity: 0.47; scale: 0.88; }
 `;
 
 export const headerStyle = css`
@@ -37,6 +37,8 @@ export const torchWrapperStyle = css`
 		top: -30px;
 		left: 50%;
 		transform: translateX(-50%);
+		width: 6.75em;
+		height: 6.75em;
 		background: radial-gradient(
 			circle,
 			rgba(255, 165, 0, 0.8) 0%,
