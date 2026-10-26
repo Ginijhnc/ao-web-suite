@@ -48,6 +48,7 @@ export default defineConfig({
 				import.meta.dirname,
 				'./src/contexts',
 			),
+			'@Stores': path.resolve(import.meta.dirname, './src/stores'),
 		},
 	},
 	build: {

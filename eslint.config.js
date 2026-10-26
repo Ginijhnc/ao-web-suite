@@ -260,6 +260,18 @@ export default [
 					message:
 						'Name rest parameters "rest" (e.g., ...rest) for consistency.',
 				},
+				{
+					selector:
+						'CallExpression[callee.object.name="console"][callee.property.name="error"]',
+					message:
+						'Use log.error() from @Utils/logger instead of console.error().',
+				},
+				{
+					selector:
+						'CallExpression[callee.object.name="console"][callee.property.name="warn"]',
+					message:
+						'Use log.warn() from @Utils/logger instead of console.warn().',
+				},
 			],
 			'spaced-comment': ['error', 'always', { markers: ['/'] }],
 

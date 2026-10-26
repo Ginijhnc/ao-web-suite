@@ -45,6 +45,7 @@ Read the local uncommitted changes' diffs and suggest a branch name and commit m
 | `mapeador`  | World map visual editor and rendering  |
 | `config`    | Settings page for app customization    |
 | `tutorial`  | Tutorial and app usage documentation   |
+| `storage`   | Stores and client-side persistence     |
 | `deps`      | Dependency updates                     |
 | `ci`        | CI/CD pipelines                        |
 | `tooling`   | Linting, formatting, workspace config  |
