@@ -1,7 +1,4 @@
-import type { FILE_TYPES } from '@Constants/database';
-import type { ValueOf } from '@Types/utility-types';
-
-export type FileType = ValueOf<typeof FILE_TYPES>;
+import type { FileType } from '@Constants/database';
 
 export type FileTypeSelectorProps = {
 	selected: FileType;

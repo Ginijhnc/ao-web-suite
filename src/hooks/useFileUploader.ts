@@ -1,5 +1,5 @@
 import { useRef, useState } from 'react';
-import type { FileType } from '@Components/pages/home/HomeUploaders/HomeUploaders.types';
+import type { FileType } from '@Constants/database';
 import {
 	DB_BATCH_SIZE,
 	DB_STORE_NAMES,
@@ -263,8 +263,7 @@ export const useFileUploader = () => {
 		const result = await clearStore(config.store);
 		if (result.success) {
 			config.onClear();
-			// TO DO - Pendiente: hacerlo mas específico y traerlo de un messages.ts
-			Toast.success('Los archivos fueron eliminados correctamente.');
+			Toast.success(GRAPHICS_MESSAGES.CLEAR_SUCCESS(fileType));
 		} else {
 			const message = `Error al limpiar ${fileType}: ${result.error.message}`;
 			log.error(message);
