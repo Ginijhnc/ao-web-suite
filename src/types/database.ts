@@ -1,7 +1,18 @@
 import type { DB_STORE_NAMES } from '@Constants/database';
+import type { ParsedIndice } from '@Helpers/indices';
 import type { ValueOf } from '@Types/utility-types';
 
 export type StoreName = ValueOf<typeof DB_STORE_NAMES>;
+
+/**
+ * Shared base for every IDB record. Each store uses `name` as its
+ * keyPath, so every record type must carry it regardless of the
+ * file-type-specific fields that follow.
+ */
+export type NamedRecord = {
+	name: string;
+	[key: string]: unknown;
+};
 
 export type FileMeta = {
 	name: string;
@@ -27,9 +38,14 @@ export type DeleteResult =
 	{ success: true } | { success: false; error: Error };
 
 export type ValidationResult =
-	// existingKeys: file names already in IDB, passed back to avoid a second query
-	| { valid: true; existingKeys?: ReadonlyArray<string> }
-	| { valid: false; invalidFileName: string; message: string };
+	| {
+			valid: true;
+			/** File names already in IDB; avoids a second query on persist. */
+			existingKeys?: ReadonlyArray<string>;
+			/** Already-validated records; forwarded to skip re-parsing. */
+			parsedIndices?: ReadonlyArray<ParsedIndice>;
+	  }
+	| { valid: false; message: string };
 
 export type ValidationFn = (
 	files: ReadonlyArray<File>,

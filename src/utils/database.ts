@@ -8,6 +8,7 @@ import { DB_NAME, DB_STORE_NAMES, DB_VERSION } from '@Constants/database';
 import type {
 	DeleteResult,
 	GetResult,
+	NamedRecord,
 	StoredFile,
 	StoreName,
 } from '@Types/database';
@@ -71,7 +72,7 @@ const getDb = (): Promise<IDBDatabase> => {
  */
 export const putFiles = async (
 	storeName: StoreName,
-	files: ReadonlyArray<StoredFile>,
+	files: ReadonlyArray<NamedRecord>,
 ): Promise<void> => {
 	const db = await getDb();
 	return new Promise<void>((resolve, reject) => {

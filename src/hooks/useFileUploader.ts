@@ -4,12 +4,16 @@ import {
 	DB_BATCH_SIZE,
 	DB_STORE_NAMES,
 	FILE_TYPES,
-	FILE_LIST_TRUNCATE_AT,
 } from '@Constants/database';
 import { DATS_ACCEPTED_EXTENSIONS } from '@Constants/dats';
 import { GRAPHICS_ACCEPTED_EXTENSIONS } from '@Constants/graphics';
 import { INDICES_ACCEPTED_EXTENSIONS } from '@Constants/indices';
-import { GRAPHICS_MESSAGES } from '@Constants/messages';
+import {
+	CLEAR_SUCCESS,
+	GRAPHICS_MESSAGES,
+	INDICES_MESSAGES,
+} from '@Constants/messages';
+import type { ParsedIndice } from '@Helpers/indices';
 import { getGraphicsActions } from '@Stores/graphicsStore';
 import type {
 	FileMeta,
@@ -19,9 +23,11 @@ import type {
 } from '@Types/database';
 import type { FileTypeConfig } from '@Types/fileUploader';
 import { clearStore, putFiles } from '@Utils/database';
+import { truncateNameList } from '@Utils/file';
 import { log } from '@Utils/logger';
 import { Toast } from '@Utils/toast';
 import { validateGraphicsFiles } from '@Validators/graphics';
+import { validateIndicesFiles } from '@Validators/indices';
 
 type UploadState = {
 	isUploading: boolean;
@@ -40,16 +46,32 @@ const graphicsConfig: FileTypeConfig = {
 	onClear: () => {
 		getGraphicsActions().clear();
 	},
+	successMessages: {
+		uploadSuccess: GRAPHICS_MESSAGES.UPLOAD_SUCCESS,
+		uploadReplaced: GRAPHICS_MESSAGES.UPLOAD_REPLACED,
+	},
 };
 
 const indicesConfig: FileTypeConfig = {
 	accept: INDICES_ACCEPTED_EXTENSIONS,
 	store: DB_STORE_NAMES.INDICES,
-	validate: () => {
-		return Promise.resolve({ valid: true });
-	},
+	validate: validateIndicesFiles,
 	postProcess: () => {},
 	onClear: () => {},
+	successMessages: {
+		uploadSuccess: INDICES_MESSAGES.UPLOAD_SUCCESS,
+		uploadReplaced: INDICES_MESSAGES.UPLOAD_REPLACED,
+	},
+	buildRecordsFromValidation: (parsedIndices) => {
+		const uploadedAt = Date.now();
+		return parsedIndices.map((indice) => {
+			return {
+				name: indice.name,
+				entries: indice.entries,
+				uploadedAt,
+			};
+		});
+	},
 };
 
 const datsConfig: FileTypeConfig = {
@@ -60,6 +82,12 @@ const datsConfig: FileTypeConfig = {
 	},
 	postProcess: () => {},
 	onClear: () => {},
+	successMessages: {
+		uploadSuccess: 'Todos los archivos fueron subidos correctamente.',
+		uploadReplaced: (names: string) => {
+			return `Los archivos ${names} fueron reemplazados correctamente.`;
+		},
+	},
 };
 
 const FILE_TYPE_CONFIG: Record<FileType, FileTypeConfig> = {
@@ -97,35 +125,50 @@ const readFileAsStoredFile = (file: File): Promise<StoredFile> => {
 };
 
 /**
- * Writes one slice of the file array to IDB within a single transaction.
- * Batching prevents holding one massive transaction open for the full upload.
+ * Writes one slice of the file array to IDB within a single
+ * transaction. Batching prevents holding one massive transaction open
+ * for the full upload.
  */
 const processBatch = async (
 	batch: ReadonlyArray<File>,
 	storeName: StoreName,
 ): Promise<void> => {
-	const storedFiles = await Promise.all(batch.map(readFileAsStoredFile));
-	await putFiles(storeName, storedFiles);
+	const records = await Promise.all(batch.map(readFileAsStoredFile));
+	await putFiles(storeName, records);
 };
 
 /**
- * Chains batches sequentially so IDB is never overwhelmed by parallel
- * transactions, which can cause quota errors on large uploads.
+ * Processes each batch in sequence, waiting for one IDB transaction
+ * to complete before starting the next. Terminates when all batches
+ * have been written.
+ */
+const runBatchesSequentially = (
+	batches: ReadonlyArray<ReadonlyArray<File>>,
+	config: FileTypeConfig,
+	index: number,
+): Promise<void> => {
+	const batch = batches[index];
+	if (!batch) {
+		return Promise.resolve();
+	}
+	return processBatch(batch, config.store).then(() => {
+		return runBatchesSequentially(batches, config, index + 1);
+	});
+};
+
+/**
+ * Splits the file array into DB_BATCH_SIZE slices and runs them
+ * sequentially to avoid overwhelming IDB with parallel transactions.
  */
 const processFiles = (
 	fileArray: ReadonlyArray<File>,
-	storeName: StoreName,
+	config: FileTypeConfig,
 ): Promise<void> => {
 	const batches: Array<ReadonlyArray<File>> = [];
 	for (let i = 0; i < fileArray.length; i += DB_BATCH_SIZE) {
 		batches.push(fileArray.slice(i, i + DB_BATCH_SIZE));
 	}
-
-	return batches.reduce<Promise<void>>((chain, batch) => {
-		return chain.then(() => {
-			return processBatch(batch, storeName);
-		});
-	}, Promise.resolve());
+	return runBatchesSequentially(batches, config, 0);
 };
 
 /**
@@ -145,6 +188,62 @@ const runValidation = async (
 };
 
 /**
+ * Returns a truncated, comma-joined list of file names that overwrite
+ * an existing IDB record, or null when no replacements occurred. Used
+ * by persistAndNotify to pick between the success and replaced toasts.
+ */
+const formatReplacedList = (
+	files: ReadonlyArray<File>,
+	existingKeys: ReadonlyArray<string>,
+	truncateAt: number,
+): string | null => {
+	const existingSet = new Set(
+		existingKeys.map((k) => {
+			return k.toLowerCase();
+		}),
+	);
+	const replaced = files.filter((f) => {
+		return existingSet.has(f.name.toLowerCase());
+	});
+	if (replaced.length === 0) {
+		return null;
+	}
+	return truncateNameList(
+		replaced.map((f) => {
+			return f.name;
+		}),
+		truncateAt,
+	);
+};
+
+/**
+ * Separated from the file-input change handler so the handler only
+ * owns the input lifecycle (reading files, resetting the value) and
+ * not the validate-persist-notify flow.
+ */
+const runUpload = async (
+	fileType: FileType,
+	fileArray: Array<File>,
+	setUploadState: (state: UploadState) => void,
+): Promise<void> => {
+	const result = await runValidation(fileType, fileArray);
+	if (!result.valid) {
+		return;
+	}
+
+	setUploadState({ isUploading: true });
+
+	await persistAndNotify(
+		fileType,
+		fileArray,
+		result.existingKeys ?? [],
+		result.parsedIndices ?? [],
+	);
+
+	setUploadState({ isUploading: false });
+};
+
+/**
  * Persists the validated batch and runs the file type's post-process
  * step, then surfaces a success toast.
  */
@@ -152,10 +251,17 @@ const persistAndNotify = async (
 	fileType: FileType,
 	files: ReadonlyArray<File>,
 	existingKeys: ReadonlyArray<string>,
+	parsedIndices: ReadonlyArray<ParsedIndice>,
 ): Promise<void> => {
 	const config = FILE_TYPE_CONFIG[fileType];
 	try {
-		await processFiles(files, config.store);
+		if (config.buildRecordsFromValidation) {
+			const records =
+				config.buildRecordsFromValidation(parsedIndices);
+			await putFiles(config.store, records);
+		} else {
+			await processFiles(files, config);
+		}
 	} catch (error) {
 		const message =
 			error instanceof Error ? error.message : String(error);
@@ -167,33 +273,12 @@ const persistAndNotify = async (
 	}
 	config.postProcess(files);
 
-	const existingSet = new Set(
-		existingKeys.map((k) => {
-			return k.toLowerCase();
-		}),
-	);
-	const replaced = files.filter((f) => {
-		return existingSet.has(f.name.toLowerCase());
-	});
-
-	if (replaced.length === 0) {
-		Toast.success(GRAPHICS_MESSAGES.UPLOAD_SUCCESS);
+	const replacedList = formatReplacedList(files, existingKeys, 3);
+	if (!replacedList) {
+		Toast.success(config.successMessages.uploadSuccess);
 		return;
 	}
-
-	const listed = replaced
-		.slice(0, FILE_LIST_TRUNCATE_AT)
-		.map((f) => {
-			return f.name;
-		})
-		.join(', ');
-	const overflow =
-		replaced.length > FILE_LIST_TRUNCATE_AT
-			? ` y ${replaced.length - FILE_LIST_TRUNCATE_AT} más`
-			: '';
-	Toast.success(
-		GRAPHICS_MESSAGES.UPLOAD_REPLACED(`${listed}${overflow}`),
-	);
+	Toast.success(config.successMessages.uploadReplaced(replacedList));
 };
 
 export const useFileUploader = () => {
@@ -214,21 +299,8 @@ export const useFileUploader = () => {
 			if (!currentInput?.files || currentInput.files.length === 0) {
 				return;
 			}
-
 			const fileArray = Array.from(currentInput.files);
-			const result = await runValidation(fileType, fileArray);
-			if (!result.valid) {
-				currentInput.value = '';
-				return;
-			}
-
-			setUploadState({ isUploading: true });
-			await persistAndNotify(
-				fileType,
-				fileArray,
-				result.existingKeys ?? [],
-			);
-			setUploadState({ isUploading: false });
+			await runUpload(fileType, fileArray, setUploadState);
 			currentInput.value = '';
 		};
 	};
@@ -263,7 +335,7 @@ export const useFileUploader = () => {
 		const result = await clearStore(config.store);
 		if (result.success) {
 			config.onClear();
-			Toast.success(GRAPHICS_MESSAGES.CLEAR_SUCCESS(fileType));
+			Toast.success(CLEAR_SUCCESS(fileType));
 		} else {
 			const message = `Error al limpiar ${fileType}: ${result.error.message}`;
 			log.error(message);

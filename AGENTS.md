@@ -48,7 +48,7 @@
 
 - **Only add code comments when explicitly asked to do so**
 - **`//`** for single-line comments
-- `/** */` for JSDoc comments on functions and types
+- `/** */` for JSDoc comments on functions and types. Wrap JSDoc body lines at 75 characters.
 - **`/* */`** for multiline comments that are not JSDoc
 
 ## E2E Testing
