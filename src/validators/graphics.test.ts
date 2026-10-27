@@ -1,10 +1,10 @@
 import { readFileSync } from 'fs';
 import { join } from 'path';
 import { GRAPHICS_ACCEPTED_EXTENSIONS } from '@Constants/graphics';
+import { hasValidExtension } from '@Utils/file';
 import { describe, it, expect } from 'vitest';
 import {
 	checkDuplicateExtensions,
-	hasValidExtension,
 	hasValidMagicBytes,
 	validateGraphicsFiles,
 } from './graphics';
@@ -84,9 +84,6 @@ describe('validateGraphicsFiles', () => {
 			loadMagicByteImage('fake.png'),
 		]);
 		expect(result.valid).toBe(false);
-		if (!result.valid) {
-			expect(result.invalidFileName).toBe('fake.png');
-		}
 	});
 });
 
@@ -110,9 +107,6 @@ describe('checkDuplicateExtensions', () => {
 		const existingKeys = ['4006.png'];
 		const result = checkDuplicateExtensions(files, existingKeys);
 		expect(result.valid).toBe(false);
-		if (!result.valid) {
-			expect(result.invalidFileName).toBe('4006.bmp');
-		}
 	});
 
 	it('rejects when batch has both a replacement and a conflicting extension', () => {

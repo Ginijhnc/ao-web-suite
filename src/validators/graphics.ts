@@ -1,7 +1,4 @@
-import {
-	DB_STORE_NAMES,
-	FILE_LIST_TRUNCATE_AT,
-} from '@Constants/database';
+import { DB_STORE_NAMES } from '@Constants/database';
 import {
 	GRAPHICS_ACCEPTED_EXTENSIONS,
 	GRAPHICS_MAGIC_BYTES,
@@ -10,24 +7,8 @@ import {
 import { GRAPHICS_MESSAGES } from '@Constants/messages';
 import type { ValidationResult } from '@Types/database';
 import { getAllKeys } from '@Utils/database';
+import { hasValidExtension, truncateNameList } from '@Utils/file';
 import { log } from '@Utils/logger';
-
-/**
- * Guards against the browser's accept attribute being bypassed by typing
- * a path manually or drag-dropping unsupported files.
- */
-export const hasValidExtension = (
-	fileName: string,
-	acceptedExtensions: string,
-): boolean => {
-	const extensions = acceptedExtensions.split(',').map((ext) => {
-		return ext.trim().toLowerCase();
-	});
-	const fileLower = fileName.toLowerCase();
-	return extensions.some((ext) => {
-		return fileLower.endsWith(ext);
-	});
-};
 
 /**
  * Reads only the first few bytes of a file to avoid loading the full
@@ -92,19 +73,6 @@ const getBasename = (fileName: string): string => {
 };
 
 /**
- * Formats a list of file names for a user-facing toast, truncating to
- * FILE_LIST_TRUNCATE_AT entries and appending "y N más" for the overflow.
- */
-const formatConflictList = (names: ReadonlyArray<string>): string => {
-	const listed = names.slice(0, FILE_LIST_TRUNCATE_AT).join(', ');
-	const overflow =
-		names.length > FILE_LIST_TRUNCATE_AT
-			? ` y ${names.length - FILE_LIST_TRUNCATE_AT} más`
-			: '';
-	return `${listed}${overflow}`;
-};
-
-/**
  * Detects same-basename-different-extension conflicts within the upload
  * batch itself (e.g. 4006.png and 4006.bmp selected together).
  */
@@ -131,9 +99,8 @@ const checkBatchConflicts = (
 
 	return {
 		valid: false,
-		invalidFileName: firstConflict,
 		message: GRAPHICS_MESSAGES.CONFLICT_BATCH(
-			formatConflictList(conflicts),
+			truncateNameList(conflicts),
 		),
 	};
 };
@@ -170,9 +137,8 @@ const checkExistingConflicts = (
 
 	return {
 		valid: false,
-		invalidFileName: firstConflict,
 		message: GRAPHICS_MESSAGES.CONFLICT_EXISTING(
-			formatConflictList(conflicts),
+			truncateNameList(conflicts),
 		),
 	};
 };
@@ -208,7 +174,6 @@ export const validateGraphicsFiles = async (
 		if (!hasValidExtension(file.name, GRAPHICS_ACCEPTED_EXTENSIONS)) {
 			return {
 				valid: false,
-				invalidFileName: file.name,
 				message: GRAPHICS_MESSAGES.INVALID_EXTENSION(
 					file.name,
 					GRAPHICS_ACCEPTED_EXTENSIONS,
@@ -229,7 +194,6 @@ export const validateGraphicsFiles = async (
 	if (invalidMagicByte) {
 		return {
 			valid: false,
-			invalidFileName: invalidMagicByte.file.name,
 			message: GRAPHICS_MESSAGES.INVALID_MAGIC_BYTES(
 				invalidMagicByte.file.name,
 			),
