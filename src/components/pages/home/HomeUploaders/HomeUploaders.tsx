@@ -4,6 +4,7 @@ import { Button } from '@Components/shared/Button';
 import { Chip } from '@Components/shared/Chip';
 import { Text } from '@Components/shared/Text';
 import { FILE_TYPES } from '@Constants/database';
+import { HOME_SELECTORS } from '@Constants/selectors';
 import { useFileUploader } from '@Hooks/useFileUploader';
 import {
 	actionsRowStyle,
@@ -62,6 +63,7 @@ const UploaderActions = ({
 				variant="primary"
 				startIcon="UploadIcon"
 				onClick={onUpload}
+				data-testid={HOME_SELECTORS.UPLOAD_BUTTON}
 			>
 				Subir
 			</Button>
@@ -70,6 +72,7 @@ const UploaderActions = ({
 				variant="secondary"
 				startIcon="TrashIcon"
 				onClick={onClear}
+				data-testid={HOME_SELECTORS.CLEAR_BUTTON}
 			>
 				Borrar
 			</Button>

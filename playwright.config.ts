@@ -3,6 +3,7 @@ import os from 'os';
 
 export default defineConfig({
 	testDir: './e2e',
+	tsconfig: './tsconfig.json',
 	timeout: 30000,
 	expect: {
 		timeout: 10000,

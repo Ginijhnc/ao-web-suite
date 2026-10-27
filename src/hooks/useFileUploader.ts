@@ -9,6 +9,7 @@ import {
 import { DATS_ACCEPTED_EXTENSIONS } from '@Constants/dats';
 import { GRAPHICS_ACCEPTED_EXTENSIONS } from '@Constants/graphics';
 import { INDICES_ACCEPTED_EXTENSIONS } from '@Constants/indices';
+import { GRAPHICS_MESSAGES } from '@Constants/messages';
 import { getGraphicsActions } from '@Stores/graphicsStore';
 import type {
 	FileMeta,
@@ -176,7 +177,7 @@ const persistAndNotify = async (
 	});
 
 	if (replaced.length === 0) {
-		Toast.success('Todas las imágenes fueron subidas correctamente.');
+		Toast.success(GRAPHICS_MESSAGES.UPLOAD_SUCCESS);
 		return;
 	}
 
@@ -191,7 +192,7 @@ const persistAndNotify = async (
 			? ` y ${replaced.length - FILE_LIST_TRUNCATE_AT} más`
 			: '';
 	Toast.success(
-		`Las imágenes ${listed}${overflow} fueron reemplazadas correctamente.`,
+		GRAPHICS_MESSAGES.UPLOAD_REPLACED(`${listed}${overflow}`),
 	);
 };
 

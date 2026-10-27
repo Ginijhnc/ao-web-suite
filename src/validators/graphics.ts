@@ -7,6 +7,7 @@ import {
 	GRAPHICS_MAGIC_BYTES,
 	GRAPHICS_MAGIC_BYTE_HEADER_SIZE,
 } from '@Constants/graphics';
+import { GRAPHICS_MESSAGES } from '@Constants/messages';
 import type { ValidationResult } from '@Types/database';
 import { getAllKeys } from '@Utils/database';
 import { log } from '@Utils/logger';
@@ -131,7 +132,9 @@ const checkBatchConflicts = (
 	return {
 		valid: false,
 		invalidFileName: firstConflict,
-		message: `Se encontraron imágenes con el mismo nombre pero diferente formato: ${formatConflictList(conflicts)}. La subida fue cancelada. Para resolverlo, eliminá las imágenes almacenadas con el botón Eliminar e intentá de nuevo.`,
+		message: GRAPHICS_MESSAGES.CONFLICT_BATCH(
+			formatConflictList(conflicts),
+		),
 	};
 };
 
@@ -168,7 +171,9 @@ const checkExistingConflicts = (
 	return {
 		valid: false,
 		invalidFileName: firstConflict,
-		message: `Se encontraron imágenes con el mismo nombre pero diferente formato: ${formatConflictList(conflicts)}. La subida fue cancelada. Para resolverlo, eliminá las imágenes almacenadas con el botón Eliminar e intentá de nuevo.`,
+		message: GRAPHICS_MESSAGES.CONFLICT_EXISTING(
+			formatConflictList(conflicts),
+		),
 	};
 };
 
@@ -204,7 +209,10 @@ export const validateGraphicsFiles = async (
 			return {
 				valid: false,
 				invalidFileName: file.name,
-				message: `"${file.name}" tiene una extensión no permitida. Extensiones aceptadas: ${GRAPHICS_ACCEPTED_EXTENSIONS}.`,
+				message: GRAPHICS_MESSAGES.INVALID_EXTENSION(
+					file.name,
+					GRAPHICS_ACCEPTED_EXTENSIONS,
+				),
 			};
 		}
 	}
@@ -222,7 +230,9 @@ export const validateGraphicsFiles = async (
 		return {
 			valid: false,
 			invalidFileName: invalidMagicByte.file.name,
-			message: `"${invalidMagicByte.file.name}" no es una imagen válida. El contenido del archivo no coincide con su extensión.`,
+			message: GRAPHICS_MESSAGES.INVALID_MAGIC_BYTES(
+				invalidMagicByte.file.name,
+			),
 		};
 	}
 
