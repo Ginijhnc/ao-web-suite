@@ -199,7 +199,16 @@ export default [
 					format: ['camelCase', 'PascalCase', 'UPPER_CASE'],
 				},
 				{
+					selector: 'objectLiteralMethod',
+					format: null,
+				},
+				{
 					selector: 'objectLiteralProperty',
+					modifiers: ['requiresQuotes'],
+					format: null,
+				},
+				{
+					selector: 'typeProperty',
 					modifiers: ['requiresQuotes'],
 					format: null,
 				},
