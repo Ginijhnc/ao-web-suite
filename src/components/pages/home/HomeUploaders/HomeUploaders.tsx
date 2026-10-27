@@ -4,6 +4,7 @@ import { Button } from '@Components/shared/Button';
 import { Chip } from '@Components/shared/Chip';
 import { Text } from '@Components/shared/Text';
 import { FILE_TYPES } from '@Constants/database';
+import type { FileType } from '@Constants/database';
 import { HOME_SELECTORS } from '@Constants/selectors';
 import { useFileUploader } from '@Hooks/useFileUploader';
 import {
@@ -13,7 +14,6 @@ import {
 	uploadersContainerStyle,
 } from './HomeUploaders.styles';
 import {
-	type FileType,
 	type FileTypeSelectorProps,
 	type UploaderActionsProps,
 } from './HomeUploaders.types';

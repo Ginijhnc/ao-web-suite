@@ -1,4 +1,9 @@
+import type { FileType } from '@Constants/database';
+
 export const GRAPHICS_MESSAGES = {
+	CLEAR_SUCCESS: (fileType: FileType) => {
+		return `Todos los ${fileType} fueron eliminados correctamente.`;
+	},
 	UPLOAD_SUCCESS: 'Todas las imágenes fueron subidas correctamente.',
 	UPLOAD_REPLACED: (names: string) => {
 		return `Las imágenes ${names} fueron reemplazadas correctamente.`;
