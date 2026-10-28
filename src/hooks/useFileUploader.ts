@@ -66,7 +66,7 @@ const indicesConfig: FileTypeConfig = {
 		const uploadedAt = Date.now();
 		return parsedIndices.map((indice) => {
 			return {
-				name: indice.name,
+				name: `${indice.name}.json`,
 				entries: indice.entries,
 				uploadedAt,
 			};

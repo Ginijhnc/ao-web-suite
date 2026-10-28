@@ -1,7 +1,7 @@
 import type { FileType } from '@Constants/database';
 
 export const CLEAR_SUCCESS = (fileType: FileType) => {
-	return `Todos los ${fileType} fueron eliminados correctamente.`;
+	return `Todos los ${fileType.toLowerCase()} fueron eliminados correctamente.`;
 };
 
 export const GRAPHICS_MESSAGES = {
