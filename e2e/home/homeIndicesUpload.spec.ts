@@ -9,6 +9,7 @@ import {
 	rejectInvalidEntry,
 	rejectEmptyIndice,
 	clearIndices,
+	clearIndicesLeavesGraphicsIntact,
 } from './flows/homeIndicesUpload';
 import { HomeTestHelpers } from './helpers/HomeTestHelpers';
 
@@ -56,4 +57,10 @@ test('clear indices: removes uploaded files and shows toast', async ({
 	page,
 }) => {
 	await clearIndices(page);
+});
+
+test('clear indices: does not affect the graphics store', async ({
+	page,
+}) => {
+	await clearIndicesLeavesGraphicsIntact(page);
 });
