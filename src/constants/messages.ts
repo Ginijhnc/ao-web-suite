@@ -44,3 +44,28 @@ export const INDICES_MESSAGES = {
 		return `"${fileName}" no es un archivo .json.`;
 	},
 } as const;
+
+export const DATS_MESSAGES = {
+	UPLOAD_SUCCESS: 'Todos los dats fueron subidos correctamente.',
+	UPLOAD_REPLACED: (names: string) => {
+		return `Los dats ${names} fueron reemplazados correctamente.`;
+	},
+	UNKNOWN_DAT: (list: string) => {
+		return `No se reconocen los siguientes dats: ${list}. Se aceptan: NPCs.dat, obj.dat, Hechizos.dat.`;
+	},
+	EMPTY_FILE: (fileName: string) => {
+		return `El dat "${fileName}" está vacío. Se canceló la subida de la selección.`;
+	},
+	MISSING_HEADER: (fileName: string, header: string) => {
+		return `"${fileName}" no contiene el header esperado [INIT] con ${header}=...`;
+	},
+	NO_ENTRIES: (fileName: string, sectionPrefix: string) => {
+		return `"${fileName}" no contiene ninguna sección [${sectionPrefix}N] con datos.`;
+	},
+	SCHEMA_MISMATCH: (fileName: string) => {
+		return `"${fileName}" no tiene la estructura esperada. Revisá los logs para más información.`;
+	},
+	INVALID_EXTENSION: (fileName: string) => {
+		return `"${fileName}" no es un archivo .dat.`;
+	},
+} as const;
