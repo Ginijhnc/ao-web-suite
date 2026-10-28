@@ -8,7 +8,7 @@ import { expect, type Page } from '@playwright/test';
 import { GeneralTestHelpers } from '../../shared/helpers/GeneralTestHelpers';
 
 const dirName = path.dirname(fileURLToPath(import.meta.url));
-const FIXTURES = path.resolve(dirName, '../../../tests/fixtures/indices');
+const FIXTURES = path.resolve(dirName, '../../../fixtures/indices');
 
 const uploadIndice = async (
 	page: Page,
