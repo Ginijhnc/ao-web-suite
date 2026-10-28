@@ -48,6 +48,76 @@ const assertIdbStoreHasKeys = async (
 	expect(keys).toHaveLength(expectedKeys.length);
 };
 
+const getIdbEntry = async (
+	page: Page,
+	dbName: string,
+	storeName: StoreName,
+	key: string,
+): Promise<unknown> => {
+	return page.evaluate(
+		({
+			db,
+			store,
+			k,
+		}: {
+			db: string;
+			store: string;
+			k: string;
+		}): Promise<unknown> => {
+			return new Promise((resolve) => {
+				const request = indexedDB.open(db);
+				request.onsuccess = () => {
+					const tx = request.result.transaction(
+						store,
+						'readonly',
+					);
+					const getRequest = tx.objectStore(store).get(k);
+					getRequest.onsuccess = () => {
+						resolve(getRequest.result);
+					};
+				};
+			});
+		},
+		{ db: dbName, store: storeName, k: key },
+	);
+};
+
+const assertIdbStoreHasEntry = async (
+	page: Page,
+	dbName: string,
+	storeName: StoreName,
+	key: string,
+	expectedValue: unknown,
+): Promise<void> => {
+	const value = await page.evaluate(
+		({
+			db,
+			store,
+			k,
+		}: {
+			db: string;
+			store: string;
+			k: string;
+		}): Promise<unknown> => {
+			return new Promise((resolve) => {
+				const request = indexedDB.open(db);
+				request.onsuccess = () => {
+					const tx = request.result.transaction(
+						store,
+						'readonly',
+					);
+					const getRequest = tx.objectStore(store).get(k);
+					getRequest.onsuccess = () => {
+						resolve(getRequest.result);
+					};
+				};
+			});
+		},
+		{ db: dbName, store: storeName, k: key },
+	);
+	expect(value).toEqual(expectedValue);
+};
+
 const assertIdbStoreIsEmpty = async (
 	page: Page,
 	dbName: string,
@@ -82,6 +152,8 @@ const assertIdbStoreIsEmpty = async (
 
 export const GeneralTestHelpers = {
 	getFilePathsFromDirectory,
+	getIdbEntry,
 	assertIdbStoreHasKeys,
+	assertIdbStoreHasEntry,
 	assertIdbStoreIsEmpty,
 };
