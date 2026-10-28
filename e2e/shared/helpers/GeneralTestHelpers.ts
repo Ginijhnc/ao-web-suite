@@ -1,7 +1,7 @@
 import fs from 'fs';
 import path from 'path';
-import { GENERAL_SELECTORS } from '@Constants/selectors';
 import { expect, type Page } from '@playwright/test';
+import type { StoreName } from '@Types/database';
 
 const getFilePathsFromDirectory = (dir: string): Array<string> => {
 	return fs
@@ -14,22 +14,74 @@ const getFilePathsFromDirectory = (dir: string): Array<string> => {
 		});
 };
 
-const uploadFiles = async (
+const assertIdbStoreHasKeys = async (
 	page: Page,
-	uploadButtonTestId: string,
-	files: Array<string>,
-	expectedToastText: RegExp | string,
+	dbName: string,
+	storeName: StoreName,
+	expectedKeys: Array<string>,
 ): Promise<void> => {
-	const fileChooser = page.waitForEvent('filechooser');
-	await page.getByTestId(uploadButtonTestId).click();
-	const chooser = await fileChooser;
-	await chooser.setFiles(files);
-	await expect(page.getByTestId(GENERAL_SELECTORS.TOAST)).toContainText(
-		expectedToastText,
+	const keys = await page.evaluate(
+		({
+			db,
+			store,
+		}: {
+			db: string;
+			store: string;
+		}): Promise<Array<string>> => {
+			return new Promise((resolve) => {
+				const request = indexedDB.open(db);
+				request.onsuccess = () => {
+					const tx = request.result.transaction(
+						store,
+						'readonly',
+					);
+					const keysRequest = tx.objectStore(store).getAllKeys();
+					keysRequest.onsuccess = () => {
+						resolve(keysRequest.result as Array<string>);
+					};
+				};
+			});
+		},
+		{ db: dbName, store: storeName },
 	);
+	expect(keys).toEqual(expect.arrayContaining(expectedKeys));
+	expect(keys).toHaveLength(expectedKeys.length);
+};
+
+const assertIdbStoreIsEmpty = async (
+	page: Page,
+	dbName: string,
+	storeName: StoreName,
+): Promise<void> => {
+	const keys = await page.evaluate(
+		({
+			db,
+			store,
+		}: {
+			db: string;
+			store: string;
+		}): Promise<Array<string>> => {
+			return new Promise((resolve) => {
+				const request = indexedDB.open(db);
+				request.onsuccess = () => {
+					const tx = request.result.transaction(
+						store,
+						'readonly',
+					);
+					const keysRequest = tx.objectStore(store).getAllKeys();
+					keysRequest.onsuccess = () => {
+						resolve(keysRequest.result as Array<string>);
+					};
+				};
+			});
+		},
+		{ db: dbName, store: storeName },
+	);
+	expect(keys).toHaveLength(0);
 };
 
 export const GeneralTestHelpers = {
 	getFilePathsFromDirectory,
-	uploadFiles,
+	assertIdbStoreHasKeys,
+	assertIdbStoreIsEmpty,
 };

@@ -4,6 +4,7 @@ import { GRAPHICS_MESSAGES } from '@Constants/messages';
 import { HOME_SELECTORS } from '@Constants/selectors';
 import type { Page } from '@playwright/test';
 import { GeneralTestHelpers } from '../../shared/helpers/GeneralTestHelpers';
+import { HomeTestHelpers } from '../helpers/HomeTestHelpers';
 
 const dirName = path.dirname(fileURLToPath(import.meta.url));
 const FIXTURES = path.resolve(dirName, '../../../fixtures/graphics');
@@ -17,7 +18,7 @@ export const uploadValidGraphics = async (page: Page): Promise<void> => {
 		return !f.endsWith('3082.bmp') && !f.endsWith('4006.avif');
 	});
 
-	await GeneralTestHelpers.uploadFiles(
+	await HomeTestHelpers.uploadFiles(
 		page,
 		HOME_SELECTORS.UPLOAD_BUTTON,
 		files,
@@ -35,7 +36,7 @@ export const uploadBatchWithConflict = async (
 		return path.basename(a).localeCompare(path.basename(b));
 	});
 
-	await GeneralTestHelpers.uploadFiles(
+	await HomeTestHelpers.uploadFiles(
 		page,
 		HOME_SELECTORS.UPLOAD_BUTTON,
 		files,
@@ -55,7 +56,7 @@ export const uploadBatchWithMultipleConflicts = async (
 		return path.basename(a).localeCompare(path.basename(b));
 	});
 
-	await GeneralTestHelpers.uploadFiles(
+	await HomeTestHelpers.uploadFiles(
 		page,
 		HOME_SELECTORS.UPLOAD_BUTTON,
 		allFiles,
@@ -72,7 +73,7 @@ export const clearGraphics = async (page: Page): Promise<void> => {
 		return !f.endsWith('3082.bmp') && !f.endsWith('4006.avif');
 	});
 
-	await GeneralTestHelpers.uploadFiles(
+	await HomeTestHelpers.uploadFiles(
 		page,
 		HOME_SELECTORS.UPLOAD_BUTTON,
 		files,
@@ -87,13 +88,13 @@ export const uploadSameFileForReplacement = async (
 ): Promise<void> => {
 	const file = [path.join(FIXTURES, 'magic-byte/valid.png')];
 
-	await GeneralTestHelpers.uploadFiles(
+	await HomeTestHelpers.uploadFiles(
 		page,
 		HOME_SELECTORS.UPLOAD_BUTTON,
 		file,
 		GRAPHICS_MESSAGES.UPLOAD_SUCCESS,
 	);
-	await GeneralTestHelpers.uploadFiles(
+	await HomeTestHelpers.uploadFiles(
 		page,
 		HOME_SELECTORS.UPLOAD_BUTTON,
 		file,
@@ -107,13 +108,13 @@ export const rejectReplacementWithDifferentExtension = async (
 	const pngFile = [path.join(FIXTURES, 'uploads/3082.png')];
 	const bmpFile = [path.join(FIXTURES, 'uploads/3082.bmp')];
 
-	await GeneralTestHelpers.uploadFiles(
+	await HomeTestHelpers.uploadFiles(
 		page,
 		HOME_SELECTORS.UPLOAD_BUTTON,
 		pngFile,
 		GRAPHICS_MESSAGES.UPLOAD_SUCCESS,
 	);
-	await GeneralTestHelpers.uploadFiles(
+	await HomeTestHelpers.uploadFiles(
 		page,
 		HOME_SELECTORS.UPLOAD_BUTTON,
 		bmpFile,

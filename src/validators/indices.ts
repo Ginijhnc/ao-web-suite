@@ -1,3 +1,4 @@
+import { DB_STORE_NAMES } from '@Constants/database';
 import {
 	INDICES_ACCEPTED_EXTENSIONS,
 	isValidIndiceName,
@@ -6,6 +7,7 @@ import { INDICES_MESSAGES } from '@Constants/messages';
 import { parseIndiceFile } from '@Helpers/indices';
 import type { ParsedIndice } from '@Helpers/indices';
 import type { ValidationResult } from '@Types/database';
+import { getAllKeys } from '@Utils/database';
 import {
 	hasValidExtension,
 	readFileAsText,
@@ -138,18 +140,28 @@ const validateFilesSequentially = (
  * empty/JSON/schema validation. Rejects the whole selection on the
  * first failing step.
  */
-export const validateIndicesFiles = (
+export const validateIndicesFiles = async (
 	files: ReadonlyArray<File>,
 ): Promise<ValidationResult> => {
 	const ext = checkExtensions(files);
 	if (!ext.valid) {
-		return Promise.resolve(ext);
+		return ext;
 	}
 
 	const known = checkRecognizedNames(files);
 	if (!known.valid) {
-		return Promise.resolve(known);
+		return known;
 	}
 
-	return validateFilesSequentially(files, 0, []);
+	const result = await validateFilesSequentially(files, 0, []);
+	if (!result.valid) {
+		return result;
+	}
+
+	const existingKeys = await getAllKeys(DB_STORE_NAMES.INDICES);
+	return {
+		valid: true,
+		parsedIndices: result.parsedIndices,
+		existingKeys,
+	};
 };

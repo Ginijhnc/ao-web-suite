@@ -2,7 +2,7 @@ import { describe, it, expect } from 'vitest';
 import {
 	armasStripped,
 	armasWithZeros,
-} from '../../tests/fixtures/indices/armas';
+} from '../../fixtures/indices/armas/armas';
 import { stripZeroSentinels } from './indices';
 
 describe('stripZeroSentinels', () => {
