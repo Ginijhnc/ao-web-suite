@@ -8,12 +8,12 @@ import {
 	INDICES_MESSAGES,
 } from '@Constants/messages';
 import { GENERAL_SELECTORS, HOME_SELECTORS } from '@Constants/selectors';
-import { expect, type Page } from '@playwright/test';
 import {
 	armasReplacementStripped,
 	armasStripped,
-} from '../../../fixtures/indices/armas/armas';
-import { cabezasStripped } from '../../../fixtures/indices/cabezas/cabezas';
+} from '@Fixtures/indices/armas/armas';
+import { cabezasStripped } from '@Fixtures/indices/cabezas/cabezas';
+import { expect, type Page } from '@playwright/test';
 import { GeneralTestHelpers } from '../../shared/helpers/GeneralTestHelpers';
 import { HomeTestHelpers } from '../helpers/HomeTestHelpers';
 
