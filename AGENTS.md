@@ -51,11 +51,6 @@
 - `/** */` for JSDoc comments on functions and types. Wrap JSDoc body lines at 75 characters.
 - **`/* */`** for multiline comments that are not JSDoc
 
-## E2E Testing
-
-- **Navigation paths**: Don't hardcode navigation paths in tests. Import and use routes from `src/constants/routes.ts`
-- **Element selection**: Always separate element selection from interaction: first line finds and stores the element, second line performs the action. Only chain when the element comes from a function return.
-
 ## Language & Localization
 
 - **Spanish for user-facing content**: All UI text, messages, notifications, and error messages in Spanish
