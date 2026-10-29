@@ -53,6 +53,7 @@ export default defineConfig({
 				import.meta.dirname,
 				'./src/validators',
 			),
+			'@Fixtures': path.resolve(import.meta.dirname, './fixtures'),
 		},
 	},
 	build: {

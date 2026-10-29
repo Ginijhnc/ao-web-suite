@@ -1,8 +1,8 @@
-import { describe, it, expect } from 'vitest';
 import {
 	armasStripped,
 	armasWithZeros,
-} from '../../fixtures/indices/armas/armas';
+} from '@Fixtures/indices/armas/armas';
+import { describe, it, expect } from 'vitest';
 import { stripZeroSentinels } from './indices';
 
 describe('stripZeroSentinels', () => {

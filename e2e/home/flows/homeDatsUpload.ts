@@ -4,10 +4,10 @@ import { fileURLToPath } from 'url';
 import { DB_NAME, DB_STORE_NAMES } from '@Constants/database';
 import { DATS_MESSAGES } from '@Constants/messages';
 import { GENERAL_SELECTORS, HOME_SELECTORS } from '@Constants/selectors';
+import * as beefyHechizos from '@Fixtures/dats/hechizos/beefyHechizosExpected';
+import * as beefyNpcs from '@Fixtures/dats/npcs/beefyNpcsExpected';
+import * as beefyObj from '@Fixtures/dats/obj/beefyObjExpected';
 import { expect, type Page } from '@playwright/test';
-import * as beefyHechizos from '../../../fixtures/dats/hechizos/beefyHechizosExpected';
-import * as beefyNpcs from '../../../fixtures/dats/npcs/beefyNpcsExpected';
-import * as beefyObj from '../../../fixtures/dats/obj/beefyObjExpected';
 import { GeneralTestHelpers } from '../../shared/helpers/GeneralTestHelpers';
 
 const dirName = path.dirname(fileURLToPath(import.meta.url));

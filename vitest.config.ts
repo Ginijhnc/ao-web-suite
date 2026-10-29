@@ -37,6 +37,7 @@ export default defineConfig({
 			'@Contexts': path.resolve(__dirname, './src/contexts'),
 			'@Stores': path.resolve(__dirname, './src/stores'),
 			'@Validators': path.resolve(__dirname, './src/validators'),
+			'@Fixtures': path.resolve(__dirname, './fixtures'),
 		},
 	},
 });

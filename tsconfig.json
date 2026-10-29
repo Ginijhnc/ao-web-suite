@@ -38,7 +38,8 @@
 			"@Assets/*": ["./src/assets/*"],
 			"@Contexts/*": ["./src/contexts/*"],
 			"@Stores/*": ["./src/stores/*"],
-			"@Validators/*": ["./src/validators/*"]
+			"@Validators/*": ["./src/validators/*"],
+			"@Fixtures/*": ["./fixtures/*"]
 		}
 	},
 	"include": ["src", "vitest.setup.ts", "tests/**/*", "e2e/**/*"],
