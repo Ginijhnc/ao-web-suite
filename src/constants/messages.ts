@@ -1,4 +1,6 @@
 import type { FileType } from '@Constants/database';
+import { DAT_NAMES } from '@Constants/dats';
+import { INDICES_NAMES } from '@Constants/indices';
 
 export const CLEAR_SUCCESS = (fileType: FileType) => {
 	return `Todos los ${fileType.toLowerCase()} fueron eliminados correctamente.`;
@@ -29,7 +31,7 @@ export const INDICES_MESSAGES = {
 		return `Los índices ${names} fueron reemplazados correctamente.`;
 	},
 	UNKNOWN_INDICE: (list: string) => {
-		return `No se reconocen los siguientes índices: ${list}. Se aceptan: armas, cabezas, cascos, cuerpos, escudos, fxs, graficos.`;
+		return `No se reconocen los siguientes índices: ${list}. Se aceptan: ${Object.values(INDICES_NAMES).join(', ')}.`;
 	},
 	EMPTY_FILE: (fileName: string) => {
 		return `El índice "${fileName}" está vacío. Se canceló la subida de la selección.`;
@@ -51,7 +53,7 @@ export const DATS_MESSAGES = {
 		return `Los dats ${names} fueron reemplazados correctamente.`;
 	},
 	UNKNOWN_DAT: (list: string) => {
-		return `No se reconocen los siguientes dats: ${list}. Se aceptan: NPCs.dat, obj.dat, Hechizos.dat.`;
+		return `No se reconocen los siguientes dats: ${list}. Se aceptan: ${Object.values(DAT_NAMES).join(', ')}.`;
 	},
 	EMPTY_FILE: (fileName: string) => {
 		return `El dat "${fileName}" está vacío. Se canceló la subida de la selección.`;
