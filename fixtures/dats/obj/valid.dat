@@ -1,0 +1,30 @@
+##############################################
+#########TIPOS  DE OBJETOS (ObjType)##########
+##############################################
+
+' 1: Comida
+' 2: Armas
+
+##############################################
+#############TIPOS  DE POCIONES###############
+##############################################
+
+'1 Modifica la Agilidad
+'2 Modifica la Fuerza
+
+[INIT]
+NumOBJs=2
+
+[OBJ1]
+Name=TestItem
+GrhIndex=1
+ObjType=0
+Agarrable=1
+Valor=100
+
+[OBJ2]
+Name=TestItem2
+GrhIndex=2
+ObjType=1
+Agarrable=0
+Valor=200

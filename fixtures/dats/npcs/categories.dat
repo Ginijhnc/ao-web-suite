@@ -1,0 +1,21 @@
+0 ====== NPCS COMUNES
+1 ====== PUEDE RESUCITAR
+2 ====== GUARDIA
+
+[INIT]
+NumNPCs=60
+
+[NPC1]
+Name=Stub
+NpcType=0
+Desc=Test
+Head=1
+Heading=1
+Body=1
+Movement=1
+Attackable=0
+ReSpawn=0
+Hostile=0
+Domable=0
+Alineacion=0
+Comercia=1

@@ -1,0 +1,6 @@
+[INIT]
+NumNPCs=1
+
+[NPC1]
+Name=TestNPC
+Heading=99

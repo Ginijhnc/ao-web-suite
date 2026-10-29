@@ -1,6 +1,7 @@
 import type { DATS_ACCEPTED_EXTENSIONS } from '@Constants/dats';
 import type { GRAPHICS_ACCEPTED_EXTENSIONS } from '@Constants/graphics';
 import type { INDICES_ACCEPTED_EXTENSIONS } from '@Constants/indices';
+import type { ParsedDat } from '@Helpers/dats';
 import type { ParsedIndice } from '@Helpers/indices';
 import type {
 	NamedRecord,
@@ -56,10 +57,11 @@ export type FileTypeConfig = {
 	/**
 	 * Optional synchronous transform that converts already-validated
 	 * parsed data into IDB records. When provided it is called instead
-	 * of the default raw-ArrayBuffer path (graphics). Indices supply
-	 * this to store parsed entries rather than re-reading the file.
+	 * of the default raw-ArrayBuffer path (graphics). Indices and dats
+	 * supply this to store parsed entries rather than re-reading the file.
 	 */
-	buildRecordsFromValidation?: (
-		parsedIndices: ReadonlyArray<ParsedIndice>,
-	) => ReadonlyArray<NamedRecord>;
+	buildRecordsFromValidation?: (input: {
+		parsedIndices?: ReadonlyArray<ParsedIndice>;
+		parsedDats?: ReadonlyArray<ParsedDat>;
+	}) => ReadonlyArray<NamedRecord>;
 };

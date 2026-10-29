@@ -10,9 +10,11 @@ import { GRAPHICS_ACCEPTED_EXTENSIONS } from '@Constants/graphics';
 import { INDICES_ACCEPTED_EXTENSIONS } from '@Constants/indices';
 import {
 	CLEAR_SUCCESS,
+	DATS_MESSAGES,
 	GRAPHICS_MESSAGES,
 	INDICES_MESSAGES,
 } from '@Constants/messages';
+import type { ParsedDat } from '@Helpers/dats';
 import type { ParsedIndice } from '@Helpers/indices';
 import { getGraphicsActions } from '@Stores/graphicsStore';
 import type {
@@ -26,6 +28,7 @@ import { clearStore, putFiles } from '@Utils/database';
 import { truncateNameList } from '@Utils/file';
 import { log } from '@Utils/logger';
 import { Toast } from '@Utils/toast';
+import { validateDatsFiles } from '@Validators/dats';
 import { validateGraphicsFiles } from '@Validators/graphics';
 import { validateIndicesFiles } from '@Validators/indices';
 
@@ -62,9 +65,9 @@ const indicesConfig: FileTypeConfig = {
 		uploadSuccess: INDICES_MESSAGES.UPLOAD_SUCCESS,
 		uploadReplaced: INDICES_MESSAGES.UPLOAD_REPLACED,
 	},
-	buildRecordsFromValidation: (parsedIndices) => {
+	buildRecordsFromValidation: ({ parsedIndices }) => {
 		const uploadedAt = Date.now();
-		return parsedIndices.map((indice) => {
+		return (parsedIndices ?? []).map((indice) => {
 			return {
 				name: `${indice.name}.json`,
 				entries: indice.entries,
@@ -77,16 +80,22 @@ const indicesConfig: FileTypeConfig = {
 const datsConfig: FileTypeConfig = {
 	accept: DATS_ACCEPTED_EXTENSIONS,
 	store: DB_STORE_NAMES.DATS,
-	validate: () => {
-		return Promise.resolve({ valid: true });
-	},
+	validate: validateDatsFiles,
 	postProcess: () => {},
 	onClear: () => {},
 	successMessages: {
-		uploadSuccess: 'Todos los archivos fueron subidos correctamente.',
-		uploadReplaced: (names: string) => {
-			return `Los archivos ${names} fueron reemplazados correctamente.`;
-		},
+		uploadSuccess: DATS_MESSAGES.UPLOAD_SUCCESS,
+		uploadReplaced: DATS_MESSAGES.UPLOAD_REPLACED,
+	},
+	buildRecordsFromValidation: ({ parsedDats }) => {
+		const uploadedAt = Date.now();
+		return (parsedDats ?? []).map((dat) => {
+			return {
+				name: `${dat.name}.dat`,
+				data: dat.data,
+				uploadedAt,
+			};
+		});
 	},
 };
 
@@ -237,7 +246,10 @@ const runUpload = async (
 		fileType,
 		fileArray,
 		result.existingKeys ?? [],
-		result.parsedIndices ?? [],
+		{
+			parsedIndices: result.parsedIndices,
+			parsedDats: result.parsedDats,
+		},
 	);
 
 	setUploadState({ isUploading: false });
@@ -251,13 +263,15 @@ const persistAndNotify = async (
 	fileType: FileType,
 	files: ReadonlyArray<File>,
 	existingKeys: ReadonlyArray<string>,
-	parsedIndices: ReadonlyArray<ParsedIndice>,
+	parsed: {
+		parsedIndices?: ReadonlyArray<ParsedIndice>;
+		parsedDats?: ReadonlyArray<ParsedDat>;
+	},
 ): Promise<void> => {
 	const config = FILE_TYPE_CONFIG[fileType];
 	try {
 		if (config.buildRecordsFromValidation) {
-			const records =
-				config.buildRecordsFromValidation(parsedIndices);
+			const records = config.buildRecordsFromValidation(parsed);
 			await putFiles(config.store, records);
 		} else {
 			await processFiles(files, config);

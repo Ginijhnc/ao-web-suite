@@ -1,0 +1,38 @@
+0 ====== NPCS COMUNES
+1 ====== PUEDE RESUCITAR
+
+[INIT]
+NumNPCs=5
+
+[NPC1]
+Name=TestNPC
+NpcType=0
+Desc=Un NPC de prueba
+Head=1
+Heading=2
+Body=3
+Movement=1
+Attackable=0
+ReSpawn=0
+Hostile=0
+Domable=0
+Comercia=1
+TipoItems=1
+NROITEMS=1
+Obj1=100-1000
+BackUp=1
+
+[NPC5]
+Name=TestNPC2
+NpcType=1
+Desc=Otro NPC
+Head=2
+Heading=1
+Body=5
+Movement=0
+Attackable=1
+ReSpawn=1
+Hostile=0
+Domable=0
+Comercia=0
+BackUp=0

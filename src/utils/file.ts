@@ -18,25 +18,35 @@ export const truncateNameList = (
 };
 
 /**
- * Reads a File as UTF-8 text. Used for any text-based upload (índices
- * JSON, .dat INI-style files); graphics use ArrayBuffer for binary
- * handling instead.
+ * Reads a File as an ArrayBuffer and decodes it as text. Tries UTF-8
+ * first (fatal mode rejects invalid byte sequences); if that fails,
+ * falls back to Windows-1252, which is what the legacy VB6 tooling
+ * used for accented characters. This handles both modern UTF-8 .dat
+ * files and original game client files transparently.
  */
 export const readFileAsText = (file: File): Promise<string> => {
 	return new Promise((resolve, reject) => {
 		const reader = new FileReader();
 		reader.onload = () => {
-			const data = reader.result;
-			if (typeof data !== 'string') {
+			const buffer = reader.result;
+			if (!(buffer instanceof ArrayBuffer)) {
 				reject(new Error(`Error al leer ${file.name}`));
 				return;
 			}
-			resolve(data);
+			try {
+				resolve(
+					new TextDecoder('utf-8', { fatal: true }).decode(
+						buffer,
+					),
+				);
+			} catch {
+				resolve(new TextDecoder('windows-1252').decode(buffer));
+			}
 		};
 		reader.onerror = () => {
 			reject(new Error(`Error al leer ${file.name}`));
 		};
-		reader.readAsText(file);
+		reader.readAsArrayBuffer(file);
 	});
 };
 
