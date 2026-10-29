@@ -7,7 +7,7 @@ import {
 } from '@Constants/dats';
 import { DATS_MESSAGES } from '@Constants/messages';
 import { getDatBasename, parseDatFile } from '@Helpers/dats';
-import type { ParsedDat } from '@Helpers/dats';
+import type { DatParseFailureReason, ParsedDat } from '@Helpers/dats';
 import type { ValidationResult } from '@Types/database';
 import { getAllKeys } from '@Utils/database';
 import {
@@ -51,6 +51,33 @@ export const checkRecognizedNames = (
 	};
 };
 
+const buildParseErrorMessage = (
+	fileName: string,
+	reason: DatParseFailureReason,
+	detail: string,
+): string => {
+	const name = getDatBasename(fileName);
+	if (reason === 'missing-header') {
+		return DATS_MESSAGES.MISSING_HEADER(
+			fileName,
+			DAT_HEADER_KEYS[name],
+		);
+	}
+	if (reason === 'no-entries') {
+		return DATS_MESSAGES.NO_ENTRIES(
+			fileName,
+			DAT_SECTION_PREFIXES[name],
+		);
+	}
+	if (reason === 'duplicate-ids') {
+		return DATS_MESSAGES.DUPLICATE_IDS(fileName, detail);
+	}
+	if (reason === 'duplicate-fields') {
+		return DATS_MESSAGES.DUPLICATE_FIELDS(fileName, detail);
+	}
+	return DATS_MESSAGES.SCHEMA_MISMATCH(fileName);
+};
+
 type OneFileResult =
 	{ valid: true; dat: ParsedDat } | { valid: false; message: string };
 
@@ -74,19 +101,11 @@ const validateOneFile = async (file: File): Promise<OneFileResult> => {
 	if (parsed.success) return { valid: true, dat: parsed.parsed };
 
 	log.error(`${file.name}: ${parsed.detail}`);
-	const name = getDatBasename(file.name);
-	const message =
-		parsed.reason === 'missing-header'
-			? DATS_MESSAGES.MISSING_HEADER(
-					file.name,
-					DAT_HEADER_KEYS[name],
-				)
-			: parsed.reason === 'no-entries'
-				? DATS_MESSAGES.NO_ENTRIES(
-						file.name,
-						DAT_SECTION_PREFIXES[name],
-					)
-				: DATS_MESSAGES.SCHEMA_MISMATCH(file.name);
+	const message = buildParseErrorMessage(
+		file.name,
+		parsed.reason,
+		parsed.detail,
+	);
 	return { valid: false, message };
 };
 

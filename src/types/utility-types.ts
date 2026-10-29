@@ -18,3 +18,17 @@ export type OverrideProperties<
 			: never;
 	},
 > = Omit<TOriginal, keyof TOverride> & TOverride;
+
+/**
+ * For code that builds a read-only structure step by step. The mutable
+ * version is derived instead of restated, so adding a field to the
+ * read-only type updates both.
+ */
+export type DeepWriteable<T> =
+	T extends Readonly<{
+		-readonly [K in keyof T]: T[K];
+	}>
+		? {
+				-readonly [K in keyof T]: DeepWriteable<T[K]>;
+			}
+		: T;

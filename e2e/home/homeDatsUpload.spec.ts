@@ -1,6 +1,8 @@
 import { FILE_TYPES } from '@Constants/database';
 import { test } from '@playwright/test';
 import {
+	rejectDuplicateFields,
+	rejectDuplicateIds,
 	uploadValidHechizos,
 	uploadValidNpcs,
 	uploadValidObj,
@@ -23,4 +25,16 @@ test('upload dats: happy path hechizos', async ({ page }) => {
 
 test('upload dats: happy path obj', async ({ page }) => {
 	await uploadValidObj(page);
+});
+
+test('upload dats: rejects file with duplicate section IDs', async ({
+	page,
+}) => {
+	await rejectDuplicateIds(page);
+});
+
+test('upload dats: rejects file with duplicate field within an entry', async ({
+	page,
+}) => {
+	await rejectDuplicateFields(page);
 });

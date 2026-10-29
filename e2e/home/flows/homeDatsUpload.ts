@@ -91,6 +91,27 @@ export const uploadValidHechizos = async (page: Page): Promise<void> => {
 	);
 };
 
+export const rejectDuplicateIds = async (page: Page): Promise<void> => {
+	await uploadDat(
+		page,
+		path.join(FIXTURES, 'npcs/duplicate-ids.dat'),
+		'NPCs.dat',
+		DATS_MESSAGES.DUPLICATE_IDS('NPCs.dat', '923'),
+	);
+};
+
+export const rejectDuplicateFields = async (page: Page): Promise<void> => {
+	await uploadDat(
+		page,
+		path.join(FIXTURES, 'hechizos/duplicate-fields.dat'),
+		'Hechizos.dat',
+		DATS_MESSAGES.DUPLICATE_FIELDS(
+			'Hechizos.dat',
+			'HECHIZO35: SubeHP, MinHP, MaxHP',
+		),
+	);
+};
+
 export const uploadValidObj = async (page: Page): Promise<void> => {
 	await uploadDat(
 		page,

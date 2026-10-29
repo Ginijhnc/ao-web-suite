@@ -68,4 +68,10 @@ export const DATS_MESSAGES = {
 	INVALID_EXTENSION: (fileName: string) => {
 		return `"${fileName}" no es un archivo .dat.`;
 	},
+	DUPLICATE_IDS: (fileName: string, ids: string) => {
+		return `"${fileName}" contiene IDs duplicados: ${ids}. Corregí el archivo antes de subirlo.`;
+	},
+	DUPLICATE_FIELDS: (fileName: string, detail: string) => {
+		return `"${fileName}" contiene campos duplicados dentro de una misma entrada: ${detail}. Corregí el archivo antes de subirlo.`;
+	},
 } as const;
