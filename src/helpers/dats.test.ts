@@ -184,7 +184,7 @@ describe('findCanonicalKey', () => {
 
 describe('mapPairsToEntry', () => {
 	it('coerces numeric values and preserves ItemSchema-style strings', () => {
-		const entry = mapPairsToEntry(
+		const { entry } = mapPairsToEntry(
 			[
 				{ key: 'NROITEMS', value: '2' },
 				{ key: 'Obj1', value: '138-1000' },
@@ -289,6 +289,23 @@ describe('parseDatFile (NPCs)', () => {
 		expect(result.success).toBe(false);
 		if (result.success) return;
 		expect(result.reason).toBe('no-entries');
+	});
+
+	it('rejects a file with duplicate section IDs', () => {
+		const text = [
+			'[INIT]',
+			'NumNPCs=923',
+			'[NPC923]',
+			'Name=Rey Pretoriano',
+			'[NPC923]',
+			'Name=Ladrón Pretoriano',
+		].join('\n');
+
+		const result = parseDatFile('NPCs.dat', text);
+		expect(result.success).toBe(false);
+		if (result.success) return;
+		expect(result.reason).toBe('duplicate-ids');
+		expect(result.detail).toContain('923');
 	});
 });
 
@@ -455,5 +472,27 @@ describe('parseDatFile (Hechizos)', () => {
 		expect(result.success).toBe(false);
 		if (result.success) return;
 		expect(result.reason).toBe('missing-header');
+	});
+
+	it('rejects an entry with a duplicate field key', () => {
+		const text = [
+			'[INIT]',
+			'NumeroHechizos=1',
+			'[HECHIZO35]',
+			'Nombre=Flecha',
+			'SubeHP=2',
+			'MinHP=40',
+			'MaxHP=60',
+			'SubeHP=0',
+			'MinHP=0',
+			'MaxHP=0',
+		].join('\n');
+
+		const result = parseDatFile('Hechizos.dat', text);
+		expect(result.success).toBe(false);
+		if (result.success) return;
+		expect(result.reason).toBe('duplicate-fields');
+		expect(result.detail).toContain('35');
+		expect(result.detail).toContain('SubeHP');
 	});
 });

@@ -1,0 +1,27 @@
+'1 actuan sobre HP,MANA,STA,HAM y SED.
+'Targets....
+'1.....Usuario.
+
+[INIT]
+NumeroHechizos=35
+
+[HECHIZO35]
+Nombre=Flecha
+Desc=Flecha
+PalabrasMagicas=
+HechizeroMsg=
+TargetMsg=te ha atacado con su arco y flecha.
+Tipo=1
+WAV=10
+FXgrh=14
+Loops=0
+MinSkill=101
+ManaRequerido=3000
+StaRequerido=0
+Target=1
+SubeHP=2
+MinHP=40
+MaxHP=60
+SubeHP=0
+MinHP=0
+MaxHP=0

@@ -7,15 +7,19 @@ import {
 	type DatName,
 } from '@Constants/dats';
 import { DAT_ENTRY_KEYS, DAT_SCHEMAS } from '@Types/dats';
+import type { DeepWriteable } from '@Types/utility-types';
 
 type RawPair = {
 	key: string;
 	value: string;
 };
 
-type RawSection = {
+type SectionHeader = {
 	header: string;
 	headerComment?: string;
+};
+
+type RawSection = SectionHeader & {
 	pairs: ReadonlyArray<RawPair>;
 };
 
@@ -80,13 +84,7 @@ const isSkippableLine = (line: string): boolean => {
  * Parses a `[HEADER]` line and extracts the section name and any
  * trailing comment. Returns null if the closing bracket is not found.
  */
-const startSection = (
-	line: string,
-): {
-	header: string;
-	headerComment?: string;
-	pairs: Array<RawPair>;
-} | null => {
+const startSection = (line: string): MutableSection | null => {
 	const close = line.indexOf(']');
 	if (close === -1) return null;
 	const header = line.slice(1, close).trim();
@@ -98,11 +96,7 @@ const startSection = (
 	};
 };
 
-type MutableSection = {
-	header: string;
-	headerComment?: string;
-	pairs: Array<RawPair>;
-};
+type MutableSection = DeepWriteable<RawSection>;
 
 /**
  * Processes a single line: routes to section parsing if it is a
@@ -187,6 +181,11 @@ export const findCanonicalKey = (
 	return base + suffix;
 };
 
+type MapPairsResult = {
+	entry: Record<string, string | number>;
+	duplicateKeys: ReadonlyArray<string>;
+};
+
 /**
  * Builds the per-entry object that Zod validates. Unknown keys fall
  * through to the schema's catchall so a future field gained by the
@@ -195,13 +194,23 @@ export const findCanonicalKey = (
 export const mapPairsToEntry = (
 	pairs: ReadonlyArray<RawPair>,
 	canonicalKeys: ReadonlyArray<string>,
-): Record<string, string | number> => {
+): MapPairsResult => {
 	const entry: Record<string, string | number> = {};
+	const seen = new Set<string>();
+	const duplicateKeys: Array<string> = [];
+
 	for (const { key, value } of pairs) {
 		const target = findCanonicalKey(key, canonicalKeys) ?? key;
+		if (seen.has(target)) {
+			if (!duplicateKeys.includes(target))
+				duplicateKeys.push(target);
+			continue;
+		}
+		seen.add(target);
 		entry[target] = coerceValue(value);
 	}
-	return entry;
+
+	return { entry, duplicateKeys };
 };
 
 /**
@@ -367,13 +376,16 @@ export type ParsedDat = {
 	data: unknown;
 };
 
+export type DatParseFailureReason =
+	| 'missing-header'
+	| 'no-entries'
+	| 'schema-mismatch'
+	| 'duplicate-ids'
+	| 'duplicate-fields';
+
 export type DatParseResult =
 	| { success: true; parsed: ParsedDat }
-	| {
-			success: false;
-			reason: 'missing-header' | 'no-entries' | 'schema-mismatch';
-			detail: string;
-	  };
+	| { success: false; reason: DatParseFailureReason; detail: string };
 
 /**
  * Extracts the lowercase basename (filename without extension) so it
@@ -407,32 +419,84 @@ const extractHeader = (
 	return Number.isFinite(n) ? n : null;
 };
 
+type DuplicateFieldError = {
+	entryId: number;
+	keys: ReadonlyArray<string>;
+};
+
+type BuildEntriesResult = {
+	entries: Array<Record<string, unknown>>;
+	duplicateIds: ReadonlyArray<number>;
+	duplicateFieldErrors: ReadonlyArray<DuplicateFieldError>;
+};
+
 /**
- * Builds the entries array from every `[PREFIXn]` section (e.g., [NPC1],
- * [OBJ42], [HECHIZO5]). Maps raw key-value pairs to canonical form, adds
- * the entry number, and captures any header comment as `datComentario`.
+ * Converts one already-matched `[PREFIXn]` section into a plain entry
+ * object ready for Zod validation. Attaches `numberField` and, if
+ * present, `datComentario`. Appends to `duplicateFieldErrors` when the
+ * same key appears more than once inside the section.
+ */
+const processSection = (
+	s: RawSection,
+	num: number,
+	numberField: string,
+	canonicalKeys: ReadonlyArray<string>,
+	duplicateFieldErrors: Array<DuplicateFieldError>,
+): Record<string, unknown> => {
+	const { entry, duplicateKeys } = mapPairsToEntry(
+		s.pairs,
+		canonicalKeys,
+	);
+	if (duplicateKeys.length > 0) {
+		duplicateFieldErrors.push({ entryId: num, keys: duplicateKeys });
+	}
+	const fullEntry: Record<string, unknown> = entry;
+	fullEntry[numberField] = num;
+	if (s.headerComment) fullEntry['datComentario'] = s.headerComment;
+	return fullEntry;
+};
+
+/**
+ * Iterates every `[PREFIXn]` section and builds the entries array.
+ * Tracks seen IDs so a section that appears a second time is recorded
+ * in `duplicateIds` instead of being added again. Delegates per-section
+ * object construction to `processSection`, which collects any
+ * duplicate-field errors for that entry.
  */
 const buildEntries = (
 	sections: ReadonlyArray<RawSection>,
 	prefix: string,
 	numberField: string,
 	canonicalKeys: ReadonlyArray<string>,
-): Array<Record<string, unknown>> => {
+): BuildEntriesResult => {
 	const entries: Array<Record<string, unknown>> = [];
+	const seen = new Set<number>();
+	const duplicateIds: Array<number> = [];
+	const duplicateFieldErrors: Array<DuplicateFieldError> = [];
 	const lowerPrefix = prefix.toLowerCase();
+
 	for (const s of sections) {
 		if (!s.header.toLowerCase().startsWith(lowerPrefix)) continue;
 		const num = Number(s.header.slice(prefix.length));
 		if (!Number.isFinite(num)) continue;
-		const entry: Record<string, unknown> = mapPairsToEntry(
-			s.pairs,
-			canonicalKeys,
+
+		if (seen.has(num)) {
+			if (!duplicateIds.includes(num)) duplicateIds.push(num);
+			continue;
+		}
+		seen.add(num);
+		entries.push(
+			processSection(
+				s,
+				num,
+				numberField,
+				canonicalKeys,
+				duplicateFieldErrors,
+			),
 		);
-		entry[numberField] = num;
-		if (s.headerComment) entry['datComentario'] = s.headerComment;
-		entries.push(entry);
 	}
-	return entries;
+
+	return { entries, duplicateIds, duplicateFieldErrors };
 };
 
 /**
@@ -491,18 +555,36 @@ export const parseDatFile = (
 		};
 	}
 
-	const entries = buildEntries(
+	const { entries, duplicateIds, duplicateFieldErrors } = buildEntries(
 		sections,
 		DAT_SECTION_PREFIXES[name],
 		NUMBER_FIELD_BY_DAT[name],
 		DAT_ENTRY_KEYS[name],
 	);
+
 	if (entries.length === 0) {
 		return {
 			success: false,
 			reason: 'no-entries',
 			detail: `no se encontraron secciones [${DAT_SECTION_PREFIXES[name]}N]`,
 		};
+	}
+
+	if (duplicateIds.length > 0) {
+		return {
+			success: false,
+			reason: 'duplicate-ids',
+			detail: duplicateIds.join(', '),
+		};
+	}
+
+	if (duplicateFieldErrors.length > 0) {
+		const detail = duplicateFieldErrors
+			.map((e) => {
+				return `${DAT_SECTION_PREFIXES[name]}${e.entryId}: ${e.keys.join(', ')}`;
+			})
+			.join(' | ');
+		return { success: false, reason: 'duplicate-fields', detail };
 	}
 
 	const payload: Record<string, unknown> = {
