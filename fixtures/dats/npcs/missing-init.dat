@@ -1,0 +1,4 @@
+[NPC1]
+Name=TestNPC
+NpcType=0
+Desc=Missing INIT section

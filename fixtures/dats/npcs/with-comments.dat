@@ -1,0 +1,22 @@
+[INIT]
+NumNPCs=60
+
+[NPC41] 'Pescador Quieto
+Name=Pescador
+NpcType=0
+Desc=Bienvenido al gremio
+Head=2
+Heading=3
+Body=3
+Movement=1
+Attackable=0
+ReSpawn=0
+Hostile=0
+Domable=0
+Alineacion=0
+Comercia=1
+TipoItems=1
+NROITEMS=2
+Obj1=138-1000 'Caña de Pescar
+Obj2=139-1000 'Pescado
+BackUp=1

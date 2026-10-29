@@ -1,4 +1,5 @@
 import type { DB_STORE_NAMES } from '@Constants/database';
+import type { ParsedDat } from '@Helpers/dats';
 import type { ParsedIndice } from '@Helpers/indices';
 import type { ValueOf } from '@Types/utility-types';
 
@@ -44,6 +45,8 @@ export type ValidationResult =
 			existingKeys?: ReadonlyArray<string>;
 			/** Already-validated records; forwarded to skip re-parsing. */
 			parsedIndices?: ReadonlyArray<ParsedIndice>;
+			/** Already-validated dats; forwarded to skip re-parsing. */
+			parsedDats?: ReadonlyArray<ParsedDat>;
 	  }
 	| { valid: false; message: string };
 

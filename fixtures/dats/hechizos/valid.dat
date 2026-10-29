@@ -1,0 +1,23 @@
+'Tipos....
+'1 actuan sobre HP,MANA,STA,HAM y SED.
+'2 actuan sobre los estados de los usuarios.
+
+'Targets....
+'1.....Usuario.
+'2.....Npc.
+
+[INIT]
+NumeroHechizos=1
+
+[HECHIZO1]
+Nombre=Hechizo Prueba
+Desc=Un hechizo de prueba
+PalabrasMagicas=Prueba
+HechizeroMsg=El hechizo se lanza
+PropioMsg=Sentis el hechizo
+TargetMsg=Recibes el hechizo
+Tipo=0
+Target=0
+MinSkill=0
+ManaRequerido=10
+StaRequerido=5
