@@ -82,6 +82,12 @@ const getIdbEntry = async (
 	);
 };
 
+/**
+ * Asserts that an IDB store entry matches `expectedValue`. `Map` values
+ * are converted to plain objects via `deepSerialize` before the value
+ * crosses the browser/Node boundary, since `page.evaluate` serializes
+ * its return value as JSON and `Map`s would otherwise become `{}`.
+ */
 const assertIdbStoreHasEntry = async (
 	page: Page,
 	dbName: string,
@@ -99,6 +105,35 @@ const assertIdbStoreHasEntry = async (
 			store: string;
 			k: string;
 		}): Promise<unknown> => {
+			const deepSerialize = (source: unknown): unknown => {
+				if (source instanceof Map) {
+					return Object.fromEntries(
+						Array.from(source, ([mapKey, mapValue]) => {
+							return [
+								String(mapKey),
+								deepSerialize(mapValue),
+							];
+						}),
+					);
+				}
+
+				if (Array.isArray(source)) {
+					return source.map(deepSerialize);
+				}
+
+				if (source === null || typeof source !== 'object') {
+					return source;
+				}
+
+				return Object.fromEntries(
+					Object.entries(source as Record<string, unknown>).map(
+						([objectKey, objectValue]) => {
+							return [objectKey, deepSerialize(objectValue)];
+						},
+					),
+				);
+			};
+
 			return new Promise((resolve) => {
 				const request = indexedDB.open(db);
 				request.onsuccess = () => {
@@ -108,7 +143,7 @@ const assertIdbStoreHasEntry = async (
 					);
 					const getRequest = tx.objectStore(store).get(k);
 					getRequest.onsuccess = () => {
-						resolve(getRequest.result);
+						resolve(deepSerialize(getRequest.result));
 					};
 				};
 			});
