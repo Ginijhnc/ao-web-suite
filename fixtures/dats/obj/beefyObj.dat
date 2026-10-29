@@ -1,0 +1,565 @@
+##############################################
+#########TIPOS  DE OBJETOS (ObjType)##########
+##############################################
+
+' 1: Comida
+' 2: Armas
+' 3: Armaduras
+' 4: Arboles
+' 5: Dinero
+' 6: Puertas
+' 7: Objetos contenedores (x ej. bolsas y cofres)
+' 8: Carteles
+' 9: Llaves
+' 10: Foros
+' 11: Pociones
+' 12: Libros
+' 13: Bebida
+' 14: Leña
+' 15: Fogata
+' 16: escudos
+' 17: cascos
+' 18: Anillos
+' 19: telep
+' 20: Muebles
+' 21: joyas
+' 22: yacimiento
+' 23: metales
+' 24: pergaminos
+' 25: aura
+' 26: Instrumentos Musicales
+' 27: Yunque
+' 28: Fragua
+' 29: Gemas
+' 30: Flores
+' 31: barcos
+' 32: flechas
+' 33: botellas vacias
+' 34: botellas llenas
+' 35: manchas
+
+
+##############################################
+#############TIPOS  DE POCIONES###############
+##############################################
+
+'1 Modifica la Agilidad
+'2 Modifica la Fuerza
+'3 Repone HP
+'4 Repone Mana
+'5 Cura Envenenamiento
+
+
+##############################################
+#############NRO DE OBJS LIBRES###############
+##############################################
+
+'cuando se pueda hay que utilizarlos, intentando
+usar primero los nros m�s bajos.
+
+(Todos usados)
+
+
+##############################################
+##############################################
+##############################################
+
+
+[INIT]
+'aca va el numero de OBJ mas alto, NO la cantidad de OBJs.
+'esto sirve para que los GMS puedan ver la lista completa de items para crear en una ventanita.
+NumOBJs=1052
+
+
+
+
+[OBJ1]
+Name=Manzana Roja
+GrhIndex=506
+ObjType=1
+Agarrable=0
+MinHAM=10
+Valor=2
+Crucial=1
+
+[OBJ2]
+Name=Espada Larga
+GrhIndex=504
+ObjType=2
+Agarrable=0
+Anim=21
+RazaEnanaAnim=72
+MinHit=1
+MaxHit=8
+Valor=210
+Crucial=1
+CP1=MAGO
+CP2=DRUIDA
+CP3=LADRON
+CP4=BARDO
+CP5=PIRATA
+LingH=3
+LingP=0
+LingO=0
+SkHerreria=25
+
+'<--------------------------------CASAS ULLA-------------------------------->
+
+'<<<<<<<<<<<casa 1 Ullathorpe>>>>>>>>>>>>
+
+[OBJ10]
+Name=Cofre Abierto
+GrhIndex=503
+ObjType=7
+Agarrable=0
+Abierta=0
+Llave=0
+CantItems=10
+NroItems=0
+
+[OBJ15]
+Name=Daga
+GrhIndex=510
+ObjType=2
+Agarrable=0
+Anim=12
+RazaEnanaAnim=48
+MinHit=1
+MaxHit=2
+Apuñala=1
+Valor=140
+Crucial=1
+LingH=2
+LingP=0
+LingO=0
+Upgrade=165
+SkHerreria=10
+
+[OBJ34]
+Name=Foro de Ullathorpe
+ID=Ullathorpe
+GrhIndex=529
+ObjType=10
+Agarrable=1
+
+[OBJ42]
+Name=Vino
+GrhIndex=536
+ObjType=13
+Agarrable=0
+MinAgu=90
+MinST=5
+Valor=10
+Crucial=1
+
+[OBJ51]
+Name=Puerta de madera abierta
+GrhIndex=5592
+ObjType=6
+Agarrable=1
+Abierta=0
+Llave=0
+Clave=2
+IndexAbierta=51
+IndexCerrada=52
+IndexCerradaLlave=53
+
+[OBJ64]
+Name=Manzana Roja
+GrhIndex=506
+ObjType=1
+MinHam=10
+Valor=2
+Respawn=1 ' Hace ReSpawn
+
+'<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+'			Puertas Catacumbas Ulla/NiX
+'<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+[OBJ171] 'CASA RUINAS
+Name=Puerta
+GrhIndex=5599
+ObjType=6
+Agarrable=1
+Abierta=0
+Llave=0
+Clave=17
+IndexAbierta=171
+IndexCerrada=172
+IndexCerradaLlave=173
+
+'-------------------------------------------------------
+
+[OBJ188]
+Name=Yacimiento de Hierro
+GrhIndex=8616
+ObjType=22
+Agarrable=1
+MineralIndex=192
+
+[OBJ192]
+Name=Minerales de Hierro
+GrhIndex=604
+ObjType=23
+Agarrable=0
+Lingoteindex=386
+Valor=10
+Crucial=0
+MinSkill=25
+
+[OBJ197]
+Name=Flecha Mágica
+GrhIndex=609
+ObjType=24
+Agarrable=0
+Valor=2300
+Crucial=1
+HechizoIndex=6
+
+[OBJ208]
+Name=Flauta Mágica
+GrhIndex=686
+ObjType=18
+Agarrable=0
+StaffPower=2
+MinHit=1
+MaxHit=1
+Valor=4500
+Crucial=0
+CP1=PIRATA
+CP2=CAZADOR
+CP3=PALADIN
+CP4=CLERIGO
+CP5=ASESINO
+CP6=LADRON
+CP7=BANDIDO
+CP8=GUERRERO
+CP9=MAGO
+CP10=BARDO
+CP11=TRABAJADOR
+Madera=1500
+SkCarpinteria=100
+
+[OBJ362]
+Name=Tambor
+GrhIndex=684
+ObjType=26
+Agarrable=0
+Valor=2200
+Crucial=0
+SND1=48
+SND2=48
+SND3=48
+Madera=800
+SkCarpinteria=75
+
+[OBJ368]
+Name=Lápida
+GrhIndex=513
+VGrande=514
+ObjType=8
+Agarrable=1
+Texto=Aquí yace Altair de Oteren. Fue conocido y amado por todos, sobre todo en Nix donde siempre mostraba su generosidad y su paciencia con los newbies, ayudando con todo lo que tenía a todos, pescando por horas para dar a los demás. Altair, descansa en paz... el pueblo de Nix siempre honrará tu memoria.
+
+[OBJ369]
+Name=Armadura Legionaria
+GrhIndex=691
+ObjType=3
+NumRopaje=77
+Agarrable=0
+Caos=1
+MaxDef=13
+MinDef=7
+Valor=3010
+Crucial=1
+CP1=DRUIDA
+CP2=CLERIGO
+CP3=BARDO
+CP4=MAGO
+LingH=43
+LingP=0
+LingO=0
+SkHerreria=35
+
+[OBJ378]
+Name=Teleport
+GrhIndex=669
+ObjType=19
+Agarrable=1
+Radio=0
+
+[OBJ383]
+Name=Sombrero Mágico
+GrhIndex=18994
+ObjType=17
+NumRopaje=2
+Agarrable=0
+Anim=7
+MaxDef=1
+MinDef=1
+DefensaMagicaMin=7
+DefensaMagicaMax=10
+Valor=10000
+Crucial=1
+CP1=PIRATA
+CP2=CAZADOR
+CP3=PALADIN
+CP4=CLERIGO
+CP5=ASESINO
+CP6=LADRON
+CP7=BANDIDO
+CP8=GUERRERO
+CP9=BARDO
+CP10=DRUIDA
+CP11=TRABAJADOR
+
+[OBJ400]
+Name=Vara de Mago
+GrhIndex=715
+ObjType=2
+Agarrable=0
+Anim=6
+RazaEnanaAnim=58
+MinHit=5
+MaxHit=15
+StaffPower=2
+StaffDamageBonus=38
+Valor=85500
+Crucial=0
+CP1=PIRATA
+CP2=CAZADOR
+CP3=PALADIN
+CP4=CLERIGO
+CP5=ASESINO
+CP6=LADRON
+CP7=BANDIDO
+CP8=GUERRERO
+CP9=BARDO
+CP10=DRUIDA
+CP11=TRABAJADOR
+LingH=50
+LingP=100
+LingO=200
+SkHerreria=90
+
+[OBJ402]
+Name=Espada Mata Dragones
+GrhIndex=716
+ObjType=2
+Agarrable=0
+Anim=15
+RazaEnanaAnim=65
+MinHit=100
+MaxHit=100
+Valor=188000
+Crucial=0
+CP1=MAGO
+CP2=DRUIDA
+CP3=LADRON
+CP4=BARDO
+CP5=TRABAJADOR
+LingH=500
+LingP=400
+LingO=300
+SkHerreria=100
+Log=1
+
+[OBJ475]
+Name=Galera
+GrhIndex=5587
+ObjType=31
+NumRopaje=85
+Agarrable=0
+MinHit=25
+MaxHit=35
+MinDef=10
+MaxDef=20
+Valor=53000
+Crucial=0
+MinSkill=55
+MaderaElfica=10000
+SkCarpinteria=65
+Upgrade=476
+
+[OBJ614]'2da Jerarq
+Name=Túnica de Archimago
+GrhIndex=806
+ObjType=3
+NumRopaje=140
+Agarrable=0
+MaxDef=40
+MinDef=38
+Valor=0
+Crucial=0
+CP1=PIRATA
+CP2=CAZADOR
+CP3=PALADIN
+CP4=CLERIGO
+CP5=ASESINO
+CP6=LADRON
+CP7=BANDIDO
+CP8=GUERRERO
+CP9=BARDO
+CP10=DRUIDA
+CP11=TRABAJADOR
+NoSeCae=1
+
+[OBJ619]
+Name=Daga Envenenada
+GrhIndex=510
+ObjType=2
+Agarrable=0
+Anim=12
+MinHit=2
+MaxHit=3
+Apuñala=1
+Envenena=1
+Valor=350
+Crucial=1
+LingH=5
+LingP=0
+LingO=0
+SkHerreria=10
+
+[OBJ663]
+Name=Arco Simple Reforzado
+GrhIndex=1024
+ObjType=2
+Agarrable=0
+Anim=43
+RazaEnanaAnim=42
+Proyectil=1
+Municiones=1
+Refuerzo=4
+MinHit=2
+MaxHit=4
+Valor=438
+Crucial=0
+CP1=MAGO
+CP2=DRUIDA
+Madera=175
+SkCarpinteria=50
+
+[OBJ858]
+Name=Poción Verde (Newbie)
+GrhIndex=543
+ObjType=11
+Agarrable=0
+TipoPocion=2
+MaxModificador=6
+MinModificador=2
+DuracionEfecto=1000
+Valor=8
+Newbie=1
+Crucial=1
+
+[OBJ859]
+Name=Arco (Newbie)
+GrhIndex=750
+ObjType=2
+Agarrable=0
+Anim=41
+RazaEnanaAnim=40
+Proyectil=1
+Municiones=1
+MinHit=1
+MaxHit=2
+Newbie=1
+Valor=100
+Crucial=0
+CP1=MAGO
+CP2=DRUIDA
+
+[OBJ865]
+Name=Alforja
+GrhIndex=388
+ObjType=37
+Agarrable=0
+Anim=16
+Crucial=0
+Valor=15000
+MochilaType=2
+
+[OBJ873]
+Name=Guantes de Hurto
+GrhIndex=1469
+ObjType=18
+Agarrable=0
+Guante=1
+MinHit=1
+MaxHit=2
+Valor=5000
+Crucial=1
+CP1=MAGO
+CP2=PIRATA
+CP3=CAZADOR
+CP4=PALADIN
+CP5=ASESINO
+CP6=DRUIDA
+CP7=BARDO
+CP8=GUERRERO
+CP9=CLERIGO
+CP10=TRABAJADOR
+
+[OBJ946] 'elfo
+Name=Vestimentas de Poblador Élfico (H/E/EO)
+GrhIndex=16625
+ObjType=3
+NumRopaje=351
+Agarrable=0
+MinDef=1
+MaxDef=1
+Valor=110
+Crucial=1
+
+[OBJ963] 'enano
+Name=Ropaje de Luchador de Las Minas (E/G)
+GrhIndex=17247
+ObjType=3
+NumRopaje=374
+Agarrable=0
+MinDef=2
+MaxDef=3
+Valor=275
+Crucial=1
+RazaEnana=1
+Hombre=1
+
+[OBJ977] 'elfo oscuro
+Name=Vestimenta Esclava (EO)
+GrhIndex=17409
+ObjType=3
+NumRopaje=380
+Agarrable=0
+MinDef=0
+MaxDef=0
+Valor=50
+Crucial=1
+RazaDrow=1
+
+[OBJ1009]
+Name=Cuchillas
+GrhIndex=2341
+ObjType=2
+Anim=38
+RazaEnanaAnim=39
+Agarrable=0
+Proyectil=1
+MinHit=7
+MaxHit=16
+Valor=50
+Crucial=1
+Acuchilla=1
+LingH=1
+SkHerreria=10
+CP1=MAGO
+CP2=PALADIN
+CP3=LADRON
+CP4=BARDO
+CP5=DRUIDA
+CP6=GUERRERO
+CP7=ASESINO
+CP8=BANDIDO
+CP9=CAZADOR
+CP10=CLERIGO
+CP11=TRABAJADOR

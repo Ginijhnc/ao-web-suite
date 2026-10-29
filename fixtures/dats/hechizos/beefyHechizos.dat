@@ -1,0 +1,665 @@
+'Tipos....
+'1 actuan sobre HP,MANA,STA,HAM y SED.
+'2 actuan sobre los estados de los usuarios.
+'3 invocación.
+'4 materializa.
+'5 metamorfosis.
+
+'Targets....
+'1.....Usuario.
+'2.....Npc.
+'3.....Usuario Y Npc.
+'4.....Terreno.
+
+[INIT]
+NumeroHechizos=46
+
+[HECHIZO1]
+Nombre=Antídoto Mágico
+Desc=Con este conjuro podrás mutar los fluidos tóxicos de tu cuerpo para detener su vil accionar, contrarrestando los efectos nocivos de todo tipo de ponzoñas y venenos. Se trata de un conjuro tan simple como necesario, puesto que, además de los magos que provocan envenenamiento, son varias las criaturas que lanzan veneno en estas tierras.
+PalabrasMagicas=NIHIL VED
+HechizeroMsg=Le has detenido el envenenamiento a 
+PropioMsg=Te has detenido el envenenamiento.
+TargetMsg=te ha detenido el envenenamiento.
+Tipo=2
+WAV=16
+FXgrh=2
+Loops=2
+MinSkill=10
+ManaRequerido=12
+StaRequerido=1
+Target=1
+SubeHP=0
+MinHP=0
+MaxHP=0
+SubeMana=0
+MinMana=0
+MaxMana=0
+SubeSta=0
+MinSta=0
+MaxSta=0
+SubeHam=0
+MinHam=0
+MaxHam=0
+SubeSed=0
+MinSed=0
+MaxSed=0
+SubeAG=0
+MinAG=0
+MaxAG=0
+SubeFU=0
+MinFU=0
+MaxFU=0
+SubeCA=0
+MinCA=0
+MaxCA=0
+Invisibilidad=0
+Paraliza=0
+Inmoviliza=0
+RemoverParalisis=0
+RemoverEstupidez=0
+RemueveInvisibilidadParcial=0
+CuraVeneno=1
+Envenena=0
+Revivir=0
+Ceguera=0
+Estupidez=0
+Invoca=0
+NumNpc=0
+Cant=0
+Mimetiza=0
+Materializa=0
+itemindex=0
+StaffAffected=0
+NeedStaff=0
+Resis=0
+
+'&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+'&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+
+[HECHIZO4]
+Nombre=Toxina
+Desc=Con este hechizo de aprendizaje simple y veloz, podrás inundar el cuerpo de la víctima de un mortal veneno, con el que lentamente irá perdiendo la vida hasta sucumbir. Por ser un hechizo que requiere poco conocimiento, resulta de gran utilidad en las primeras etapas, fundamentalmente como modo de defensa personal e incluso para el entrenamiento.
+PalabrasMagicas=SERP XON IN
+HechizeroMsg=Has envenenado a
+TargetMsg=te ha envenenado.
+PropioMsg=Te has envenenado.
+Tipo=2
+WAV=16
+FXgrh=3
+Loops=2
+MinSkill=20
+ManaRequerido=24
+StaRequerido=3
+Target=3
+SubeHP=0
+MinHP=0
+MaxHP=0
+SubeMana=0
+MinMana=0
+MaxMana=0
+SubeSta=0
+MinSta=0
+MaxSta=0
+SubeHam=0
+MinHam=0
+MaxHam=0
+SubeSed=0
+MinSed=0
+MaxSed=0
+SubeAG=0
+MinAG=0
+MaxAG=0
+SubeFU=0
+MinFU=0
+MaxFU=0
+SubeCA=0
+MinCA=0
+MaxCA=0
+Invisibilidad=0
+Paraliza=0
+Inmoviliza=0
+RemoverParalisis=0
+RemoverEstupidez=0
+RemueveInvisibilidadParcial=0
+CuraVeneno=0
+Envenena=1
+Revivir=0
+Ceguera=0
+Estupidez=0
+Invoca=0
+NumNpc=0
+Cant=0
+Mimetiza=0
+Materializa=0
+itemindex=0
+StaffAffected=0
+NeedStaff=0
+Resis=1
+
+'&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+'&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+
+[HECHIZO9]
+Nombre=Paralizar
+Desc=Con este arcano encantamiento podrás dejar completamente petrificado a la víctima durante un determinado lapso de tiempo. Se trata de uno de los hechizos más utilizado en estas tierras por su gran utilidad tanto en el combate como en el entrenamiento.
+PalabrasMagicas=HOAX VORP
+HechizeroMsg=Has paralizado a 
+TargetMsg=te ha paralizado.
+PropioMsg=Te has paralizado.
+Tipo=2
+WAV=16
+FXgrh=8
+loops=0
+MinSkill=60
+ManaRequerido=450
+StaRequerido=65
+Target=3
+SubeHP=0
+MinHP=0
+MaxHP=0
+SubeMana=0
+MinMana=0
+MaxMana=0
+SubeSta=0
+MinSta=0
+MaxSta=0
+SubeHam=0
+MinHam=0
+MaxHam=0
+SubeSed=0
+MinSed=0
+MaxSed=0
+SubeAG=0
+MinAG=0
+MaxAG=0
+SubeFU=0
+MinFU=0
+MaxFU=0
+SubeCA=0
+MinCA=0
+MaxCA=0
+Invisibilidad=0
+Paraliza=1
+Inmoviliza=0
+RemoverParalisis=0
+RemoverEstupidez=0
+RemueveInvisibilidadParcial=0
+CuraVeneno=0
+Envenena=0
+Revivir=0
+Ceguera=0
+Estupidez=0
+Invoca=0
+NumNpc=0
+Cant=0
+Mimetiza=0
+Materializa=0
+itemindex=0
+StaffAffected=0
+NeedStaff=0
+Resis=0
+
+'&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+'&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+
+[HECHIZO10]
+Nombre=Devolver Movilidad
+Desc=Conjuro con el cual podrás contrarrestar los efectos tanto de la parálisis como de la inmovilización. En virtud de que los hechizos de estatismo son usados con mucha frecuencia por todos las clases mágicas que habitan estas tierras, éste conjuro se vuelve prácticamente vital para cualquier valiente que esté dispuesto a combatir.
+PalabrasMagicas=AN HOAX VORP
+HechizeroMsg=Le has devuelto la movilidad a 
+TargetMsg=te ha devuelto la movilidad.
+PropioMsg=Te has devuelto la movilidad.
+Tipo=2
+WAV=110
+FXgrh=0
+Loops=0
+MinSkill=45
+ManaRequerido=300
+StaRequerido=44
+Target=3
+SubeHP=0
+MinHP=0
+MaxHP=0
+SubeMana=0
+MinMana=0
+MaxMana=0
+SubeSta=0
+MinSta=0
+MaxSta=0
+SubeHam=0
+MinHam=0
+MaxHam=0
+SubeSed=0
+MinSed=0
+MaxSed=0
+SubeAG=0
+MinAG=0
+MaxAG=0
+SubeFU=0
+MinFU=0
+MaxFU=0
+SubeCA=0
+MinCA=0
+MaxCA=0
+Invisibilidad=0
+Paraliza=0
+Inmoviliza=0
+RemoverParalisis=1
+RemoverEstupidez=0
+RemueveInvisibilidadParcial=0
+CuraVeneno=0
+Envenena=0
+Revivir=0
+Ceguera=0
+Estupidez=0
+Invoca=0
+NumNpc=0
+Cant=0
+Mimetiza=0
+Materializa=0
+itemindex=0
+StaffAffected=0
+NeedStaff=0
+Resis=0
+
+'&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+'&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+
+[HECHIZO11]
+Nombre=Resucitar
+Desc=Encanto sagrado que te permitirá devolver la vida a los difuntos. Esta increíble habilidad fue enseñada personalmente por el mismo Gulfas Morgolock al otrora Rey de los hombres en las remotas épocas del Árbol Blanco. Su aprendizaje no es fácil y su utilización resulta muy desgastante, pero sin dudas es una de las piezas más importantes de la magia de las tierras del Argentum. 
+PalabrasMagicas=AHIL KNÄ XÄR
+HechizeroMsg=Has resucitado a 
+TargetMsg=te ha resucitado.
+Tipo=2
+WAV=20
+FXgrh=0
+Loops=0
+MinSkill=75
+ManaRequerido=550
+StaRequerido=400
+Target=1
+SubeHP=0
+MinHP=0
+MaxHP=0
+SubeMana=0
+MinMana=0
+MaxMana=0
+SubeSta=0
+MinSta=0
+MaxSta=0
+SubeHam=0
+MinHam=0
+MaxHam=0
+SubeSed=0
+MinSed=0
+MaxSed=0
+SubeAG=0
+MinAG=0
+MaxAG=0
+SubeFU=0
+MinFU=0
+MaxFU=0
+SubeCA=0
+MinCA=0
+MaxCA=0
+Invisibilidad=0
+Paraliza=0
+Inmoviliza=0
+RemoverParalisis=0
+RemoverEstupidez=0
+RemueveInvisibilidadParcial=0
+CuraVeneno=0
+Envenena=0
+Revivir=1
+Ceguera=0
+Estupidez=0
+Invoca=0
+NumNpc=0
+Cant=0
+Mimetiza=0
+Materializa=0
+itemindex=0
+StaffAffected=0
+NeedStaff=2
+Resis=1
+
+'&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+'&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+
+[HECHIZO14]
+Nombre=Invisibilidad
+Desc=Se trata de uno de los recursos mágicos más importante de estas tierras. Con él podrás volverte (tú o a quien se lo lances) completamente invisible a la vista de los demás. Esto lo convierte en una de las herramientas más importantes utilizadas por los combatientes guerreros.
+HechizeroMsg=Has vuelto invisible a 
+TargetMsg=te ha vuelto invisible.
+PropioMsg=Te has vuelto invisible.
+Tipo=2
+WAV=16
+FXgrh=0
+Loops=0
+MinSkill=87
+ManaRequerido=500
+StaRequerido=72
+Target=1
+SubeHP=0
+MinHP=0
+MaxHP=0
+SubeMana=0
+MinMana=0
+MaxMana=0
+SubeSta=0
+MinSta=0
+MaxSta=0
+SubeHam=0
+MinHam=0
+MaxHam=0
+SubeSed=0
+MinSed=0
+MaxSed=0
+SubeAG=0
+MinAG=0
+MaxAG=0
+SubeFU=0
+MinFU=0
+MaxFU=0
+SubeCA=0
+MinCA=0
+MaxCA=0
+Invisibilidad=1
+Paraliza=0
+Inmoviliza=0
+RemoverParalisis=0
+RemoverEstupidez=0
+RemueveInvisibilidadParcial=0
+CuraVeneno=0
+Envenena=0
+Revivir=0
+Ceguera=0
+Estupidez=0
+Invoca=0
+NumNpc=0
+Cant=0
+Mimetiza=0
+Materializa=0
+itemindex=0
+StaffAffected=0
+NeedStaff=0
+Resis=0
+
+'&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+'&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+
+[HECHIZO17]
+Nombre=Llamado Nigromante
+Desc=Con este espantoso ritual de magia negra podrás lograr que los restos mortales de quienes descansan en paz, se alcen en tu ayuda. Al hacerlo, dos tenebrosos zombies emergerán de la tierra para colaborar contigo.
+PalabrasMagicas=MoÎ cámus
+HechizeroMsg=Has invocado la ayuda de los muertos contra 
+TargetMsg=ha utilizado la Nigromancia sobre ti.
+Tipo=4
+WAV=17
+FXgrh=0
+Loops=0
+MinSkill=51
+ManaRequerido=400
+StaRequerido=31
+Target=4
+SubeHP=0
+MinHP=0
+MaxHP=0
+SubeMana=0
+MinMana=0
+MaxMana=0
+SubeSta=0
+MinSta=0
+MaxSta=0
+SubeHam=0
+MinHam=0
+MaxHam=0
+SubeSed=0
+MinSed=0
+MaxSed=0
+SubeAG=0
+MinAG=0
+MaxAG=0
+SubeFU=0
+MinFU=0
+MaxFU=0
+SubeCA=0
+MinCA=0
+MaxCA=0
+Invisibilidad=0
+Paraliza=0
+Inmoviliza=0
+RemoverParalisis=0
+RemoverEstupidez=0
+RemueveInvisibilidadParcial=0
+CuraVeneno=0
+Envenena=0
+Revivir=0
+Ceguera=0
+Estupidez=0
+Invoca=1
+NumNpc=546
+Cant=2
+Mimetiza=0
+Materializa=0
+itemindex=0
+StaffAffected=0
+NeedStaff=1
+Resis=0
+
+'&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+'&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+
+[HECHIZO18]
+Nombre=Celeridad
+Desc=Podrás aumentar la agilidad del destinatario a través de este muy útil sortilegio. Con él devolverás al cuerpo toda la ligereza y velocidad que necesita para adquirir una verdadera destreza guerrera. Su facilidad y los pocos recursos que insume su práctica, lo convierten en una herramienta sumamente útil que no puede faltarle a ningún buen combatiente.
+PalabrasMagicas=YUP A'INC
+HechizeroMsg=Has aumentado la agilidad de 
+TargetMsg=ha aumentado tu agilidad.
+PropioMsg=Has aumentado tu agilidad.
+Tipo=1
+WAV=17
+FXgrh=20
+Loops=0
+MinSkill=20
+ManaRequerido=40
+StaRequerido=5
+Target=1
+SubeHP=0
+MinHP=0
+MaxHP=0
+SubeMana=0
+MinMana=0
+MaxMana=0
+SubeSta=0
+MinSta=0
+MaxSta=0
+SubeHam=0
+MinHam=0
+MaxHam=0
+SubeSed=0
+MinSed=0
+MaxSed=0
+SubeAG=1
+MinAG=2
+MaxAG=5
+SubeFU=0
+MinFU=0
+MaxFU=0
+SubeCA=0
+MinCA=0
+MaxCA=0
+Invisibilidad=0
+Paraliza=0
+Inmoviliza=0
+RemoverParalisis=0
+RemoverEstupidez=0
+RemueveInvisibilidadParcial=0
+CuraVeneno=0
+Envenena=0
+Revivir=0
+Ceguera=0
+Estupidez=0
+Invoca=0
+NumNpc=0
+Cant=0
+Mimetiza=0
+Materializa=0
+itemindex=0
+StaffAffected=0
+NeedStaff=0
+Resis=0
+
+'&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+'&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+
+[HECHIZO21]
+Nombre=Debilidad
+Desc=Este conjuro tiene por finalidad contrarrestar o anular los efectos del hechizo de Fuerza, reduciendo la fuerza y el poderío que hayan adquirido quienes fueron hechizados con aquél.
+PalabrasMagicas=Xoom varp
+HechizeroMsg=Has lanzado Debilidad sobre 
+TargetMsg=ha lanzado Debilidad sobre ti.
+PropioMsg=Has lanzado Debilidad sobre ti.
+Tipo=1
+WAV=17
+FXgrh=0
+Loops=0
+MinSkill=35
+ManaRequerido=45
+StaRequerido=6
+Target=1
+SubeHP=0
+MinHP=0
+MaxHP=0
+SubeMana=0
+MinMana=0
+MaxMana=0
+SubeSta=0
+MinSta=0
+MaxSta=0
+SubeHam=0
+MinHam=0
+MaxHam=0
+SubeSed=0
+MinSed=0
+MaxSed=0
+SubeAG=0
+MinAG=0
+MaxAG=0
+SubeFU=2
+MinFU=2
+MaxFU=5
+SubeCA=0
+MinCA=0
+MaxCA=0
+Invisibilidad=0
+Paraliza=0
+Inmoviliza=0
+RemoverParalisis=0
+RemoverEstupidez=0
+RemueveInvisibilidadParcial=0
+CuraVeneno=0
+Envenena=0
+Revivir=0
+Ceguera=0
+Estupidez=0
+Invoca=0
+NumNpc=0
+Cant=0
+Mimetiza=0
+Materializa=0
+itemindex=0
+StaffAffected=0
+NeedStaff=0
+Resis=0
+
+''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+''''''''''HECHIZOS NECESARIOS PARA EL MODULO PRETORIANO'''''''''''
+''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
+[HECHIZO38] 'Solo utiliza el wav, palabras, FX, loops. NO ASIGNAR A NPCS! (solo Pretorianos)
+Nombre=Remover Invisibilidad
+Desc=Hechizo invocado por el mago pretoriano unicamente
+PalabrasMagicas=AN ROHL ÙX MAÏO
+WAV=16
+FXgrh=2
+RemueveInvisibilidadParcial=1
+Loops=2
+MinSkill=101
+
+'&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+'&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+
+[HECHIZO39] 'Solo utiliza el wav, palabras, FX, loops. NO ASIGNAR A NPCS! (solo Pretorianos)
+Nombre=Paralizar NPCs
+Desc=Hechizo invocado por el sacerdote pretoriano unicamente
+PalabrasMagicas=HOAX MANTRA
+WAV=16
+FXgrh=8
+Loops=0
+MinSkill=101
+
+''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+''''''' FIN HECHIZOS NECESARIOS PARA EL MODULO PRETORIANO'''''''''
+''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
+[HECHIZO46]
+Nombre=Invocar Mascota
+Desc=Podrás lograr que tu más lejana mascota regrese a tí.
+PalabrasMagicas=Tsälo Kai'Tor
+HechizeroMsg=Has invocado una mascota contra 
+TargetMsg=ha invocado una mascota sobre ti.
+Tipo=4
+WAV=17
+FXgrh=7
+Loops=0
+MinSkill=0
+ManaRequerido=0
+StaRequerido=131
+Target=4
+SubeHP=0
+MinHP=0
+MaxHP=0
+SubeMana=0
+MinMana=0
+MaxMana=0
+SubeSta=0
+MinSta=0
+MaxSta=0
+SubeHam=0
+MinHam=0
+MaxHam=0
+SubeSed=0
+MinSed=0
+MaxSed=0
+SubeAG=0
+MinAG=0
+MaxAG=0
+SubeFU=0
+MinFU=0
+MaxFU=0
+SubeCA=0
+MinCA=0
+MaxCA=0
+Invisibilidad=0
+Paraliza=0
+Inmoviliza=0
+RemoverParalisis=0
+RemoverEstupidez=0
+RemueveInvisibilidadParcial=0
+CuraVeneno=0
+Envenena=0
+Revivir=0
+Ceguera=0
+Estupidez=0
+Invoca=0
+Cant=0
+Warp=1
+Mimetiza=0
+Materializa=0
+itemindex=0
+StaffAffected=0
+NeedStaff=0
+Resis=0

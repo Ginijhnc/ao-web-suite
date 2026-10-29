@@ -1,0 +1,697 @@
+##############################################
+############TIPOS NPC (NpcType)###############
+##############################################
+
+0 ====== NPCS COMUNES
+1 ====== PUEDE RESUCITAR
+2 ====== GUARDIA
+3 ====== PUEDE ENTRENAR
+4 ====== BANQUEROS
+5 ====== NOBLES
+6 ====== DRAGONES
+7 ====== TIMBEROS
+8 ====== GUARDIAS DEL CAOS
+9 ====== PUEDE RESUCITAR SOLAMENTE A LOS NEWBIES
+
+
+##############################################
+################ORDEN EN DAT##################
+##############################################
+
+NPCS VENDECASAS
+NPCS RESUCITADORES
+NPCS ENLISTADORES
+NPCS ENTRENADORES
+NPCS VARIOS
+NPCS COMERCIANTES
+NPCS DECORATIVOS
+NPCS ULLATHORPE
+NPCS NIX
+NPCS BANDERBILL
+NPCS LINDOS
+NPCS ARGHAL
+NPCS ARKHEIN
+NPCS ESPERANZA
+NPCS CIUDAD PERDIDA
+NPCS GUARDIAS ARMADA
+NPCS GUARDIAS LEGIÓN
+NPCS NO HOSTILES
+NPCS HOSTILES
+NPCS PRETORIANOS
+
+
+##############################################
+##############NÚMEROS LIBRES##################
+##############################################
+
+36
+149 a 499
+563
+570
+571
+572
+580
+581
+
+Actual Npc con Nro más alto: 616
+
+
+##############################################
+###############OBSERVACIONES##################
+##############################################
+
+1) lOS NPCs pretorianos se numeran del 900 a 904 (NO CAMBIAR)
+2) Al crear un nuevo NPCS traten de asignar primero los números libres que se detallan arriba, intentando asignar pirmero los números más bajos.
+
+
+##############################################
+##############################################
+##############################################
+
+
+[INIT]
+'aca va el número de NPC más alto, NO la cantidad de NPCs.
+'esto sirve para que los GMS puedan ver la lista completa de npcs a invocar en una ventanita.
+NumNPCs=923
+
+
+
+
+##############################################################
+#####################NPCS VENDECASAS##########################
+##############################################################
+
+[NPC35] 'Propiedades Nix
+Name=Moraday
+NpcType=0
+Desc=¿Ha descubierto que la ciudad de Nix es la más hermosa de todo Argentum, verdad? ¡Pues qué mejor que ser un terrateniente de este paraíso! ¡Acércate que haremos negocios!
+Head=35
+Heading=3
+Body=239
+Movement=1
+Attackable=0
+ReSpawn=0
+Hostile=0
+Domable=0
+Alineacion=0
+Comercia=1
+TipoItems=9
+NROITEMS=10
+Obj1=87-0
+Obj2=91-0
+Obj3=95-0
+Obj4=99-0
+Obj5=103-0
+Obj6=107-0
+Obj7=111-0
+Obj8=115-0
+Obj9=119-0
+obj10=140-0 
+InvReSpawn=1
+BackUp=1
+
+#############################################
+
+[NPC119] 'sólo resucita newbies
+Name=Sacerdote
+NpcType=9
+Desc=¡Hola, hijo mío! Soy el sacerdote de estas tierras. Si eres newbie te podré resucitar, sólo necesitas tipear /RESUCITAR o hacer doble click sobre mi cabeza.
+Head=3
+Heading=3
+Body=49
+Movement=1
+Attackable=0
+ReSpawn=0
+Hostile=0
+Domable=0
+Alineacion=0
+Comercia=0
+BackUp=0
+
+
+
+
+##############################################################
+###################NPCS ENLISTADORES##########################
+##############################################################
+
+[NPC72]
+Name=Tancredo de Hauteville, soberano de Banderbill
+NpcType=5
+Desc=Saludos ciudadano, soy Tancredo de Hauteville, nuevo soberano de Banderbill. Mi deber es mantener el nuevo orden del Imperio. Si deseas unirte a mis filas y ayudarme di /ENLISTAR.
+Head=510
+Heading=3
+Body=409
+Movement=1
+Attackable=0
+ReSpawn=0
+Hostile=0
+Domable=0
+Alineacion=0
+Comercia=0
+BackUp=0
+
+#############################################
+
+[NPC98]
+Name=Demonio Legionario
+NpcType=5
+Desc=Si deseas unirte a la Legión Oscura escribe /ENLISTAR
+Head=0
+Heading=3
+Body=405
+Movement=1
+AguaValida=0
+Attackable=0
+ReSpawn=0
+Hostile=0
+Domable=0
+Alineacion=0
+Comercia=0
+Faccion=1
+BackUp=0
+
+
+
+
+##############################################################
+####################NPCS ENTRENADORES#########################
+##############################################################
+
+[NPC60] 'Entrenador de Banderbill
+Name=O'Riley de Banderbill
+Desc=¡Hola amigo! Soy el Maestro de armas de la Milicia de Banderbill, si deseas que traiga una criatura sólo debes pedirmelo. (Escribe /ENTRENAR)
+NpcType=3
+Head=6
+Heading=3
+Body=57
+Movement=1
+Attackable=0
+ReSpawn=0
+Hostile=0
+Domable=0
+Alineacion=0
+Comercia=0
+NroCriaturas=4
+CI1=566
+CI2=565
+CI3=564
+CI4=516
+CN1=Murciélago
+CN2=Serpiente
+CN3=Escorpión
+CN4=Goblin
+BackUp=0
+
+#############################################
+
+[NPC108] 'Entrenador de Arkhein
+Name=O'Riley de Arkhein
+NpcType=3
+Desc=¡Hola amigo! Escribe /ENTRENAR para divertirte con estas almas malvadas que hemos domado para tu diversión en estos festejos.
+Head=6
+Heading=3
+Body=57
+Movement=1
+attackable=0
+ReSpawn=0
+Hostile=0
+Domable=0
+Alineacion=0
+Comercia=0
+NroCriaturas=5
+CI1=534
+CI2=539
+CI3=541
+CI4=554
+CI5=567
+CN1=Hormiga gigante
+CN2=Tortuga gigante
+CN3=Ogro
+CN4=Liche
+CN5=Duende Mágico
+BackUp=0
+
+
+
+
+##############################################################
+#######################NPCS VARIOS############################
+##############################################################
+
+[NPC16] 'npc centinela
+Name=Centinela
+NpcType=0
+Head=0
+Heading=3
+Body=540
+Movement=1
+AguaValida=1
+Attackable=0
+ReSpawn=0
+Hostile=0
+Domable=0
+Alineacion=0
+Comercia=0
+BackUp=0
+
+##############################################################
+######################NPCS RESUCITADORES######################
+##############################################################
+
+[NPC5]
+Name=Sacerdote
+NpcType=1
+Desc=¡Hola, hijo mío! Soy el Sacerdote de estas tierras. Si quieres que te resucite escribe /RESUCITAR, o haz doble click sobre mí.
+Head=3
+Heading=3
+Body=49
+Movement=1
+Attackable=0
+ReSpawn=0
+Hostile=0
+Domable=0
+Alineacion=0
+Comercia=0
+BackUp=0
+
+##############################################################
+####################NPCS GUARDIAS ARMADA######################
+##############################################################
+
+[NPC81] 'Guardia Armada (Sacerdote)
+Name=Sacerdote Imperial
+NpcType=2
+Desc=Ohhh hijo mío!! que la llama de la virtud arda en tu corazón!!!
+Head=4
+Heading=3
+Body=101
+Movement=5
+PosOrig=1
+Attackable=1
+ReSpawn=0
+Hostile=0
+Domable=0
+Alineacion=0
+Comercia=0
+GiveEXP=0
+GiveGLD=0
+MinHP=9550
+MaxHP=9550
+MaxHIT=100
+MinHIT=100
+DEF=10
+PoderAtaque=1500
+PoderEvasion=190
+LanzaSpells=2
+Sp1=25
+Sp2=9
+BackUp=0
+
+#############################################
+
+[NPC102] 'Guardia Armada WACHO
+Name=Guardia Imperial
+NpcType=2
+Desc=¡Daré cárcel a todos los criminales!
+Head=0
+Heading=3
+Body=15
+Movement=11
+PosOrig=1
+Attackable=1
+ReSpawn=0
+Hostile=0
+Domable=0
+Alineacion=0
+Comercia=0
+GiveEXP=0
+GiveGLD=0
+MinHP=1000
+MaxHP=1000
+MaxHIT=250
+MinHIT=115
+DEF=30
+PoderAtaque=400
+PoderEvasion=190
+GuardiaPersigue=1
+BackUp=0
+
+#############################################
+
+[NPC106] 'Guardia Armada (Arquera)
+Name=Arquera Real
+NpcType=2
+Desc=Ningún criminal escapará de mi puntería.
+Head=172
+Heading=3
+Body=131
+Movement=5
+PosOrig=1
+Attackable=1
+ReSpawn=0
+Hostile=0
+Domable=0
+Alineacion=0
+Comercia=0
+GiveEXP=0
+GiveGLD=0
+MinHP=3500
+MaxHP=3500
+MaxHIT=50
+MinHIT=30
+DEF=10
+PoderAtaque=1500
+PoderEvasion=190
+LanzaSpells=1
+Sp1=35
+NROITEMS=1
+Obj1=551-10 'Flecha +1
+BackUp=0
+
+##############################################################
+####################NPCS GUARDIAS LEGION######################
+##############################################################
+
+[NPC107] 'Guardia Legión (Golem)
+Name=Golem Oscuro
+NpcType=8
+Head=0
+Heading=3
+Body=141
+Movement=2
+Attackable=1
+ReSpawn=0
+Hostile=0
+Domable=0
+Alineacion=2
+Comercia=0
+GiveEXP=0
+GiveGLD=0
+MinHP=49000
+MaxHP=49000
+MaxHIT=450
+MinHIT=300
+DEF=30
+PoderAtaque=400
+PoderEvasion=50
+AfectaParalisis=1
+BackUp=0
+
+##############################################################
+#####################NPCS NO HOSTILES#########################
+##############################################################
+
+[NPC92] 'NO RESPAWN (para el hechizo Invocación)
+Name=Elemental de Agua
+NpcType=0
+Head=0
+Heading=3
+Body=541
+Movement=2
+AguaValida=1
+Attackable=1
+ReSpawn=1
+Hostile=0
+Domable=0
+Alineacion=0
+Comercia=0
+GiveEXP=0
+GiveGLD=0
+MinHP=400
+MaxHP=400
+MaxHIT=120
+MinHIT=100
+DEF=0
+PoderAtaque=150
+PoderEvasion=200
+BackUp=0
+
+[NPC2]
+Name=Gallo
+NpcType=0
+Head=0
+Heading=3
+Body=5
+Movement=2
+AguaValida=0
+Attackable=1
+ReSpawn=0
+Hostile=0
+Domable=450
+Alineacion=0
+Comercia=0
+GiveEXP=10
+GiveGLD=0
+MinHP=15
+MaxHP=15
+MaxHIT=1
+MinHIT=1
+DEF=0
+PoderAtaque=5
+PoderEvasion=5
+BackUp=0
+
+#############################################
+
+[NPC3]
+Name=Cerdo
+NpcType=0
+Head=0
+Heading=3
+Body=6
+Movement=2
+AguaValida=0
+Attackable=1
+ReSpawn=0
+Hostile=0
+Domable=500
+Alineacion=0
+Comercia=0
+GiveEXP=15
+GiveGLD=0
+MinHP=35
+MaxHP=35
+MaxHIT=2
+MinHIT=1
+DEF=0
+PoderAtaque=10
+PoderEvasion=15
+Snd2=4
+BackUp=0
+
+##############################################################
+######################NPCS HOSTILES###########################
+##############################################################
+
+[NPC500]
+Name=Murciélago
+NpcType=0
+Head=0
+Heading=3
+Body=9
+Movement=3
+AguaValida=0
+Attackable=1
+ReSpawn=0
+Hostile=1
+Domable=400
+Alineacion=2
+Comercia=0
+GiveEXP=100000
+MinHP=15
+MaxHP=15
+MaxHIT=4
+MinHIT=1
+DEF=0
+DefM=3
+PoderAtaque=30
+PoderEvasion=10
+BackUp=0
+NROITEMS=5
+Drop1=12-1
+Drop2=12-2
+Drop4=12-15
+Drop5=12-70
+
+#############################################
+
+[NPC510]
+Name=Araña Gigante
+NpcType=0
+Head=0
+Heading=3
+Body=42
+Movement=3
+AguaValida=0
+Attackable=1
+ReSpawn=0
+Hostile=1
+Domable=0
+Alineacion=2
+Comercia=0
+GiveEXP=1450
+MinHP=1000
+MaxHP=1000
+MaxHIT=100
+MinHIT=75
+DEF=0
+PoderAtaque=150
+PoderEvasion=70
+Veneno=1
+BackUp=0
+NROITEMS=5
+Drop1=12-175
+Drop2=38-30
+Drop3=164-1
+Drop4=480-110
+Drop5=206-1
+
+#############################################
+
+[NPC548]
+Name=Leviathan
+NpcType=0
+Head=0
+Heading=3
+Body=99
+Movement=3
+AguaValida=1
+TierraInvalida=1
+Attackable=1
+ReSpawn=0
+Hostile=1
+Domable=0
+Alineacion=2
+Comercia=0
+GiveEXP=8500
+MinHP=6000
+MaxHP=6000
+MaxHIT=250
+MinHIT=60
+DEF=0
+PoderAtaque=220
+PoderEvasion=180
+Snd2=59
+BackUp=0
+NROITEMS=5
+Drop1=12-2100
+Drop2=36-30
+Drop3=39-30
+Drop4=537-1
+Drop5=496-1
+
+#############################################
+
+[NPC550]
+Name=Bruja
+NpcType=0
+Head=271
+Heading=3
+Body=125
+Movement=3
+AguaValida=0
+Attackable=1
+ReSpawn=0
+Hostile=1
+Domable=0
+Alineacion=2
+Comercia=0
+GiveEXP=6100
+MinHP=4200
+MaxHP=4200
+MaxHIT=140
+MinHIT=75
+DEF=30
+PoderAtaque=200
+PoderEvasion=250
+snd2=118
+snd3=158
+LanzaSpells=3
+Sp1=8
+Sp2=9
+Sp3=15
+BackUp=0
+NROITEMS=5
+Drop1=12-1000
+Drop2=659-1
+Drop3=514-1
+Drop4=12-5000
+Drop5=12-15000
+
+#############################################
+
+[NPC603]
+Name=Sirena
+NpcType=0
+Head=0
+Heading=3
+Body=434
+Movement=3
+AguaValida=1
+TierraInvalida=1
+Attackable=1
+ReSpawn=0
+Hostile=1
+
+Domable=0
+Alineacion=2
+Comercia=0
+GiveEXP=1825
+MinHP=1300
+MaxHP=1300
+MaxHIT=110
+MinHIT=85
+DEF=25
+DEFm=15
+PoderAtaque=150
+PoderEvasion=70
+AtacaDoble=1
+LanzaSpells=1
+Sp1=9
+BackUp=0
+NROITEMS=5
+Drop1=12-230
+Drop3=208-2
+Drop5=542-1
+
+##############################################################
+##############################################################
+#####################NPCS PRETORIANOS#########################
+##############################################################
+###############no cambiar los índices asignados###############
+
+[NPC900] ' Alto
+Name=Rey Pretoriano
+NpcType=10
+Head=14
+Heading=3
+Body=63
+Movement=24
+AguaValida=0
+Attackable=1
+ReSpawn=1
+Hostile=1
+Domable=0
+Alineacion=2
+Comercia=0
+GiveEXP=35000
+GiveGLD=30000
+MinHP=12000
+MaxHP=12000
+MaxHIT=50
+MinHIT=30
+DEF=30
+PoderAtaque=1000
+PoderEvasion=270
+LanzaSpells=5
+Sp1=3
+Sp2=10
+Sp3=30
+Sp4=31
+Sp5=1
+NROITEMS=2
+Obj1=646-1
+Obj2=403-1
+AfectaParalisis=1
+BackUp=0
