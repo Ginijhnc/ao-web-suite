@@ -16,7 +16,9 @@ import {
 } from '@Constants/messages';
 import type { ParsedDat } from '@Helpers/dats';
 import type { ParsedIndice } from '@Helpers/indices';
+import { getDatsActions } from '@Stores/datsStore';
 import { getGraphicsActions } from '@Stores/graphicsStore';
+import { getIndicesActions } from '@Stores/indicesStore';
 import type {
 	FileMeta,
 	StoreName,
@@ -59,8 +61,12 @@ const indicesConfig: FileTypeConfig = {
 	accept: INDICES_ACCEPTED_EXTENSIONS,
 	store: DB_STORE_NAMES.INDICES,
 	validate: validateIndicesFiles,
-	postProcess: () => {},
-	onClear: () => {},
+	postProcess: (_files, { parsedIndices }) => {
+		getIndicesActions().upsertIndices(parsedIndices ?? []);
+	},
+	onClear: () => {
+		getIndicesActions().clear();
+	},
 	successMessages: {
 		uploadSuccess: INDICES_MESSAGES.UPLOAD_SUCCESS,
 		uploadReplaced: INDICES_MESSAGES.UPLOAD_REPLACED,
@@ -81,8 +87,12 @@ const datsConfig: FileTypeConfig = {
 	accept: DATS_ACCEPTED_EXTENSIONS,
 	store: DB_STORE_NAMES.DATS,
 	validate: validateDatsFiles,
-	postProcess: () => {},
-	onClear: () => {},
+	postProcess: (_files, { parsedDats }) => {
+		getDatsActions().upsertDats(parsedDats ?? []);
+	},
+	onClear: () => {
+		getDatsActions().clear();
+	},
 	successMessages: {
 		uploadSuccess: DATS_MESSAGES.UPLOAD_SUCCESS,
 		uploadReplaced: DATS_MESSAGES.UPLOAD_REPLACED,
@@ -285,7 +295,7 @@ const persistAndNotify = async (
 		);
 		return;
 	}
-	config.postProcess(files);
+	config.postProcess(files, parsed);
 
 	const replacedList = formatReplacedList(files, existingKeys, 3);
 	if (!replacedList) {

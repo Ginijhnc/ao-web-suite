@@ -31,9 +31,16 @@ export type FileTypeConfig = {
 	validate: ValidationFn;
 	/**
 	 * Hook that runs after a successful persist. Used by graphics to
-	 * push metadata into Zustand; indices and dats leave it empty.
+	 * push metadata into Zustand; receives the parsed payloads so
+	 * indices and dats can populate their stores.
 	 */
-	postProcess: (files: ReadonlyArray<File>) => void;
+	postProcess: (
+		files: ReadonlyArray<File>,
+		parsed: {
+			parsedIndices?: ReadonlyArray<ParsedIndice>;
+			parsedDats?: ReadonlyArray<ParsedDat>;
+		},
+	) => void;
 	/**
 	 * Hook that runs after the user clicks "Borrar". Used to reset
 	 * any in-memory store mirrored from this file type.
