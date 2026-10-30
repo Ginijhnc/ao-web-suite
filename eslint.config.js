@@ -5,6 +5,7 @@ import reactPlugin from 'eslint-plugin-react';
 import reactHooksPlugin from 'eslint-plugin-react-hooks';
 import importPlugin from 'eslint-plugin-import';
 import globals from 'globals';
+import requireJsdocInHelpers from './scripts/eslint/rules/require-jsdoc-in-helpers.js';
 
 export default [
 	js.configs.recommended,
@@ -342,6 +343,25 @@ export default [
 		},
 		rules: {
 			'max-statements': 'off',
+		},
+	},
+	/* ==================== Helper files: require JSDoc on exports ==================== */
+	{
+		files: [
+			'**/*[Hh]elpers*.ts',
+			'**/*[Hh]elpers*.tsx',
+			'**/helpers/**/*.ts',
+			'**/helpers/**/*.tsx',
+		],
+		plugins: {
+			local: {
+				rules: {
+					'require-jsdoc-in-helpers': requireJsdocInHelpers,
+				},
+			},
+		},
+		rules: {
+			'local/require-jsdoc-in-helpers': 'error',
 		},
 	},
 ];
