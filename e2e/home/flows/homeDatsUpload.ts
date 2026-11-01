@@ -35,6 +35,10 @@ const uploadDat = async (
 
 export const uploadValidNpcs = async (page: Page): Promise<void> => {
 	await expect(HomeTestHelpers.getClearButton(page)).toBeDisabled();
+	await expect(page.getByText('npcs.dat')).toBeVisible();
+	await expect(
+		page.getByText('npcs.dat').locator('..').getByLabel('faltante'),
+	).toBeVisible();
 
 	await uploadDat(
 		page,
@@ -43,6 +47,9 @@ export const uploadValidNpcs = async (page: Page): Promise<void> => {
 		DATS_MESSAGES.UPLOAD_SUCCESS,
 	);
 	await expect(HomeTestHelpers.getClearButton(page)).toBeEnabled();
+	await expect(
+		page.getByText('npcs.dat').locator('..').getByLabel('subido'),
+	).toBeVisible();
 	await GeneralTestHelpers.assertIdbStoreHasKeys(
 		page,
 		DB_NAME,
