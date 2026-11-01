@@ -1,8 +1,7 @@
 import path from 'path';
 import { fileURLToPath } from 'url';
 import { GRAPHICS_MESSAGES } from '@Constants/messages';
-import { HOME_SELECTORS } from '@Constants/selectors';
-import type { Page } from '@playwright/test';
+import { expect, type Page } from '@playwright/test';
 import { GeneralTestHelpers } from '../../shared/helpers/GeneralTestHelpers';
 import { HomeTestHelpers } from '../helpers/HomeTestHelpers';
 
@@ -20,7 +19,6 @@ export const uploadValidGraphics = async (page: Page): Promise<void> => {
 
 	await HomeTestHelpers.uploadFiles(
 		page,
-		HOME_SELECTORS.UPLOAD_BUTTON,
 		files,
 		GRAPHICS_MESSAGES.UPLOAD_SUCCESS,
 	);
@@ -38,7 +36,6 @@ export const uploadBatchWithConflict = async (
 
 	await HomeTestHelpers.uploadFiles(
 		page,
-		HOME_SELECTORS.UPLOAD_BUTTON,
 		files,
 		GRAPHICS_MESSAGES.CONFLICT_BATCH('3082.png'),
 	);
@@ -58,13 +55,15 @@ export const uploadBatchWithMultipleConflicts = async (
 
 	await HomeTestHelpers.uploadFiles(
 		page,
-		HOME_SELECTORS.UPLOAD_BUTTON,
 		allFiles,
 		GRAPHICS_MESSAGES.CONFLICT_BATCH('3082.png, 4006.png'),
 	);
 };
 
 export const clearGraphics = async (page: Page): Promise<void> => {
+	const clearButton = HomeTestHelpers.getClearButton(page);
+	await expect(clearButton).toBeDisabled();
+
 	const uploadsDir = path.join(FIXTURES, 'uploads');
 	const allFiles =
 		GeneralTestHelpers.getFilePathsFromDirectory(uploadsDir);
@@ -75,12 +74,13 @@ export const clearGraphics = async (page: Page): Promise<void> => {
 
 	await HomeTestHelpers.uploadFiles(
 		page,
-		HOME_SELECTORS.UPLOAD_BUTTON,
 		files,
 		GRAPHICS_MESSAGES.UPLOAD_SUCCESS,
 	);
+	await expect(clearButton).toBeEnabled();
 
-	await page.getByTestId(HOME_SELECTORS.CLEAR_BUTTON).click();
+	await clearButton.click();
+	await expect(clearButton).toBeDisabled();
 };
 
 export const uploadSameFileForReplacement = async (
@@ -90,13 +90,11 @@ export const uploadSameFileForReplacement = async (
 
 	await HomeTestHelpers.uploadFiles(
 		page,
-		HOME_SELECTORS.UPLOAD_BUTTON,
 		file,
 		GRAPHICS_MESSAGES.UPLOAD_SUCCESS,
 	);
 	await HomeTestHelpers.uploadFiles(
 		page,
-		HOME_SELECTORS.UPLOAD_BUTTON,
 		file,
 		GRAPHICS_MESSAGES.UPLOAD_REPLACED('valid.png'),
 	);
@@ -110,13 +108,11 @@ export const rejectReplacementWithDifferentExtension = async (
 
 	await HomeTestHelpers.uploadFiles(
 		page,
-		HOME_SELECTORS.UPLOAD_BUTTON,
 		pngFile,
 		GRAPHICS_MESSAGES.UPLOAD_SUCCESS,
 	);
 	await HomeTestHelpers.uploadFiles(
 		page,
-		HOME_SELECTORS.UPLOAD_BUTTON,
 		bmpFile,
 		GRAPHICS_MESSAGES.CONFLICT_EXISTING('3082.bmp'),
 	);

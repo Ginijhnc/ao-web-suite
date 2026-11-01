@@ -3,12 +3,13 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 import { DB_NAME, DB_STORE_NAMES } from '@Constants/database';
 import { DATS_MESSAGES } from '@Constants/messages';
-import { GENERAL_SELECTORS, HOME_SELECTORS } from '@Constants/selectors';
+import { GENERAL_SELECTORS } from '@Constants/selectors';
 import * as beefyHechizos from '@Fixtures/dats/hechizos/beefyHechizosExpected';
 import * as beefyNpcs from '@Fixtures/dats/npcs/beefyNpcsExpected';
 import * as beefyObj from '@Fixtures/dats/obj/beefyObjExpected';
 import { expect, type Page } from '@playwright/test';
 import { GeneralTestHelpers } from '../../shared/helpers/GeneralTestHelpers';
+import { HomeTestHelpers } from '../helpers/HomeTestHelpers';
 
 const dirName = path.dirname(fileURLToPath(import.meta.url));
 const FIXTURES = path.resolve(dirName, '../../../fixtures/dats');
@@ -20,7 +21,7 @@ const uploadDat = async (
 	expectedToast: string,
 ): Promise<void> => {
 	const fileChooser = page.waitForEvent('filechooser');
-	await page.getByTestId(HOME_SELECTORS.UPLOAD_BUTTON).click();
+	await HomeTestHelpers.getUploadButton(page).click();
 	const chooser = await fileChooser;
 	await chooser.setFiles({
 		name: presentedName,
@@ -33,12 +34,15 @@ const uploadDat = async (
 };
 
 export const uploadValidNpcs = async (page: Page): Promise<void> => {
+	await expect(HomeTestHelpers.getClearButton(page)).toBeDisabled();
+
 	await uploadDat(
 		page,
 		path.join(FIXTURES, 'npcs/beefyNpcs.dat'),
 		'NPCs.dat',
 		DATS_MESSAGES.UPLOAD_SUCCESS,
 	);
+	await expect(HomeTestHelpers.getClearButton(page)).toBeEnabled();
 	await GeneralTestHelpers.assertIdbStoreHasKeys(
 		page,
 		DB_NAME,
