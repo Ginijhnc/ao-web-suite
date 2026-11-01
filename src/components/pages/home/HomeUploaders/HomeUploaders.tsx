@@ -5,8 +5,10 @@ import { Chip } from '@Components/shared/Chip';
 import { Text } from '@Components/shared/Text';
 import { FILE_TYPES } from '@Constants/database';
 import type { FileType } from '@Constants/database';
-import { HOME_SELECTORS } from '@Constants/selectors';
 import { useFileUploader } from '@Hooks/useFileUploader';
+import { useDats } from '@Stores/datsStore';
+import { useGraphicsFiles } from '@Stores/graphicsStore';
+import { useIndices } from '@Stores/indicesStore';
 import {
 	actionsRowStyle,
 	chipsRowStyle,
@@ -55,6 +57,7 @@ const FileTypeSelector = ({
 const UploaderActions = ({
 	onUpload,
 	onClear,
+	isClearDisabled,
 }: UploaderActionsProps): React.ReactElement => {
 	return (
 		<div className={actionsRowStyle}>
@@ -63,7 +66,6 @@ const UploaderActions = ({
 				variant="primary"
 				startIcon="UploadIcon"
 				onClick={onUpload}
-				data-testid={HOME_SELECTORS.UPLOAD_BUTTON}
 			>
 				Subir
 			</Button>
@@ -72,7 +74,7 @@ const UploaderActions = ({
 				variant="secondary"
 				startIcon="TrashIcon"
 				onClick={onClear}
-				data-testid={HOME_SELECTORS.CLEAR_BUTTON}
+				disabled={isClearDisabled}
 			>
 				Borrar
 			</Button>
@@ -85,6 +87,16 @@ export const HomeUploaders = (): React.ReactElement => {
 		FILE_TYPES.GRAPHICS,
 	);
 	const { openFilePicker, clearFiles } = useFileUploader();
+	const graphicsFiles = useGraphicsFiles();
+	const dats = useDats();
+	const indices = useIndices();
+
+	const storeSizes: Record<FileType, number> = {
+		[FILE_TYPES.GRAPHICS]: graphicsFiles.length,
+		[FILE_TYPES.DATS]: dats.size,
+		[FILE_TYPES.INDICES]: indices.size,
+	};
+	const isClearDisabled = storeSizes[selected] === 0;
 
 	const handleUpload = (): void => {
 		openFilePicker(selected);
@@ -100,6 +112,7 @@ export const HomeUploaders = (): React.ReactElement => {
 			<UploaderActions
 				onUpload={handleUpload}
 				onClear={handleClear}
+				isClearDisabled={isClearDisabled}
 			/>
 		</section>
 	);

@@ -7,7 +7,7 @@ import {
 	GRAPHICS_MESSAGES,
 	INDICES_MESSAGES,
 } from '@Constants/messages';
-import { GENERAL_SELECTORS, HOME_SELECTORS } from '@Constants/selectors';
+import { GENERAL_SELECTORS } from '@Constants/selectors';
 import {
 	armasReplacementStripped,
 	armasStripped,
@@ -27,7 +27,7 @@ const uploadIndice = async (
 	expectedToast: string,
 ): Promise<void> => {
 	const fileChooser = page.waitForEvent('filechooser');
-	await page.getByTestId(HOME_SELECTORS.UPLOAD_BUTTON).click();
+	await HomeTestHelpers.getUploadButton(page).click();
 	const chooser = await fileChooser;
 	await chooser.setFiles({
 		name: presentedName,
@@ -203,7 +203,6 @@ export const clearIndicesLeavesGraphicsIntact = async (
 	await HomeTestHelpers.selectFileType(page, FILE_TYPES.GRAPHICS);
 	await HomeTestHelpers.uploadFiles(
 		page,
-		HOME_SELECTORS.UPLOAD_BUTTON,
 		graphicsFiles,
 		GRAPHICS_MESSAGES.UPLOAD_SUCCESS,
 	);
@@ -216,7 +215,7 @@ export const clearIndicesLeavesGraphicsIntact = async (
 		INDICES_MESSAGES.UPLOAD_SUCCESS,
 	);
 
-	await page.getByTestId(HOME_SELECTORS.CLEAR_BUTTON).click();
+	await HomeTestHelpers.getClearButton(page).click();
 	await expect(page.getByTestId(GENERAL_SELECTORS.TOAST)).toContainText(
 		CLEAR_SUCCESS(FILE_TYPES.INDICES),
 	);
@@ -234,6 +233,9 @@ export const clearIndicesLeavesGraphicsIntact = async (
 };
 
 export const clearIndices = async (page: Page): Promise<void> => {
+	const clearButton = HomeTestHelpers.getClearButton(page);
+	await expect(clearButton).toBeDisabled();
+
 	const disk = path.join(FIXTURES, 'armas/valid.json');
 	await uploadIndice(
 		page,
@@ -241,8 +243,9 @@ export const clearIndices = async (page: Page): Promise<void> => {
 		'armas.json',
 		INDICES_MESSAGES.UPLOAD_SUCCESS,
 	);
+	await expect(clearButton).toBeEnabled();
 
-	await page.getByTestId(HOME_SELECTORS.CLEAR_BUTTON).click();
+	await clearButton.click();
 	await expect(page.getByTestId(GENERAL_SELECTORS.TOAST)).toContainText(
 		CLEAR_SUCCESS(FILE_TYPES.INDICES),
 	);
@@ -251,4 +254,5 @@ export const clearIndices = async (page: Page): Promise<void> => {
 		DB_NAME,
 		DB_STORE_NAMES.INDICES,
 	);
+	await expect(clearButton).toBeDisabled();
 };

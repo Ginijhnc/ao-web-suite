@@ -8,4 +8,5 @@ export type FileTypeSelectorProps = {
 export type UploaderActionsProps = {
 	onUpload: () => void;
 	onClear: () => void;
+	isClearDisabled: boolean;
 };

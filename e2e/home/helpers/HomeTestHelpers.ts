@@ -2,7 +2,7 @@ import { FILE_TYPES } from '@Constants/database';
 import type { FileType } from '@Constants/database';
 import { ROUTES } from '@Constants/routes';
 import { GENERAL_SELECTORS } from '@Constants/selectors';
-import { expect, type Page } from '@playwright/test';
+import { expect, type Locator, type Page } from '@playwright/test';
 
 const navigateToHomePage = async (page: Page): Promise<void> => {
 	await page.goto(ROUTES.HOME, { waitUntil: 'domcontentloaded' });
@@ -35,14 +35,21 @@ const selectFileType = async (
 	await page.getByRole('button', { name: fileType }).click();
 };
 
+const getUploadButton = (page: Page): Locator => {
+	return page.getByRole('button', { name: 'Subir' });
+};
+
+const getClearButton = (page: Page): Locator => {
+	return page.getByRole('button', { name: 'Borrar' });
+};
+
 const uploadFiles = async (
 	page: Page,
-	uploadButtonTestId: string,
 	files: Array<string>,
 	expectedToastText: RegExp | string,
 ): Promise<void> => {
 	const fileChooser = page.waitForEvent('filechooser');
-	await page.getByTestId(uploadButtonTestId).click();
+	await getUploadButton(page).click();
 	const chooser = await fileChooser;
 	await chooser.setFiles(files);
 	await expect(page.getByTestId(GENERAL_SELECTORS.TOAST)).toContainText(
@@ -54,5 +61,7 @@ export const HomeTestHelpers = {
 	navigateToHomePage,
 	waitForHomePageElements,
 	selectFileType,
+	getUploadButton,
+	getClearButton,
 	uploadFiles,
 };
