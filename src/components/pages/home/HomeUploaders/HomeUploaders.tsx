@@ -5,11 +5,18 @@ import { Chip } from '@Components/shared/Chip';
 import { Text } from '@Components/shared/Text';
 import { FILE_TYPES } from '@Constants/database';
 import type { FileType } from '@Constants/database';
+import { DAT_NAMES, DATS_ACCEPTED_EXTENSIONS } from '@Constants/dats';
+import {
+	INDICES_ACCEPTED_EXTENSIONS,
+	INDICES_NAMES,
+} from '@Constants/indices';
 import { useFileUploader } from '@Hooks/useFileUploader';
 import { useDats } from '@Stores/datsStore';
 import { useGraphicsFiles } from '@Stores/graphicsStore';
 import { useIndices } from '@Stores/indicesStore';
+import UploaderStatusPanel from '../UploaderStatusPanel/UploaderStatusPanel';
 import {
+	actionsAndPanelGroupStyle,
 	actionsRowStyle,
 	chipsRowStyle,
 	fileSelectorGroupStyle,
@@ -98,6 +105,40 @@ export const HomeUploaders = (): React.ReactElement => {
 	};
 	const isClearDisabled = storeSizes[selected] === 0;
 
+	const uploadedDats = new Set(dats.keys());
+	const uploadedIndices = new Set(indices.keys());
+
+	const getStatusPanel = (): React.ReactElement => {
+		if (selected === FILE_TYPES.DATS) {
+			return (
+				<UploaderStatusPanel
+					variant="checklist"
+					allFiles={Object.values(DAT_NAMES)}
+					uploadedFiles={uploadedDats}
+					extension={DATS_ACCEPTED_EXTENSIONS}
+				/>
+			);
+		}
+
+		if (selected === FILE_TYPES.INDICES) {
+			return (
+				<UploaderStatusPanel
+					variant="checklist"
+					allFiles={Object.values(INDICES_NAMES)}
+					uploadedFiles={uploadedIndices}
+					extension={INDICES_ACCEPTED_EXTENSIONS}
+				/>
+			);
+		}
+
+		return (
+			<UploaderStatusPanel
+				variant="graphics"
+				count={graphicsFiles.length}
+			/>
+		);
+	};
+
 	const handleUpload = (): void => {
 		openFilePicker(selected);
 	};
@@ -109,11 +150,14 @@ export const HomeUploaders = (): React.ReactElement => {
 	return (
 		<section className={uploadersContainerStyle}>
 			<FileTypeSelector selected={selected} onSelect={setSelected} />
-			<UploaderActions
-				onUpload={handleUpload}
-				onClear={handleClear}
-				isClearDisabled={isClearDisabled}
-			/>
+			<div className={actionsAndPanelGroupStyle}>
+				<UploaderActions
+					onUpload={handleUpload}
+					onClear={handleClear}
+					isClearDisabled={isClearDisabled}
+				/>
+				{getStatusPanel()}
+			</div>
 		</section>
 	);
 };

@@ -40,18 +40,28 @@ const uploadIndice = async (
 };
 
 export const uploadValidIndices = async (page: Page): Promise<void> => {
+	await expect(page.getByText('armas.json')).toBeVisible();
+	await expect(page.getByLabel('faltante').first()).toBeVisible();
+
 	await uploadIndice(
 		page,
 		path.join(FIXTURES, 'armas/valid.json'),
 		'armas.json',
 		INDICES_MESSAGES.UPLOAD_SUCCESS,
 	);
+	await expect(
+		page.getByText('armas.json').locator('..').getByLabel('subido'),
+	).toBeVisible();
+
 	await uploadIndice(
 		page,
 		path.join(FIXTURES, 'cabezas/valid.json'),
 		'cabezas.json',
 		INDICES_MESSAGES.UPLOAD_SUCCESS,
 	);
+	await expect(
+		page.getByText('cabezas.json').locator('..').getByLabel('subido'),
+	).toBeVisible();
 	await GeneralTestHelpers.assertIdbStoreHasKeys(
 		page,
 		DB_NAME,
@@ -255,4 +265,7 @@ export const clearIndices = async (page: Page): Promise<void> => {
 		DB_STORE_NAMES.INDICES,
 	);
 	await expect(clearButton).toBeDisabled();
+	await expect(
+		page.getByText('armas.json').locator('..').getByLabel('faltante'),
+	).toBeVisible();
 };

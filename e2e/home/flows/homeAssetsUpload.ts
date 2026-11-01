@@ -17,11 +17,17 @@ export const uploadValidGraphics = async (page: Page): Promise<void> => {
 		return !f.endsWith('3082.bmp') && !f.endsWith('4006.avif');
 	});
 
+	await expect(
+		page.getByText('Falta subir los gráficos.'),
+	).toBeVisible();
+
 	await HomeTestHelpers.uploadFiles(
 		page,
 		files,
 		GRAPHICS_MESSAGES.UPLOAD_SUCCESS,
 	);
+
+	await expect(page.getByText(/\d+ imágenes subidas\./)).toBeVisible();
 };
 
 export const uploadBatchWithConflict = async (
@@ -81,6 +87,9 @@ export const clearGraphics = async (page: Page): Promise<void> => {
 
 	await clearButton.click();
 	await expect(clearButton).toBeDisabled();
+	await expect(
+		page.getByText('Falta subir los gráficos.'),
+	).toBeVisible();
 };
 
 export const uploadSameFileForReplacement = async (

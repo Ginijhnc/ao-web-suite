@@ -34,3 +34,11 @@ export const actionsRowStyle = css`
 	justify-content: center;
 	margin-top: 0.5rem;
 `;
+
+export const actionsAndPanelGroupStyle = css`
+	display: flex;
+	flex-direction: column;
+	align-items: stretch;
+	gap: 1.5rem;
+	width: fit-content;
+`;
