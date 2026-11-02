@@ -10,10 +10,12 @@ import {
 	INDICES_ACCEPTED_EXTENSIONS,
 	INDICES_NAMES,
 } from '@Constants/indices';
+import { ROUTES } from '@Constants/routes';
 import { useFileUploader } from '@Hooks/useFileUploader';
 import { useDats } from '@Stores/datsStore';
 import { useGraphicsFiles } from '@Stores/graphicsStore';
 import { useIndices } from '@Stores/indicesStore';
+import { useNavigate } from 'react-router';
 import UploaderStatusPanel from '../UploaderStatusPanel/UploaderStatusPanel';
 import {
 	actionsAndPanelGroupStyle,
@@ -100,6 +102,7 @@ export const HomeUploaders = (): React.ReactElement => {
 	const graphicsFiles = useGraphicsFiles();
 	const dats = useDats();
 	const indices = useIndices();
+	const navigate = useNavigate();
 
 	const EXPECTED_DATS_COUNT = Object.values(DAT_NAMES).length;
 	const EXPECTED_INDICES_COUNT = Object.values(INDICES_NAMES).length;
@@ -179,9 +182,11 @@ export const HomeUploaders = (): React.ReactElement => {
 					size="md"
 					endIcon="ArrowForwardIcon"
 					disabled={!isDashboardEnabled}
-					onClick={() => {}}
+					onClick={() => {
+						void navigate(ROUTES.OVERVIEW);
+					}}
 				>
-					Ir al Dashboard
+					Siguiente
 				</Button>
 			</div>
 		</section>

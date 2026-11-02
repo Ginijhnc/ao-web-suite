@@ -1,10 +1,11 @@
-import { HomeHeader, HomeUploaders } from '@Components/pages/home';
+import { HomeUploaders } from '@Components/pages/home';
+import { AppHeader } from '@Components/shared/AppHeader';
 import { Container } from '@Components/shared/Container';
 
 export const HomePage = (): React.ReactElement => {
 	return (
 		<Container maxWidth="xl">
-			<HomeHeader />
+			<AppHeader />
 			<HomeUploaders />
 		</Container>
 	);

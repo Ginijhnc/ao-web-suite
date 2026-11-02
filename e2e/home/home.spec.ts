@@ -18,7 +18,7 @@ test.describe('Home Page', () => {
 		page,
 	}) => {
 		const button = page.getByRole('button', {
-			name: /ir al dashboard/i,
+			name: /siguiente/i,
 		});
 		await expect(button).toBeVisible();
 		await expect(button).toBeDisabled();
