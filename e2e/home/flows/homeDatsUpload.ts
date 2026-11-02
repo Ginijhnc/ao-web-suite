@@ -13,6 +13,10 @@ import { HomeTestHelpers } from '../helpers/HomeTestHelpers';
 
 const dirName = path.dirname(fileURLToPath(import.meta.url));
 const FIXTURES = path.resolve(dirName, '../../../fixtures/dats');
+const PUBLIC_DATS = path.resolve(
+	dirName,
+	'../../../public/game_assets/dats',
+);
 
 const uploadDat = async (
 	page: Page,
@@ -120,6 +124,27 @@ export const rejectDuplicateFields = async (page: Page): Promise<void> => {
 			'Hechizos.dat',
 			'HECHIZO35: SubeHP, MinHP, MaxHP',
 		),
+	);
+};
+
+export const uploadPublicDats = async (page: Page): Promise<void> => {
+	await uploadDat(
+		page,
+		path.join(PUBLIC_DATS, 'NPCs.dat'),
+		'NPCs.dat',
+		DATS_MESSAGES.UPLOAD_SUCCESS,
+	);
+	await uploadDat(
+		page,
+		path.join(PUBLIC_DATS, 'Hechizos.dat'),
+		'Hechizos.dat',
+		DATS_MESSAGES.UPLOAD_SUCCESS,
+	);
+	await uploadDat(
+		page,
+		path.join(PUBLIC_DATS, 'obj.dat'),
+		'obj.dat',
+		DATS_MESSAGES.UPLOAD_SUCCESS,
 	);
 };
 

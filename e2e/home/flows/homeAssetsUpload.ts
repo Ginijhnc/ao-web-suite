@@ -7,6 +7,23 @@ import { HomeTestHelpers } from '../helpers/HomeTestHelpers';
 
 const dirName = path.dirname(fileURLToPath(import.meta.url));
 const FIXTURES = path.resolve(dirName, '../../../fixtures/graphics');
+const PUBLIC_GRAPHICS = path.resolve(
+	dirName,
+	'../../../public/game_assets/graphics',
+);
+
+export const uploadPublicGraphics = async (page: Page): Promise<void> => {
+	const files =
+		GeneralTestHelpers.getFilePathsFromDirectory(PUBLIC_GRAPHICS);
+	await HomeTestHelpers.uploadFiles(
+		page,
+		files,
+		GRAPHICS_MESSAGES.UPLOAD_SUCCESS,
+	);
+	await expect(
+		page.getByText(`${files.length} imágenes subidas.`),
+	).toBeVisible();
+};
 
 export const uploadValidGraphics = async (page: Page): Promise<void> => {
 	const uploadsDir = path.join(FIXTURES, 'uploads');
