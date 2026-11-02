@@ -1,3 +1,4 @@
+import { useSyncExternalStore } from 'react';
 import { DB_STORE_NAMES } from '@Constants/database';
 import { getDatBasename } from '@Helpers/dats';
 import { getIndiceBasename } from '@Helpers/indices';
@@ -7,6 +8,27 @@ import { getIndicesActions } from '@Stores/indicesStore';
 import type { FileMeta, StoredFile } from '@Types/database';
 import { getAll } from '@Utils/database';
 import { useMountEffect } from './useMountEffect';
+
+let hydrated = false;
+const listeners = new Set<() => void>();
+
+const markHydrated = (): void => {
+	hydrated = true;
+	listeners.forEach((l) => {
+		l();
+	});
+};
+
+const subscribe = (cb: () => void): (() => void) => {
+	listeners.add(cb);
+	return () => {
+		listeners.delete(cb);
+	};
+};
+
+const getSnapshot = (): boolean => {
+	return hydrated;
+};
 
 /**
  * Reads all persisted files from IndexedDB on mount and hydrates the
@@ -46,7 +68,17 @@ export const useHydrateStores = (): void => {
 					return { name: getDatBasename(r.name), data: r.data };
 				}),
 			);
+
+			markHydrated();
 		};
 		void hydrate();
 	});
+};
+
+/**
+ * Returns true once useHydrateStores has finished reading from
+ * IndexedDB and populating all Zustand stores.
+ */
+export const useHydrated = (): boolean => {
+	return useSyncExternalStore(subscribe, getSnapshot);
 };

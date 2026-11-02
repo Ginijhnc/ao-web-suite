@@ -4,7 +4,7 @@ import {
 	headerStyle,
 	torchImgStyle,
 	torchWrapperStyle,
-} from './HomeHeader.styles';
+} from './AppHeader.styles';
 
 const Torch = (): React.ReactElement => {
 	return (
@@ -19,7 +19,7 @@ const Torch = (): React.ReactElement => {
 	);
 };
 
-export const HomeHeader = (): React.ReactElement => {
+export const AppHeader = (): React.ReactElement => {
 	return (
 		<header className={headerStyle}>
 			<Torch />
