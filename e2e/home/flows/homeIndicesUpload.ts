@@ -19,6 +19,10 @@ import { HomeTestHelpers } from '../helpers/HomeTestHelpers';
 
 const dirName = path.dirname(fileURLToPath(import.meta.url));
 const FIXTURES = path.resolve(dirName, '../../../fixtures/indices');
+const PUBLIC_INDICES = path.resolve(
+	dirName,
+	'../../../public/game_assets/indices',
+);
 
 const uploadIndice = async (
 	page: Page,
@@ -239,6 +243,51 @@ export const clearIndicesLeavesGraphicsIntact = async (
 		DB_NAME,
 		DB_STORE_NAMES.GRAPHICS,
 		expectedGraphicsKeys,
+	);
+};
+
+export const uploadPublicIndices = async (page: Page): Promise<void> => {
+	await uploadIndice(
+		page,
+		path.join(PUBLIC_INDICES, 'armas.json'),
+		'armas.json',
+		INDICES_MESSAGES.UPLOAD_SUCCESS,
+	);
+	await uploadIndice(
+		page,
+		path.join(PUBLIC_INDICES, 'cabezas.json'),
+		'cabezas.json',
+		INDICES_MESSAGES.UPLOAD_SUCCESS,
+	);
+	await uploadIndice(
+		page,
+		path.join(PUBLIC_INDICES, 'cascos.json'),
+		'cascos.json',
+		INDICES_MESSAGES.UPLOAD_SUCCESS,
+	);
+	await uploadIndice(
+		page,
+		path.join(PUBLIC_INDICES, 'cuerpos.json'),
+		'cuerpos.json',
+		INDICES_MESSAGES.UPLOAD_SUCCESS,
+	);
+	await uploadIndice(
+		page,
+		path.join(PUBLIC_INDICES, 'escudos.json'),
+		'escudos.json',
+		INDICES_MESSAGES.UPLOAD_SUCCESS,
+	);
+	await uploadIndice(
+		page,
+		path.join(PUBLIC_INDICES, 'fxs.json'),
+		'fxs.json',
+		INDICES_MESSAGES.UPLOAD_SUCCESS,
+	);
+	await uploadIndice(
+		page,
+		path.join(PUBLIC_INDICES, 'graficos.json'),
+		'graficos.json',
+		INDICES_MESSAGES.UPLOAD_SUCCESS,
 	);
 };
 
