@@ -6,6 +6,7 @@ import reactHooksPlugin from 'eslint-plugin-react-hooks';
 import importPlugin from 'eslint-plugin-import';
 import globals from 'globals';
 import requireJsdocInHelpers from './scripts/eslint/rules/require-jsdoc-in-helpers.js';
+import noHardcodedThemeColors from './scripts/eslint/rules/no-hardcoded-theme-colors.js';
 
 export default [
 	js.configs.recommended,
@@ -52,6 +53,11 @@ export default [
 			react: reactPlugin,
 			'react-hooks': reactHooksPlugin,
 			import: importPlugin,
+			'local-colors': {
+				rules: {
+					'no-hardcoded-theme-colors': noHardcodedThemeColors,
+				},
+			},
 		},
 		/* ====== Mega strict linting for LLM steerability and automatic verification loop ====== */
 		rules: {
@@ -286,6 +292,7 @@ export default [
 				},
 			],
 			'spaced-comment': ['error', 'always', { markers: ['/'] }],
+			'local-colors/no-hardcoded-theme-colors': 'error',
 
 			/* ==================== Import Organization ==================== */
 			'import/order': [
@@ -323,6 +330,12 @@ export default [
 		files: ['src/types/utility-types.ts'],
 		rules: {
 			'no-restricted-syntax': 'off',
+		},
+	},
+	{
+		files: ['src/theme/theme.ts'],
+		rules: {
+			'local-colors/no-hardcoded-theme-colors': 'off',
 		},
 	},
 	{

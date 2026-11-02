@@ -35,6 +35,6 @@ export const statRowStyle = css`
 	// numeric count, right-aligned
 	span:nth-of-type(2) {
 		font-variant-numeric: tabular-nums;
-		color: hsl(0, 0%, 88%);
+		color: ${theme.palette.text.primary};
 	}
 `;
