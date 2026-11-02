@@ -30,11 +30,13 @@ export const Button = ({
 	size,
 	disabled,
 	startIcon,
+	endIcon,
 	className,
 	onClick,
 	...rest
 }: ButtonProps): React.ReactElement => {
 	const StartIcon = startIcon ? icons[startIcon] : null;
+	const EndIcon = endIcon ? icons[endIcon] : null;
 
 	return (
 		<MuiButton
@@ -42,6 +44,7 @@ export const Button = ({
 			disabled={disabled}
 			onClick={disabled ? undefined : onClick}
 			startIcon={StartIcon ? <StartIcon /> : undefined}
+			endIcon={EndIcon ? <EndIcon /> : undefined}
 			className={cx(
 				baseButtonStyle,
 				VARIANT_STYLES[variant],
