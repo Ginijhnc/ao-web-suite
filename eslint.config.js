@@ -7,6 +7,7 @@ import importPlugin from 'eslint-plugin-import';
 import globals from 'globals';
 import requireJsdocInHelpers from './scripts/eslint/rules/require-jsdoc-in-helpers.js';
 import noHardcodedThemeColors from './scripts/eslint/rules/no-hardcoded-theme-colors.js';
+import noDeepSharedImport from './scripts/eslint/rules/no-deep-shared-import.js';
 
 export default [
 	js.configs.recommended,
@@ -56,6 +57,11 @@ export default [
 			'local-colors': {
 				rules: {
 					'no-hardcoded-theme-colors': noHardcodedThemeColors,
+				},
+			},
+			'local-shared': {
+				rules: {
+					'no-deep-shared-import': noDeepSharedImport,
 				},
 			},
 		},
@@ -293,6 +299,7 @@ export default [
 			],
 			'spaced-comment': ['error', 'always', { markers: ['/'] }],
 			'local-colors/no-hardcoded-theme-colors': 'error',
+			'local-shared/no-deep-shared-import': 'error',
 
 			/* ==================== Import Organization ==================== */
 			'import/order': [
