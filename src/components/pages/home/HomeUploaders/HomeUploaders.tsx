@@ -19,9 +19,12 @@ import {
 	actionsAndPanelGroupStyle,
 	actionsRowStyle,
 	chipsRowStyle,
+	dashboardRowStyle,
 	fileSelectorGroupStyle,
 	uploadersContainerStyle,
+	uploadersSectionStyle,
 } from './HomeUploaders.styles';
+
 import {
 	type FileTypeSelectorProps,
 	type UploaderActionsProps,
@@ -98,12 +101,19 @@ export const HomeUploaders = (): React.ReactElement => {
 	const dats = useDats();
 	const indices = useIndices();
 
+	const EXPECTED_DATS_COUNT = Object.values(DAT_NAMES).length;
+	const EXPECTED_INDICES_COUNT = Object.values(INDICES_NAMES).length;
+
 	const storeSizes: Record<FileType, number> = {
 		[FILE_TYPES.GRAPHICS]: graphicsFiles.length,
 		[FILE_TYPES.DATS]: dats.size,
 		[FILE_TYPES.INDICES]: indices.size,
 	};
 	const isClearDisabled = storeSizes[selected] === 0;
+	const isDashboardEnabled =
+		graphicsFiles.length > 0 &&
+		dats.size === EXPECTED_DATS_COUNT &&
+		indices.size === EXPECTED_INDICES_COUNT;
 
 	const uploadedDats = new Set(dats.keys());
 	const uploadedIndices = new Set(indices.keys());
@@ -148,15 +158,31 @@ export const HomeUploaders = (): React.ReactElement => {
 	};
 
 	return (
-		<section className={uploadersContainerStyle}>
-			<FileTypeSelector selected={selected} onSelect={setSelected} />
-			<div className={actionsAndPanelGroupStyle}>
-				<UploaderActions
-					onUpload={handleUpload}
-					onClear={handleClear}
-					isClearDisabled={isClearDisabled}
+		<section className={uploadersSectionStyle}>
+			<div className={uploadersContainerStyle}>
+				<FileTypeSelector
+					selected={selected}
+					onSelect={setSelected}
 				/>
-				{getStatusPanel()}
+				<div className={actionsAndPanelGroupStyle}>
+					<UploaderActions
+						onUpload={handleUpload}
+						onClear={handleClear}
+						isClearDisabled={isClearDisabled}
+					/>
+					{getStatusPanel()}
+				</div>
+			</div>
+			<div className={dashboardRowStyle}>
+				<Button
+					variant="primary"
+					size="md"
+					endIcon="ArrowForwardIcon"
+					disabled={!isDashboardEnabled}
+					onClick={() => {}}
+				>
+					Ir al Dashboard
+				</Button>
 			</div>
 		</section>
 	);

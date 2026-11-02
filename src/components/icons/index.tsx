@@ -1,3 +1,4 @@
+import { ArrowForwardIcon } from './ArrowForwardIcon';
 import { CheckIcon } from './CheckIcon';
 import { DatsIcon } from './DatsIcon';
 import { ImageIcon } from './ImageIcon';
@@ -9,6 +10,7 @@ import { WarningIcon } from './WarningIcon';
 
 // Named exports for direct imports when the icon is statically known.
 export {
+	ArrowForwardIcon,
 	CheckIcon,
 	DatsIcon,
 	ImageIcon,
@@ -21,6 +23,7 @@ export {
 
 // Map for dynamic lookup by IconName
 export const icons = {
+	ArrowForwardIcon,
 	CheckIcon,
 	DatsIcon,
 	ImageIcon,

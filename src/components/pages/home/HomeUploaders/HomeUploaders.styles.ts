@@ -1,5 +1,14 @@
 import { css } from '@emotion/css';
 
+export const uploadersSectionStyle = css`
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	margin-top: 1.5rem;
+	width: 100%;
+	max-width: 60rem;
+`;
+
 export const uploadersContainerStyle = css`
 	display: flex;
 	flex-direction: column;
@@ -8,9 +17,7 @@ export const uploadersContainerStyle = css`
 	padding: 2.5em 2em 3em 2em;
 	background-color: hsl(25, 20%, 12%, 20%);
 	border-radius: 1em;
-	margin-top: 1.5rem;
 	width: 100%;
-	max-width: 60rem;
 `;
 
 export const fileSelectorGroupStyle = css`
@@ -41,4 +48,11 @@ export const actionsAndPanelGroupStyle = css`
 	align-items: stretch;
 	gap: 1.5rem;
 	width: fit-content;
+`;
+
+export const dashboardRowStyle = css`
+	display: flex;
+	justify-content: flex-end;
+	width: 100%;
+	margin-top: 1rem;
 `;
