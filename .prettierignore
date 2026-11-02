@@ -11,3 +11,5 @@ build
 eslint-tests/
 *.yml
 fixtures/indices/**/malformed.json
+public/
+playwright-report/

@@ -19,6 +19,8 @@ export default [
 			'vitest.config.ts',
 			'playwright.config.ts',
 			'eslint-custom/**',
+			'public/',
+			'playwright-report/',
 		],
 	},
 	{
