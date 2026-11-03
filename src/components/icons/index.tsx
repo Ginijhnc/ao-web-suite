@@ -1,10 +1,20 @@
 import { ArrowForwardIcon } from './ArrowForwardIcon';
 import { CheckIcon } from './CheckIcon';
+import { ChevronLeftIcon } from './ChevronLeftIcon';
+import { ChevronRightIcon } from './ChevronRightIcon';
+import { CloseIcon } from './CloseIcon';
+import { CodeIcon } from './CodeIcon';
 import { DatsIcon } from './DatsIcon';
+import { HomeIcon } from './HomeIcon';
 import { ImageIcon } from './ImageIcon';
 import { IndexingDataIcon } from './IndexingDataIcon';
 import { InfoIcon } from './InfoIcon';
+import { LogsIcon } from './LogsIcon';
+import { MapeadorIcon } from './MapeadorIcon';
+import { MenuIcon } from './MenuIcon';
+import { SettingsIcon } from './SettingsIcon';
 import { TrashIcon } from './TrashIcon';
+import { TutorialIcon } from './TutorialIcon';
 import { UploadIcon } from './UploadIcon';
 import { WarningIcon } from './WarningIcon';
 
@@ -12,11 +22,21 @@ import { WarningIcon } from './WarningIcon';
 export {
 	ArrowForwardIcon,
 	CheckIcon,
+	ChevronLeftIcon,
+	ChevronRightIcon,
+	CloseIcon,
+	CodeIcon,
 	DatsIcon,
+	HomeIcon,
 	ImageIcon,
 	IndexingDataIcon,
 	InfoIcon,
+	LogsIcon,
+	MapeadorIcon,
+	MenuIcon,
+	SettingsIcon,
 	TrashIcon,
+	TutorialIcon,
 	UploadIcon,
 	WarningIcon,
 };
@@ -25,11 +45,21 @@ export {
 export const icons = {
 	ArrowForwardIcon,
 	CheckIcon,
+	ChevronLeftIcon,
+	ChevronRightIcon,
+	CloseIcon,
+	CodeIcon,
 	DatsIcon,
+	HomeIcon,
 	ImageIcon,
 	IndexingDataIcon,
 	InfoIcon,
+	LogsIcon,
+	MapeadorIcon,
+	MenuIcon,
+	SettingsIcon,
 	TrashIcon,
+	TutorialIcon,
 	UploadIcon,
 	WarningIcon,
 };
