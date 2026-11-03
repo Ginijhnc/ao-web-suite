@@ -36,6 +36,9 @@ const theme = createTheme({
 			primary: 'hsl(0, 0%, 88%)',
 			secondary: 'hsl(40, 5%, 70%)',
 		},
+		background: {
+			paper: 'hsl(25, 20%, 12%, 20%)',
+		},
 		success: {
 			main: 'hsl(145, 50%, 32%)',
 		},

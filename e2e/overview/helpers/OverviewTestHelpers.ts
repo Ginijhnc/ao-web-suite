@@ -24,6 +24,9 @@ const navigateToOverviewPage = async (page: Page): Promise<void> => {
 
 const waitForOverviewElements = async (page: Page): Promise<void> => {
 	await page.getByText('Assets').waitFor({ state: 'visible' });
+	await page
+		.getByText('Cambios sin exportar')
+		.waitFor({ state: 'visible' });
 };
 
 const assertStatRow = async (
@@ -50,9 +53,21 @@ const assertAssetStats = async (page: Page): Promise<void> => {
 	);
 };
 
+const assertPendingChangesEmptyState = async (
+	page: Page,
+): Promise<void> => {
+	await expect(
+		page.getByText('Cambios sin exportar', { exact: true }),
+	).toBeVisible();
+	await expect(
+		page.getByText('No hay cambios para exportar.', { exact: true }),
+	).toBeVisible();
+};
+
 export const OverviewTestHelpers = {
 	navigateToOverviewPage,
 	waitForOverviewElements,
 	assertStatRow,
 	assertAssetStats,
+	assertPendingChangesEmptyState,
 };

@@ -1,4 +1,5 @@
 import { css } from '@emotion/css';
+import theme from '@Theme/theme';
 
 export const uploadersSectionStyle = css`
 	display: flex;
@@ -15,7 +16,7 @@ export const uploadersContainerStyle = css`
 	align-items: center;
 	gap: 2rem;
 	padding: 2.5em 2em 3em 2em;
-	background-color: hsl(25, 20%, 12%, 20%);
+	background-color: ${theme.palette.background.paper};
 	border-radius: 1em;
 	width: 100%;
 `;

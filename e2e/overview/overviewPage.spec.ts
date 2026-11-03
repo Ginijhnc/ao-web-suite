@@ -2,6 +2,9 @@ import { test, type Page } from '@playwright/test';
 import { uploadAllAssetsAndNavigate } from './flows/overviewSetup';
 import { OverviewTestHelpers } from './helpers/OverviewTestHelpers';
 
+/* Happy-path snapshot tests: assert the default state of the Overview
+   page after a clean asset upload. Mutation tests (e.g. pending export
+   changes) will live in a separate spec file. */
 test.describe('Overview page', () => {
 	/* Serial mode so all tests share a single browser page created in
 	 * beforeAll. The full upload flow runs once instead of once per test,
@@ -21,5 +24,9 @@ test.describe('Overview page', () => {
 
 	test('asset summary shows correct counts for all stat rows', async () => {
 		await OverviewTestHelpers.assertAssetStats(page);
+	});
+
+	test('pending changes card shows empty state', async () => {
+		await OverviewTestHelpers.assertPendingChangesEmptyState(page);
 	});
 });
