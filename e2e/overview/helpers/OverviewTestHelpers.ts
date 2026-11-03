@@ -27,6 +27,18 @@ const waitForOverviewElements = async (page: Page): Promise<void> => {
 	await page
 		.getByText('Cambios sin exportar')
 		.waitFor({ state: 'visible' });
+	await page
+		.locator('article')
+		.filter({ hasText: 'Indexador' })
+		.waitFor({ state: 'visible' });
+	await page
+		.locator('article')
+		.filter({ hasText: 'Dateador' })
+		.waitFor({ state: 'visible' });
+	await page
+		.locator('article')
+		.filter({ hasText: 'Mapeador' })
+		.waitFor({ state: 'visible' });
 };
 
 const assertStatRow = async (
