@@ -38,7 +38,7 @@
 
 ## Styling
 
-- **Emotion**: Use `css` from `@emotion/css` for component styles. It returns a plain className string applied via `className={myStyles}`.
+- **Emotion**: Use `css` from `@emotion/css` for component styles. It returns a plain className string applied via `className={myStyles}`. Always use Emotion `css` constants for styling, avoid targeting elements by raw class name strings.
 - **Theme**: Import `theme` from `@Theme/theme` to reference colors and breakpoints in styles.
 - **Use HSL for colors**: All color values use HSL format (e.g., `hsl(357, 75%, 58%)`).
 - **Breakpoints**: Mobile-first. Access via `theme.breakpoints.values.lg`. Values are in em: `@media (min-width: ${theme.breakpoints.values.lg}em)`.
