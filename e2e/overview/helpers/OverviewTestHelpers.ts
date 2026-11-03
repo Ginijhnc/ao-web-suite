@@ -76,10 +76,35 @@ const assertPendingChangesEmptyState = async (
 	).toBeVisible();
 };
 
+const assertLogsEmptyState = async (page: Page): Promise<void> => {
+	await expect(page.getByText('Logs', { exact: true })).toBeVisible();
+	await expect(
+		page.getByText('Sin registros recientes.', { exact: true }),
+	).toBeVisible();
+};
+
+/**
+ * Asserts the Logs card shows an entry with the given level label and
+ * message. Pass the exact message built from the relevant constants
+ * (e.g. `DATS_MESSAGES`, `INDICES_MESSAGES`) so this stays reusable
+ * across different validation failure scenarios.
+ */
+const assertLogsShowsEntry = async (
+	page: Page,
+	levelLabel: 'Error' | 'Warn',
+	expectedMessage: string,
+): Promise<void> => {
+	await expect(page.getByText('Logs', { exact: true })).toBeVisible();
+	await expect(page.getByText(levelLabel).first()).toBeVisible();
+	await expect(page.getByText(expectedMessage)).toBeVisible();
+};
+
 export const OverviewTestHelpers = {
 	navigateToOverviewPage,
 	waitForOverviewElements,
 	assertStatRow,
 	assertAssetStats,
 	assertPendingChangesEmptyState,
+	assertLogsEmptyState,
+	assertLogsShowsEntry,
 };
