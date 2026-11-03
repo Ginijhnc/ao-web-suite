@@ -2,9 +2,9 @@ import { MAX_LOG_ENTRIES, STORE_NAMES } from '@Constants/storage';
 import { create } from 'zustand';
 import { persist, createJSONStorage } from 'zustand/middleware';
 
-type LogLevel = 'warn' | 'error';
+export type LogLevel = 'warn' | 'error';
 
-type LogEntry = {
+export type LogEntry = {
 	id: string;
 	timestamp: string;
 	level: LogLevel;
