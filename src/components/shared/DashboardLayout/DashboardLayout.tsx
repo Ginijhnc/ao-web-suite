@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import { Sidebar } from '@Components/shared/Sidebar';
-import { ROUTES } from '@Constants/routes';
 import { useLocation } from 'react-router';
 import { dashboardStyle, mainStyle } from './DashboardLayout.styles';
 import type { DashboardLayoutProps } from './DashboardLayout.types';
@@ -17,10 +16,6 @@ export const DashboardLayout = ({
 	if (location.pathname !== lastPathname) {
 		setLastPathname(location.pathname);
 		setIsMobileOpen(false);
-	}
-
-	if (location.pathname === ROUTES.ROOT) {
-		return <>{children}</>;
 	}
 
 	return (

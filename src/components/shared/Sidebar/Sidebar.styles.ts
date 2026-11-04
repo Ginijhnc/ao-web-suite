@@ -148,6 +148,17 @@ export const linkTextStyle = css`
 	color: ${theme.palette.text.secondary};
 `;
 
+export const linkDisabledStyle = css`
+	&& {
+		cursor: not-allowed;
+		opacity: 0.4;
+
+		&:hover {
+			background: transparent;
+		}
+	}
+`;
+
 export const linkActiveStyle = css`
 	&& {
 		background: hsl(0, 0%, 100%, 0.1);
