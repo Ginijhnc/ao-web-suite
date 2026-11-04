@@ -198,6 +198,11 @@ export const collapseButtonStyle = css`
 	}
 `;
 
+export const linkDisabledTooltipWrapperStyle = css`
+	display: block;
+	width: 100%;
+`;
+
 export const mobileDrawerToggleStyle = css`
 	position: fixed;
 	top: 0;
