@@ -5,6 +5,8 @@ export type SidebarInternalLink = {
 	label: RouteTitleValue;
 	route: RouteValue;
 	icon: (props: IconProps) => React.ReactElement;
+	requiresAssets: boolean;
+	disabled: boolean;
 };
 
 export type SidebarExternalLink = {
@@ -35,6 +37,7 @@ export type SidebarInternalLinkItemProps = {
 	link: SidebarInternalLink;
 	isActive: boolean;
 	isCollapsed: boolean;
+	isDisabled: boolean;
 	onNavigate: (route: RouteValue) => void;
 };
 
@@ -46,5 +49,6 @@ export type SidebarExternalLinkItemProps = {
 export type SidebarLinksProps = {
 	isCollapsed: boolean;
 	pathname: string;
+	assetsReady: boolean;
 	onNavigate: (route: RouteValue) => void;
 };

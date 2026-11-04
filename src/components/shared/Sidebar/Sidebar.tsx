@@ -1,5 +1,6 @@
 import { ChevronLeftIcon, CloseIcon, MenuIcon } from '@Components/icons';
 import { Text } from '@Components/shared/Text';
+import { useAssetsReady } from '@Hooks/useAssetsReady';
 import Drawer from '@mui/material/Drawer';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { useLocation, useNavigate } from 'react-router';
@@ -18,6 +19,7 @@ import {
 	sidebarCollapsedStyle,
 	sidebarLinksStyle,
 	sidebarLinksCollapsedStyle,
+	linkDisabledStyle,
 	sidebarNavItemCollapsedStyle,
 	sidebarNavItemStyle,
 	sidebarStyle,
@@ -70,6 +72,7 @@ const SidebarInternalLinkItem = ({
 	link,
 	isActive,
 	isCollapsed,
+	isDisabled,
 	onNavigate,
 }: SidebarInternalLinkItemProps): React.ReactElement => {
 	const Icon = link.icon;
@@ -78,6 +81,7 @@ const SidebarInternalLinkItem = ({
 		sidebarNavItemStyle,
 		isCollapsed ? sidebarNavItemCollapsedStyle : undefined,
 		isActive ? linkActiveStyle : undefined,
+		isDisabled ? linkDisabledStyle : undefined,
 	]
 		.filter(Boolean)
 		.join(' ');
@@ -86,6 +90,8 @@ const SidebarInternalLinkItem = ({
 		<button
 			type="button"
 			className={navItemClassName}
+			disabled={isDisabled}
+			aria-disabled={isDisabled}
 			onClick={() => {
 				onNavigate(link.route);
 			}}
@@ -145,6 +151,7 @@ const SidebarExternalLinkItem = ({
 const SidebarLinks = ({
 	isCollapsed,
 	pathname,
+	assetsReady,
 	onNavigate,
 }: SidebarLinksProps): React.ReactElement => {
 	const linksClassName = [
@@ -157,12 +164,16 @@ const SidebarLinks = ({
 	return (
 		<div className={linksClassName}>
 			{SIDEBAR_INTERNAL_LINKS.map((link) => {
+				const isDisabled =
+					link.disabled || (link.requiresAssets && !assetsReady);
+
 				return (
 					<SidebarInternalLinkItem
 						key={link.route}
 						link={link}
 						isActive={pathname === link.route}
 						isCollapsed={isCollapsed}
+						isDisabled={isDisabled}
 						onNavigate={onNavigate}
 					/>
 				);
@@ -190,6 +201,7 @@ export const Sidebar = ({
 	const navigate = useNavigate();
 	const location = useLocation();
 	const isDesktop = useMediaQuery('(min-width: 1024px)');
+	const assetsReady = useAssetsReady();
 
 	const handleNavigate: SidebarLinksProps['onNavigate'] = (route) => {
 		void navigate(route);
@@ -229,6 +241,7 @@ export const Sidebar = ({
 				<SidebarLinks
 					isCollapsed={isCollapsed}
 					pathname={location.pathname}
+					assetsReady={assetsReady}
 					onNavigate={handleNavigate}
 				/>
 			</Drawer>
