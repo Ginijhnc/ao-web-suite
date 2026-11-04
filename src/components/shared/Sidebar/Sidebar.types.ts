@@ -38,17 +38,20 @@ export type SidebarInternalLinkItemProps = {
 	isActive: boolean;
 	isCollapsed: boolean;
 	isDisabled: boolean;
+	showTooltip: boolean;
 	onNavigate: (route: RouteValue) => void;
 };
 
 export type SidebarExternalLinkItemProps = {
 	link: SidebarExternalLink;
 	isCollapsed: boolean;
+	showTooltip: boolean;
 };
 
 export type SidebarLinksProps = {
 	isCollapsed: boolean;
 	pathname: string;
 	assetsReady: boolean;
+	showTooltip: boolean;
 	onNavigate: (route: RouteValue) => void;
 };

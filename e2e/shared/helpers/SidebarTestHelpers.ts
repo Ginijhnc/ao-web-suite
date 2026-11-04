@@ -29,8 +29,31 @@ const assertLinksEnabled = async (
 	);
 };
 
+const getNavLandmark = (page: Page): Locator => {
+	return page.getByRole('navigation', { name: 'Navegación principal' });
+};
+
+const collapseSidebar = async (page: Page): Promise<void> => {
+	await getNavLandmark(page)
+		.getByRole('button', { name: 'Contraer menú' })
+		.click();
+};
+
+const expandSidebar = async (page: Page): Promise<void> => {
+	await getNavLandmark(page)
+		.getByRole('button', { name: 'Expandir menú' })
+		.click();
+};
+
+const getTooltip = (page: Page, label: RouteTitleValue): Locator => {
+	return page.getByRole('tooltip', { name: label });
+};
+
 export const SidebarTestHelpers = {
 	getNavLink,
 	assertLinksDisabled,
 	assertLinksEnabled,
+	collapseSidebar,
+	expandSidebar,
+	getTooltip,
 };

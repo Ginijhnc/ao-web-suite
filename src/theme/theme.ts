@@ -38,7 +38,9 @@ const theme = createTheme({
 		},
 		background: {
 			paper: 'hsl(25, 20%, 12%, 20%)',
+			default: 'hsl(18, 22%, 9%)',
 		},
+		divider: 'hsl(18, 17%, 12%)',
 		success: {
 			main: 'hsl(145, 50%, 32%)',
 		},

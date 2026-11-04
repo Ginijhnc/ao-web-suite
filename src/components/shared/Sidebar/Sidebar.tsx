@@ -1,5 +1,6 @@
 import { ChevronLeftIcon, CloseIcon, MenuIcon } from '@Components/icons';
 import { Text } from '@Components/shared/Text';
+import { Tooltip } from '@Components/shared/Tooltip';
 import { useAssetsReady } from '@Hooks/useAssetsReady';
 import Drawer from '@mui/material/Drawer';
 import useMediaQuery from '@mui/material/useMediaQuery';
@@ -12,6 +13,7 @@ import {
 	collapseButtonStyle,
 	linkActiveStyle,
 	linkContentStyle,
+	linkDisabledTooltipWrapperStyle,
 	linkIconStyle,
 	linkStyle,
 	linkTextStyle,
@@ -73,6 +75,7 @@ const SidebarInternalLinkItem = ({
 	isActive,
 	isCollapsed,
 	isDisabled,
+	showTooltip,
 	onNavigate,
 }: SidebarInternalLinkItemProps): React.ReactElement => {
 	const Icon = link.icon;
@@ -86,7 +89,7 @@ const SidebarInternalLinkItem = ({
 		.filter(Boolean)
 		.join(' ');
 
-	return (
+	const button = (
 		<button
 			type="button"
 			className={navItemClassName}
@@ -110,11 +113,28 @@ const SidebarInternalLinkItem = ({
 			</div>
 		</button>
 	);
+
+	if (!showTooltip) {
+		return button;
+	}
+
+	return (
+		<Tooltip title={link.label} placement="right">
+			{isDisabled ? (
+				<span className={linkDisabledTooltipWrapperStyle}>
+					{button}
+				</span>
+			) : (
+				button
+			)}
+		</Tooltip>
+	);
 };
 
 const SidebarExternalLinkItem = ({
 	link,
 	isCollapsed,
+	showTooltip,
 }: SidebarExternalLinkItemProps): React.ReactElement => {
 	const Icon = link.icon;
 	const externalLinkClassName = [
@@ -125,7 +145,7 @@ const SidebarExternalLinkItem = ({
 		.filter(Boolean)
 		.join(' ');
 
-	return (
+	const anchor = (
 		<a
 			href={link.href}
 			target="_blank"
@@ -146,12 +166,23 @@ const SidebarExternalLinkItem = ({
 			</div>
 		</a>
 	);
+
+	if (!showTooltip) {
+		return anchor;
+	}
+
+	return (
+		<Tooltip title={link.label} placement="right">
+			{anchor}
+		</Tooltip>
+	);
 };
 
 const SidebarLinks = ({
 	isCollapsed,
 	pathname,
 	assetsReady,
+	showTooltip,
 	onNavigate,
 }: SidebarLinksProps): React.ReactElement => {
 	const linksClassName = [
@@ -174,6 +205,7 @@ const SidebarLinks = ({
 						isActive={pathname === link.route}
 						isCollapsed={isCollapsed}
 						isDisabled={isDisabled}
+						showTooltip={showTooltip}
 						onNavigate={onNavigate}
 					/>
 				);
@@ -184,6 +216,7 @@ const SidebarLinks = ({
 						key={link.href}
 						link={link}
 						isCollapsed={isCollapsed}
+						showTooltip={showTooltip}
 					/>
 				);
 			})}
@@ -202,6 +235,7 @@ export const Sidebar = ({
 	const location = useLocation();
 	const isDesktop = useMediaQuery('(min-width: 1024px)');
 	const assetsReady = useAssetsReady();
+	const showTooltip = isDesktop && isCollapsed;
 
 	const handleNavigate: SidebarLinksProps['onNavigate'] = (route) => {
 		void navigate(route);
@@ -242,6 +276,7 @@ export const Sidebar = ({
 					isCollapsed={isCollapsed}
 					pathname={location.pathname}
 					assetsReady={assetsReady}
+					showTooltip={showTooltip}
 					onNavigate={handleNavigate}
 				/>
 			</Drawer>
