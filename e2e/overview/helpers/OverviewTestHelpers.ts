@@ -99,8 +99,12 @@ const assertLogsShowsEntry = async (
 	await expect(
 		page.getByRole('main').getByText('Logs', { exact: true }),
 	).toBeVisible();
-	await expect(page.getByText(levelLabel).first()).toBeVisible();
-	await expect(page.getByText(expectedMessage)).toBeVisible();
+	await expect(
+		page.getByRole('main').getByText(levelLabel).first(),
+	).toBeVisible();
+	await expect(
+		page.getByRole('main').getByText(expectedMessage),
+	).toBeVisible();
 };
 
 export const OverviewTestHelpers = {
