@@ -1,4 +1,6 @@
+import { Suspense } from 'react';
 import { DashboardLayout } from '@Components/shared/DashboardLayout';
+import { LoadingOverlay } from '@Components/shared/LoadingOverlay';
 import { ToastContainer } from '@Components/shared/ToastContainer';
 import { LoadingOverlayProvider } from '@Contexts/LoadingOverlayContext';
 import { useHydrateStores } from '@Hooks/useHydrateStores';
@@ -24,7 +26,11 @@ export const App = (): React.ReactElement => {
 				<LoadingOverlayProvider>
 					<BrowserRouter>
 						<DashboardLayout>
-							<AppRoutes />
+							<Suspense
+								fallback={<LoadingOverlay visible />}
+							>
+								<AppRoutes />
+							</Suspense>
 						</DashboardLayout>
 					</BrowserRouter>
 				</LoadingOverlayProvider>

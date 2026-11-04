@@ -15,6 +15,7 @@ import { useFileUploader } from '@Hooks/useFileUploader';
 import { useDats } from '@Stores/datsStore';
 import { useGraphicsFiles } from '@Stores/graphicsStore';
 import { useIndices } from '@Stores/indicesStore';
+import { prefetchOverviewPage } from '@Utils/prefetcher';
 import { useNavigate } from 'react-router';
 import UploaderStatusPanel from '../UploaderStatusPanel/UploaderStatusPanel';
 import {
@@ -117,6 +118,10 @@ export const HomeUploaders = (): React.ReactElement => {
 		graphicsFiles.length > 0 &&
 		dats.size === EXPECTED_DATS_COUNT &&
 		indices.size === EXPECTED_INDICES_COUNT;
+
+	if (isDashboardEnabled) {
+		prefetchOverviewPage();
+	}
 
 	const uploadedDats = new Set(dats.keys());
 	const uploadedIndices = new Set(indices.keys());
