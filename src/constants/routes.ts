@@ -12,8 +12,8 @@ export const ROUTES = {
 } as const;
 
 export const ROUTES_TITLES: Record<RouteKey, string> = {
-	ROOT: 'Inicio',
-	OVERVIEW: 'Overview',
+	ROOT: 'Recursos',
+	OVERVIEW: 'Panel',
 	INDEXADOR: 'Indexador',
 	DATEADOR: 'Dateador',
 	MAPEADOR: 'Mapeador',
@@ -25,3 +25,5 @@ export const ROUTES_TITLES: Record<RouteKey, string> = {
 export type RouteKey = keyof typeof ROUTES;
 
 export type RouteValue = ValueOf<typeof ROUTES>;
+
+export type RouteTitleValue = ValueOf<typeof ROUTES_TITLES>;

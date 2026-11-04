@@ -1,3 +1,4 @@
+import { DashboardLayout } from '@Components/shared/DashboardLayout';
 import { ToastContainer } from '@Components/shared/ToastContainer';
 import { LoadingOverlayProvider } from '@Contexts/LoadingOverlayContext';
 import { useHydrateStores } from '@Hooks/useHydrateStores';
@@ -22,7 +23,9 @@ export const App = (): React.ReactElement => {
 				<ToastContainer />
 				<LoadingOverlayProvider>
 					<BrowserRouter>
-						<AppRoutes />
+						<DashboardLayout>
+							<AppRoutes />
+						</DashboardLayout>
 					</BrowserRouter>
 				</LoadingOverlayProvider>
 			</ThemeProvider>
