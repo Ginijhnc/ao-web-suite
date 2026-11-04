@@ -1,0 +1,237 @@
+import { ChevronLeftIcon, CloseIcon, MenuIcon } from '@Components/icons';
+import { Text } from '@Components/shared/Text';
+import Drawer from '@mui/material/Drawer';
+import useMediaQuery from '@mui/material/useMediaQuery';
+import { useLocation, useNavigate } from 'react-router';
+import {
+	SIDEBAR_EXTERNAL_LINKS,
+	SIDEBAR_INTERNAL_LINKS,
+} from './Sidebar.constants';
+import {
+	collapseButtonStyle,
+	linkActiveStyle,
+	linkContentStyle,
+	linkIconStyle,
+	linkStyle,
+	linkTextStyle,
+	mobileDrawerToggleStyle,
+	sidebarCollapsedStyle,
+	sidebarLinksStyle,
+	sidebarLinksCollapsedStyle,
+	sidebarNavItemCollapsedStyle,
+	sidebarNavItemStyle,
+	sidebarStyle,
+} from './Sidebar.styles';
+import type {
+	SidebarDesktopCollapseButtonProps,
+	SidebarExternalLinkItemProps,
+	SidebarInternalLinkItemProps,
+	SidebarLinksProps,
+	SidebarMobileDrawerToggleProps,
+	SidebarProps,
+} from './Sidebar.types';
+
+const SidebarMobileDrawerToggle = ({
+	isMobileOpen,
+	onToggleMobile,
+}: SidebarMobileDrawerToggleProps): React.ReactElement => {
+	return (
+		<button
+			type="button"
+			className={mobileDrawerToggleStyle}
+			onClick={onToggleMobile}
+			aria-label={isMobileOpen ? 'Expandir menú' : 'Contraer menú'}
+			aria-expanded={isMobileOpen}
+		>
+			{isMobileOpen ? <CloseIcon /> : <MenuIcon />}
+		</button>
+	);
+};
+
+const SidebarDesktopCollapseButton = ({
+	isCollapsed,
+	onToggleCollapse,
+}: SidebarDesktopCollapseButtonProps): React.ReactElement => {
+	return (
+		<button
+			type="button"
+			className={collapseButtonStyle}
+			onClick={onToggleCollapse}
+			aria-label={isCollapsed ? 'Expandir menú' : 'Contraer menú'}
+		>
+			<div className={linkIconStyle}>
+				{isCollapsed ? <MenuIcon /> : <ChevronLeftIcon />}
+			</div>
+		</button>
+	);
+};
+
+const SidebarInternalLinkItem = ({
+	link,
+	isActive,
+	isCollapsed,
+	onNavigate,
+}: SidebarInternalLinkItemProps): React.ReactElement => {
+	const Icon = link.icon;
+	const navItemClassName = [
+		linkStyle,
+		sidebarNavItemStyle,
+		isCollapsed ? sidebarNavItemCollapsedStyle : undefined,
+		isActive ? linkActiveStyle : undefined,
+	]
+		.filter(Boolean)
+		.join(' ');
+
+	return (
+		<button
+			type="button"
+			className={navItemClassName}
+			onClick={() => {
+				onNavigate(link.route);
+			}}
+		>
+			<div className={linkContentStyle}>
+				<div className={linkIconStyle}>
+					<Icon />
+				</div>
+				<Text
+					renderAs="span"
+					variant="body"
+					className={linkTextStyle}
+				>
+					{link.label}
+				</Text>
+			</div>
+		</button>
+	);
+};
+
+const SidebarExternalLinkItem = ({
+	link,
+	isCollapsed,
+}: SidebarExternalLinkItemProps): React.ReactElement => {
+	const Icon = link.icon;
+	const externalLinkClassName = [
+		linkStyle,
+		sidebarNavItemStyle,
+		isCollapsed ? sidebarNavItemCollapsedStyle : undefined,
+	]
+		.filter(Boolean)
+		.join(' ');
+
+	return (
+		<a
+			href={link.href}
+			target="_blank"
+			rel="noopener noreferrer"
+			className={externalLinkClassName}
+		>
+			<div className={linkContentStyle}>
+				<div className={linkIconStyle}>
+					<Icon />
+				</div>
+				<Text
+					renderAs="span"
+					variant="body"
+					className={linkTextStyle}
+				>
+					{link.label}
+				</Text>
+			</div>
+		</a>
+	);
+};
+
+const SidebarLinks = ({
+	isCollapsed,
+	pathname,
+	onNavigate,
+}: SidebarLinksProps): React.ReactElement => {
+	const linksClassName = [
+		sidebarLinksStyle,
+		isCollapsed ? sidebarLinksCollapsedStyle : undefined,
+	]
+		.filter(Boolean)
+		.join(' ');
+
+	return (
+		<div className={linksClassName}>
+			{SIDEBAR_INTERNAL_LINKS.map((link) => {
+				return (
+					<SidebarInternalLinkItem
+						key={link.route}
+						link={link}
+						isActive={pathname === link.route}
+						isCollapsed={isCollapsed}
+						onNavigate={onNavigate}
+					/>
+				);
+			})}
+			{SIDEBAR_EXTERNAL_LINKS.map((link) => {
+				return (
+					<SidebarExternalLinkItem
+						key={link.href}
+						link={link}
+						isCollapsed={isCollapsed}
+					/>
+				);
+			})}
+		</div>
+	);
+};
+
+export const Sidebar = ({
+	isMobileOpen,
+	isCollapsed,
+	onAfterNavigation,
+	onToggleMobile,
+	onToggleCollapse,
+}: SidebarProps): React.ReactElement => {
+	const navigate = useNavigate();
+	const location = useLocation();
+	const isDesktop = useMediaQuery('(min-width: 1024px)');
+
+	const handleNavigate: SidebarLinksProps['onNavigate'] = (route) => {
+		void navigate(route);
+		onAfterNavigation();
+	};
+
+	const sidebarPaperClassName = [
+		sidebarStyle,
+		isCollapsed ? sidebarCollapsedStyle : undefined,
+	]
+		.filter(Boolean)
+		.join(' ');
+
+	return (
+		<>
+			<SidebarMobileDrawerToggle
+				isMobileOpen={isMobileOpen}
+				onToggleMobile={onToggleMobile}
+			/>
+			<Drawer
+				variant={isDesktop ? 'permanent' : 'temporary'}
+				open={isDesktop ? true : isMobileOpen}
+				onClose={onAfterNavigation}
+				slotProps={{
+					paper: {
+						className: sidebarPaperClassName,
+						component: 'nav',
+						'aria-label': 'Navegación principal',
+					},
+				}}
+				ModalProps={{ keepMounted: true }}
+			>
+				<SidebarDesktopCollapseButton
+					isCollapsed={isCollapsed}
+					onToggleCollapse={onToggleCollapse}
+				/>
+				<SidebarLinks
+					isCollapsed={isCollapsed}
+					pathname={location.pathname}
+					onNavigate={handleNavigate}
+				/>
+			</Drawer>
+		</>
+	);
+};

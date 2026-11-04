@@ -77,7 +77,9 @@ const assertPendingChangesEmptyState = async (
 };
 
 const assertLogsEmptyState = async (page: Page): Promise<void> => {
-	await expect(page.getByText('Logs', { exact: true })).toBeVisible();
+	await expect(
+		page.getByRole('main').getByText('Logs', { exact: true }),
+	).toBeVisible();
 	await expect(
 		page.getByText('Sin registros recientes.', { exact: true }),
 	).toBeVisible();
@@ -94,7 +96,9 @@ const assertLogsShowsEntry = async (
 	levelLabel: 'Error' | 'Warn',
 	expectedMessage: string,
 ): Promise<void> => {
-	await expect(page.getByText('Logs', { exact: true })).toBeVisible();
+	await expect(
+		page.getByRole('main').getByText('Logs', { exact: true }),
+	).toBeVisible();
 	await expect(page.getByText(levelLabel).first()).toBeVisible();
 	await expect(page.getByText(expectedMessage)).toBeVisible();
 };

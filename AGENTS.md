@@ -59,6 +59,8 @@
 
 ## Relevant Commands
 
+- Do not start a dev server unless the user explicitly asks.
+
 ```bash
 pnpm lint                      # Lint check on all files
 pnpm exec eslint <file>        # Lint check on a specific file
