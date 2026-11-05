@@ -38,7 +38,8 @@ Read the local uncommitted changes' diffs and suggest a branch name and commit m
 
 | Scope       | Description                            |
 | ----------- | -------------------------------------- |
-| `home`      | Main upload interface for game files   |
+| `home`      | Asset upload and file management page  |
+| `overview`  | Dashboard with tools, stats, and logs  |
 | `ui`        | Shared UI components and design system |
 | `indexador` | Texture atlas and asset management     |
 | `dateador`  | Game data and entity attribute editing |

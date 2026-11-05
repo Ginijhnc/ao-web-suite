@@ -22,10 +22,15 @@ export const titleStyle = css`
 
 export const entryStyle = css`
 	display: flex;
+	flex-wrap: wrap;
 	align-items: center;
-	gap: 2rem;
-	padding: 0.4rem 0;
+	gap: 0.35rem 2rem;
+	padding: 0.7rem 0;
 	border-top: 1px solid hsl(0, 0%, 16%);
+
+	@media (min-width: ${theme.breakpoints.values.sm}em) {
+		flex-wrap: nowrap;
+	}
 `;
 
 export const levelBadgeBaseStyle = css`
@@ -50,14 +55,32 @@ export const timestampStyle = css`
 	font-size: 0.8rem;
 	font-variant-numeric: tabular-nums;
 	white-space: nowrap;
+	flex-basis: 100%;
+	text-align: left;
+
+	@media (min-width: ${theme.breakpoints.values.sm}em) {
+		flex-basis: auto;
+		margin-left: 0;
+	}
 `;
 
 export const messageStyle = css`
 	color: ${theme.palette.text.secondary};
+	flex-basis: 100%;
 	overflow: hidden;
-	text-overflow: ellipsis;
-	white-space: nowrap;
-	flex: 1;
+	display: -webkit-box;
+	-webkit-line-clamp: 2;
+	-webkit-box-orient: vertical;
+	text-align: left;
+
+	@media (min-width: ${theme.breakpoints.values.sm}em) {
+		flex: 1;
+		flex-basis: auto;
+		min-width: 0;
+		-webkit-line-clamp: 1;
+		text-overflow: ellipsis;
+		white-space: nowrap;
+	}
 `;
 
 export const emptyStyle = css`
