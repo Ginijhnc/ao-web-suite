@@ -49,3 +49,7 @@ export const prefetchOverviewPage = createPagePrefetcher(async () => {
 
 	return overviewPageModule;
 });
+
+export const prefetchLogsPage = createPagePrefetcher(async () => {
+	return import('@Pages/LogsPage');
+});

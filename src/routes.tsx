@@ -9,6 +9,11 @@ const OverviewPage = lazy(async () => {
 	return { default: module.OverviewPage };
 });
 
+const LogsPage = lazy(async () => {
+	const module = await import('@Pages/LogsPage');
+	return { default: module.LogsPage };
+});
+
 export const routeConfig: Array<RouteObject> = [
 	{
 		path: ROUTES.ROOT,
@@ -22,4 +27,5 @@ export const routeConfig: Array<RouteObject> = [
 			</RequireAssets>
 		),
 	},
+	{ path: ROUTES.LOGS, element: <LogsPage /> },
 ];
