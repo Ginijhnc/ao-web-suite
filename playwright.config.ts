@@ -11,9 +11,9 @@ export default defineConfig({
 	fullyParallel: true,
 	forbidOnly: !!process.env.CI,
 	retries: 1,
-	// Use 1 worker in CI for stability, and a quarter of the available CPU cores locally
+	// Use 2 workers in CI for stability, and a quarter of the available CPU cores locally
 	workers: process.env.CI
-		? 1
+		? 2
 		: Math.max(1, Math.floor(os.cpus().length / 4)),
 	reporter: 'html',
 	use: {
