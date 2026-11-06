@@ -1,6 +1,6 @@
 import { ChevronLeftIcon, CloseIcon, MenuIcon } from '@Components/icons';
 import { Text } from '@Components/shared/Text';
-import { Tooltip } from '@Components/shared/Tooltip';
+import { Tooltip, loadMuiTooltip } from '@Components/shared/Tooltip';
 import { useAssetsReady } from '@Hooks/useAssetsReady';
 import Drawer from '@mui/material/Drawer';
 import useMediaQuery from '@mui/material/useMediaQuery';
@@ -56,11 +56,16 @@ const SidebarDesktopCollapseButton = ({
 	isCollapsed,
 	onToggleCollapse,
 }: SidebarDesktopCollapseButtonProps): React.ReactElement => {
+	const handlePointerEnter = (): void => {
+		void loadMuiTooltip();
+	};
+
 	return (
 		<button
 			type="button"
 			className={collapseButtonStyle}
 			onClick={onToggleCollapse}
+			onPointerEnter={isCollapsed ? undefined : handlePointerEnter}
 			aria-label={isCollapsed ? 'Expandir menú' : 'Contraer menú'}
 		>
 			<div className={linkIconStyle}>
