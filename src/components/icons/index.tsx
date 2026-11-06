@@ -5,6 +5,7 @@ import { ChevronRightIcon } from './ChevronRightIcon';
 import { CloseIcon } from './CloseIcon';
 import { CodeIcon } from './CodeIcon';
 import { DatsIcon } from './DatsIcon';
+import { ErrorIcon } from './ErrorIcon';
 import { HomeIcon } from './HomeIcon';
 import { ImageIcon } from './ImageIcon';
 import { IndexingDataIcon } from './IndexingDataIcon';
@@ -12,6 +13,8 @@ import { InfoIcon } from './InfoIcon';
 import { LogsIcon } from './LogsIcon';
 import { MapeadorIcon } from './MapeadorIcon';
 import { MenuIcon } from './MenuIcon';
+import { MoreHorizIcon } from './MoreHorizIcon';
+import { SearchOffIcon } from './SearchOffIcon';
 import { SettingsIcon } from './SettingsIcon';
 import { TrashIcon } from './TrashIcon';
 import { TutorialIcon } from './TutorialIcon';
@@ -27,6 +30,7 @@ export {
 	CloseIcon,
 	CodeIcon,
 	DatsIcon,
+	ErrorIcon,
 	HomeIcon,
 	ImageIcon,
 	IndexingDataIcon,
@@ -34,6 +38,8 @@ export {
 	LogsIcon,
 	MapeadorIcon,
 	MenuIcon,
+	MoreHorizIcon,
+	SearchOffIcon,
 	SettingsIcon,
 	TrashIcon,
 	TutorialIcon,
@@ -50,6 +56,7 @@ export const icons = {
 	CloseIcon,
 	CodeIcon,
 	DatsIcon,
+	ErrorIcon,
 	HomeIcon,
 	ImageIcon,
 	IndexingDataIcon,
@@ -57,6 +64,8 @@ export const icons = {
 	LogsIcon,
 	MapeadorIcon,
 	MenuIcon,
+	MoreHorizIcon,
+	SearchOffIcon,
 	SettingsIcon,
 	TrashIcon,
 	TutorialIcon,
