@@ -1,9 +1,21 @@
 ---
 name: e2e-playwright
-description: 'Guidelines for writing E2E tests with Playwright. Covers element selection strategy (prefer role-based selectors over data-testid), navigation path handling, and interaction patterns. Triggers when writing, reviewing, or editing Playwright test files, or when the user mentions E2E tests, test selectors, data-testid, or Playwright.'
+description: 'Guidelines for writing E2E tests with Playwright. Covers test architecture (flow-based structure, folder conventions, fixture loading), element selection strategy (prefer role-based selectors over data-testid), navigation path handling, and interaction patterns. Triggers when writing, reviewing, or editing Playwright test files, or when the user mentions E2E tests, test selectors, data-testid, Playwright.'
 ---
 
 # E2E Tests with Playwright
+
+## Folder Structure
+
+Each page or feature gets its own directory under `e2e/`, containing a spec file, a `flows/` subdirectory, and optionally a `helpers/` subdirectory.
+
+**Spec file**: each test calls exactly one flow function with no inline logic. No `expect`, no locators. Tests are one or two lines at most.
+
+**Flow functions**: each exported function is a complete, self-contained test scenario. Each is a complete user journey: seed state, navigate, interact, assert. All `expect` calls live here.
+
+**Helpers**: shared locator builders and wait utilities that would otherwise be duplicated across multiple flow functions. They return `Locator` or resolve `void` after waiting. No assertions. If something is only used in one flow, inline it there. Export all helpers as a single named object matching the file name (e.g. `export const LogsTestHelpers = { ... }`); never use individual `export const` per function.
+
+**Fixtures**: place test data files under the root `fixtures/<feature>/` directory, not inside `e2e/`. Reference them using `path.resolve` with `fileURLToPath(import.meta.url)` and read with `fs.readFileSync`.
 
 ## Element Selection
 
