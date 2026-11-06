@@ -4,6 +4,7 @@ import { ROUTES } from '@Constants/routes';
 import { cx } from '@emotion/css';
 import { useLogEntries } from '@Stores/logStore';
 import { formatDayMonthYearTime } from '@Utils/date';
+import { prefetchLogsPage } from '@Utils/prefetcher';
 import { useNavigate } from 'react-router';
 import {
 	cardStyle,
@@ -58,7 +59,7 @@ export const LogsSummary = (): React.ReactElement => {
 	const recent = entries.slice(-MAX_PREVIEW_ENTRIES).reverse();
 
 	return (
-		<div className={cardStyle}>
+		<div className={cardStyle} onMouseEnter={prefetchLogsPage}>
 			<div className={headerRowStyle}>
 				<Text
 					renderAs="p"
