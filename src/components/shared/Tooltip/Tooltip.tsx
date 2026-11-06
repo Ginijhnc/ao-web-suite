@@ -13,7 +13,9 @@ let pendingMuiTooltipImport: Promise<
 	ComponentType<MuiTooltipProps>
 > | null = null;
 
-const loadMuiTooltip = (): Promise<ComponentType<MuiTooltipProps>> => {
+export const loadMuiTooltip = (): Promise<
+	ComponentType<MuiTooltipProps>
+> => {
 	if (cachedMuiTooltip) {
 		return Promise.resolve(cachedMuiTooltip);
 	}
