@@ -62,6 +62,42 @@ const theme = createTheme({
 				},
 			},
 		},
+		MuiTextField: {
+			styleOverrides: {
+				root: ({ theme: t }) => {
+					return {
+						'& .MuiInputBase-root': {
+							backgroundColor: 'hsl(0, 5%, 10%)',
+							borderRadius: '0.5em',
+							fontSize: '0.875rem',
+							color: t.palette.text.secondary,
+						},
+						'& .MuiOutlinedInput-notchedOutline': {
+							borderColor: 'hsl(0, 5%, 22%)',
+							transition: 'border-color 0.2s',
+						},
+						'& .MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline':
+							{
+								borderColor: 'hsl(0, 5%, 38%)',
+							},
+						'& .Mui-focused .MuiOutlinedInput-notchedOutline':
+							{
+								borderColor: 'hsl(0, 5%, 50%)',
+								borderWidth: '1px',
+							},
+						'& input::placeholder': {
+							color: t.palette.text.secondary,
+							opacity: 0.5,
+						},
+						'& .MuiInputAdornment-root svg': {
+							fill: t.palette.text.secondary,
+							width: '1.3em',
+							height: '1.3em',
+						},
+					};
+				},
+			},
+		},
 	},
 	breakpoints: {
 		values: BREAKPOINTS,

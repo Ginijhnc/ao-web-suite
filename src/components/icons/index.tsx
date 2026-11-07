@@ -14,6 +14,7 @@ import { LogsIcon } from './LogsIcon';
 import { MapeadorIcon } from './MapeadorIcon';
 import { MenuIcon } from './MenuIcon';
 import { MoreHorizIcon } from './MoreHorizIcon';
+import { SearchIcon } from './SearchIcon';
 import { SearchOffIcon } from './SearchOffIcon';
 import { SettingsIcon } from './SettingsIcon';
 import { TrashIcon } from './TrashIcon';
@@ -39,6 +40,7 @@ export {
 	MapeadorIcon,
 	MenuIcon,
 	MoreHorizIcon,
+	SearchIcon,
 	SearchOffIcon,
 	SettingsIcon,
 	TrashIcon,
@@ -65,6 +67,7 @@ export const icons = {
 	MapeadorIcon,
 	MenuIcon,
 	MoreHorizIcon,
+	SearchIcon,
 	SearchOffIcon,
 	SettingsIcon,
 	TrashIcon,

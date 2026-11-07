@@ -8,6 +8,8 @@ import {
 import { StatusMessage } from '@Components/shared/StatusMessage';
 import { Text } from '@Components/shared/Text';
 import { LOGS_SELECTORS } from '@Constants/selectors';
+import { cx } from '@emotion/css';
+import { useDebounce } from '@Hooks/useDebounce';
 import {
 	Pagination,
 	PaginationItem,
@@ -19,6 +21,8 @@ import {
 	TableRow,
 } from '@mui/material';
 import { formatDayMonthYearTime } from '@Utils/date';
+import { LogsFilterBar } from '../LogsFilterBar';
+import type { LevelFilter } from '../LogsFilterBar/LogsFilterBar.types';
 import {
 	actionCellStyle,
 	dateCellStyle,
@@ -51,7 +55,12 @@ const LogTableRow = ({ entry }: LogTableRowProps): React.ReactElement => {
 					variant="body"
 					size="xs"
 					weight="semiBold"
-					className={`${levelBadgeBaseStyle} ${entry.level === 'error' ? levelErrorStyle : levelWarnStyle}`}
+					className={cx(
+						levelBadgeBaseStyle,
+						entry.level === 'error'
+							? levelErrorStyle
+							: levelWarnStyle,
+					)}
 				>
 					{entry.level === 'error' ? 'Error' : 'Warn'}
 				</Text>
@@ -149,6 +158,13 @@ const LogsTableContent = ({
 	onToggleSort,
 	onPageChange,
 }: LogsTableContentProps): React.ReactElement => {
+	const handlePageChange = (
+		_event: React.ChangeEvent<unknown>,
+		value: number,
+	) => {
+		onPageChange(value - 1);
+	};
+
 	return (
 		<TableContainer className={tableContainerStyle}>
 			<Table className={tableStyle}>
@@ -180,9 +196,7 @@ const LogsTableContent = ({
 					page={page + 1}
 					variant="outlined"
 					shape="rounded"
-					onChange={(_event, value) => {
-						onPageChange(value - 1);
-					}}
+					onChange={handlePageChange}
 					renderItem={(item) => {
 						return (
 							<PaginationItem
@@ -202,6 +216,19 @@ export const LogsTable = ({
 }: LogsTableProps): React.ReactElement => {
 	const [page, setPage] = useState(0);
 	const [sortOrder, setSortOrder] = useState<SortOrder>('desc');
+	const [level, setLevel] = useState<LevelFilter>('all');
+	const [rawSearch, setRawSearch] = useState('');
+	const search = useDebounce(rawSearch, 400);
+
+	const handleLevelChange = (next: LevelFilter) => {
+		setLevel(next);
+		setPage(0);
+	};
+
+	const handleSearchChange = (value: string) => {
+		setRawSearch(value);
+		setPage(0);
+	};
 
 	const handleToggleSort = () => {
 		setSortOrder((prev) => {
@@ -210,7 +237,15 @@ export const LogsTable = ({
 		setPage(0);
 	};
 
-	const sorted = entries.slice().sort((a, b) => {
+	const filtered = entries.filter((entry) => {
+		const matchesLevel = level === 'all' || entry.level === level;
+		const matchesSearch =
+			search === '' ||
+			entry.message.toLowerCase().includes(search.toLowerCase());
+		return matchesLevel && matchesSearch;
+	});
+
+	const sorted = filtered.slice().sort((a, b) => {
 		if (sortOrder === 'desc') {
 			return b.timestamp.localeCompare(a.timestamp);
 		}
@@ -219,27 +254,40 @@ export const LogsTable = ({
 
 	const paged = sorted.slice(
 		page * DEFAULT_ROWS_PER_PAGE,
-		page * DEFAULT_ROWS_PER_PAGE + DEFAULT_ROWS_PER_PAGE,
+		(page + 1) * DEFAULT_ROWS_PER_PAGE,
 	);
 
-	if (entries.length === 0) {
-		return (
-			<StatusMessage
-				icon={<SearchOffIcon />}
-				title="Sin logs"
-				subtitle="No hay logs disponibles aún."
-			/>
-		);
-	}
-
 	return (
-		<LogsTableContent
-			paged={paged}
-			filtered={entries}
-			page={page}
-			sortOrder={sortOrder}
-			onToggleSort={handleToggleSort}
-			onPageChange={setPage}
-		/>
+		<>
+			<LogsFilterBar
+				level={level}
+				onLevelChange={handleLevelChange}
+				search={rawSearch}
+				onSearchChange={handleSearchChange}
+			/>
+
+			{filtered.length === 0 ? (
+				<StatusMessage
+					icon={<SearchOffIcon />}
+					title={
+						entries.length > 0 ? 'Sin resultados' : 'Sin logs'
+					}
+					subtitle={
+						entries.length > 0
+							? 'Intenta cambiar el filtro o el término de búsqueda.'
+							: 'No hay logs disponibles aún.'
+					}
+				/>
+			) : (
+				<LogsTableContent
+					paged={paged}
+					filtered={filtered}
+					page={page}
+					sortOrder={sortOrder}
+					onToggleSort={handleToggleSort}
+					onPageChange={setPage}
+				/>
+			)}
+		</>
 	);
 };

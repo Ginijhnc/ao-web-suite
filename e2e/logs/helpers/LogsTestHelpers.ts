@@ -17,9 +17,14 @@ const getSortButton = (page: Page): Locator => {
 	return page.getByRole('button', { name: /Ordenar por fecha/ });
 };
 
+const getSearchInput = (page: Page): Locator => {
+	return page.getByPlaceholder('Buscar por mensaje');
+};
+
 export const LogsTestHelpers = {
 	waitForLogsTable,
 	getBodyRows,
 	getPaginationSummary,
 	getSortButton,
+	getSearchInput,
 };
