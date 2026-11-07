@@ -98,6 +98,57 @@ const theme = createTheme({
 				},
 			},
 		},
+		MuiMenu: {
+			styleOverrides: {
+				paper: ({ theme: t }) => {
+					return {
+						backgroundColor: t.palette.background.default,
+						border: `2px solid ${t.palette.divider}`,
+						color: t.palette.text.secondary,
+						fontFamily: 'inherit',
+					};
+				},
+				list: {
+					padding: 0,
+				},
+			},
+		},
+		MuiMenuItem: {
+			defaultProps: {
+				disableRipple: true,
+			},
+			styleOverrides: {
+				root: ({ theme: t }) => {
+					return {
+						display: 'flex',
+						alignItems: 'center',
+						gap: '0.65em',
+						fontFamily: 'inherit',
+						fontSize: '0.875rem',
+						lineHeight: 1,
+						color: t.palette.text.secondary,
+						padding: '0.55em 0.9em',
+						minHeight: 'unset',
+						'& svg': {
+							width: '1.2em',
+							height: '1.2em',
+							fill: t.palette.text.secondary,
+							flexShrink: 0,
+						},
+						'&:hover': {
+							backgroundColor: 'hsl(25, 15%, 18%)',
+							color: t.palette.text.primary,
+							'& svg': {
+								fill: t.palette.text.primary,
+							},
+						},
+						'&:active': {
+							backgroundColor: 'hsl(25, 15%, 14%)',
+						},
+					};
+				},
+			},
+		},
 	},
 	breakpoints: {
 		values: BREAKPOINTS,
