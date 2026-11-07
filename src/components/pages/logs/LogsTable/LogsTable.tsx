@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { Suspense, lazy, useEffect, useRef, useState } from 'react';
 import {
 	ChevronLeftIcon,
 	ChevronRightIcon,
@@ -44,9 +44,49 @@ import type {
 	SortOrder,
 } from './LogsTable.types';
 
+const LogRowMenu = lazy(() => {
+	return import('./LogRowMenu').then((m) => {
+		return { default: m.LogRowMenu };
+	});
+});
+
 const DEFAULT_ROWS_PER_PAGE = 10;
 
 const LogTableRow = ({ entry }: LogTableRowProps): React.ReactElement => {
+	const [menuAnchor, setMenuAnchor] = useState<HTMLElement | null>(null);
+	const paperRef = useRef<HTMLDivElement | null>(null);
+
+	const handleOpenMenu = (
+		event: React.MouseEvent<HTMLButtonElement>,
+	) => {
+		setMenuAnchor(event.currentTarget);
+	};
+
+	const handleCloseMenu = () => {
+		setMenuAnchor(null);
+	};
+
+	/*
+	 * Syncing with an external scroll event is a genuine side effect.
+	 * The paper is hidden synchronously via DOM to prevent MUI's Popover
+	 * from repositioning it before React can unmount it.
+	 */
+	useEffect(() => {
+		if (menuAnchor === null) return;
+		const onScroll = () => {
+			if (paperRef.current) {
+				paperRef.current.style.visibility = 'hidden';
+			}
+			setMenuAnchor(null);
+		};
+		window.addEventListener('scroll', onScroll, { capture: true });
+		return () => {
+			window.removeEventListener('scroll', onScroll, {
+				capture: true,
+			});
+		};
+	}, [menuAnchor]);
+
 	return (
 		<TableRow>
 			<TableCell>
@@ -79,12 +119,17 @@ const LogTableRow = ({ entry }: LogTableRowProps): React.ReactElement => {
 				<button
 					type="button"
 					aria-label="Ver mensaje completo"
-					onClick={() => {
-						/* TO DO - Pendiente */
-					}}
+					onClick={handleOpenMenu}
 				>
 					<MoreHorizIcon />
 				</button>
+				<Suspense fallback={null}>
+					<LogRowMenu
+						anchorEl={menuAnchor}
+						onClose={handleCloseMenu}
+						paperRef={paperRef}
+					/>
+				</Suspense>
 			</TableCell>
 		</TableRow>
 	);

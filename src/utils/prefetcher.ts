@@ -53,3 +53,7 @@ export const prefetchOverviewPage = createPagePrefetcher(async () => {
 export const prefetchLogsPage = createPagePrefetcher(async () => {
 	return import('@Pages/LogsPage');
 });
+
+export const prefetchLogRowMenu = createPagePrefetcher(() => {
+	return import('@Components/pages/logs/LogsTable/LogRowMenu');
+});

@@ -6,6 +6,7 @@ import { CloseIcon } from './CloseIcon';
 import { CodeIcon } from './CodeIcon';
 import { DatsIcon } from './DatsIcon';
 import { ErrorIcon } from './ErrorIcon';
+import { EyeIcon } from './EyeIcon';
 import { HomeIcon } from './HomeIcon';
 import { ImageIcon } from './ImageIcon';
 import { IndexingDataIcon } from './IndexingDataIcon';
@@ -32,6 +33,7 @@ export {
 	CodeIcon,
 	DatsIcon,
 	ErrorIcon,
+	EyeIcon,
 	HomeIcon,
 	ImageIcon,
 	IndexingDataIcon,
@@ -59,6 +61,7 @@ export const icons = {
 	CodeIcon,
 	DatsIcon,
 	ErrorIcon,
+	EyeIcon,
 	HomeIcon,
 	ImageIcon,
 	IndexingDataIcon,
