@@ -3,8 +3,12 @@ import { LogsTestHelpers } from '../helpers/LogsTestHelpers';
 import { loadFixture, seedAndNavigate } from './logsSetup';
 
 const FIXTURE_TOTAL = 71;
+const FIXTURE_ERROR_TOTAL = 67;
+const FIXTURE_WARN_TOTAL = 4;
 const LAST_PAGE = 8;
 const ROWS_PER_PAGE = 10;
+const SEARCH_TERM = 'campos duplicados';
+const SEARCH_MATCH_COUNT = 6;
 
 export const assertTableRendersFirstPage = async (
 	page: Page,
@@ -141,4 +145,104 @@ export const assertEmptyStateWhenNoLogs = async (
 	await expect(
 		page.getByText('No hay logs disponibles aún.', { exact: true }),
 	).toBeVisible();
+};
+
+export const assertErrorFilterShowsOnlyErrors = async (
+	page: Page,
+): Promise<void> => {
+	await seedAndNavigate(page, loadFixture());
+	await LogsTestHelpers.waitForLogsTable(page);
+
+	const errorChip = page.getByRole('button', { name: 'Error' });
+	await errorChip.click();
+
+	await expect(LogsTestHelpers.getPaginationSummary(page)).toHaveText(
+		`Mostrando 1-10 de ${FIXTURE_ERROR_TOTAL}`,
+	);
+	await expect(LogsTestHelpers.getBodyRows(page)).toHaveCount(
+		ROWS_PER_PAGE,
+	);
+	await expect(
+		LogsTestHelpers.getBodyRows(page).locator('td:first-child'),
+	).toHaveText(Array(ROWS_PER_PAGE).fill('Error'));
+};
+
+export const assertWarnFilterShowsOnlyWarns = async (
+	page: Page,
+): Promise<void> => {
+	await seedAndNavigate(page, loadFixture());
+	await LogsTestHelpers.waitForLogsTable(page);
+
+	const warnChip = page.getByRole('button', { name: 'Warn' });
+	await warnChip.click();
+
+	await expect(LogsTestHelpers.getPaginationSummary(page)).toHaveText(
+		`Mostrando 1-${FIXTURE_WARN_TOTAL} de ${FIXTURE_WARN_TOTAL}`,
+	);
+	await expect(LogsTestHelpers.getBodyRows(page)).toHaveCount(
+		FIXTURE_WARN_TOTAL,
+	);
+	await expect(
+		LogsTestHelpers.getBodyRows(page).locator('td:first-child'),
+	).toHaveText(Array(FIXTURE_WARN_TOTAL).fill('Warn'));
+};
+
+export const assertSearchFiltersByMessage = async (
+	page: Page,
+): Promise<void> => {
+	await seedAndNavigate(page, loadFixture());
+	await LogsTestHelpers.waitForLogsTable(page);
+
+	const searchInput = LogsTestHelpers.getSearchInput(page);
+	await searchInput.fill(SEARCH_TERM);
+	await page.waitForTimeout(400);
+
+	await expect(LogsTestHelpers.getPaginationSummary(page)).toHaveText(
+		`Mostrando 1-${SEARCH_MATCH_COUNT} de ${SEARCH_MATCH_COUNT}`,
+	);
+	await expect(LogsTestHelpers.getBodyRows(page)).toHaveCount(
+		SEARCH_MATCH_COUNT,
+	);
+	await expect(
+		LogsTestHelpers.getBodyRows(page).locator('td:nth-child(3)'),
+	).toContainText(Array(SEARCH_MATCH_COUNT).fill(SEARCH_TERM));
+};
+
+export const assertSearchResetsToPage1 = async (
+	page: Page,
+): Promise<void> => {
+	await seedAndNavigate(page, loadFixture());
+	await LogsTestHelpers.waitForLogsTable(page);
+
+	await page.getByRole('button', { name: '2' }).click();
+	await expect(LogsTestHelpers.getPaginationSummary(page)).toHaveText(
+		`Mostrando 11-20 de ${FIXTURE_TOTAL}`,
+	);
+
+	const searchInput = LogsTestHelpers.getSearchInput(page);
+	await searchInput.fill(SEARCH_TERM);
+	await page.waitForTimeout(400);
+
+	await expect(LogsTestHelpers.getPaginationSummary(page)).toHaveText(
+		`Mostrando 1-${SEARCH_MATCH_COUNT} de ${SEARCH_MATCH_COUNT}`,
+	);
+};
+
+export const assertFilterResetsToPage1 = async (
+	page: Page,
+): Promise<void> => {
+	await seedAndNavigate(page, loadFixture());
+	await LogsTestHelpers.waitForLogsTable(page);
+
+	await page.getByRole('button', { name: '2' }).click();
+	await expect(LogsTestHelpers.getPaginationSummary(page)).toHaveText(
+		`Mostrando 11-20 de ${FIXTURE_TOTAL}`,
+	);
+
+	const errorChip = page.getByRole('button', { name: 'Error' });
+	await errorChip.click();
+
+	await expect(LogsTestHelpers.getPaginationSummary(page)).toHaveText(
+		`Mostrando 1-10 de ${FIXTURE_ERROR_TOTAL}`,
+	);
 };

@@ -15,6 +15,7 @@ export const containerStyle = css`
 	// title and subtitle
 	p {
 		color: ${theme.palette.text.secondary};
+		text-align: center;
 	}
 `;
 
