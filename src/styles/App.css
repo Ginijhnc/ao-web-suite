@@ -18,6 +18,10 @@ html {
 	scrollbar-color: hsl(27, 33%, 20%) hsl(18, 22%, 13%);
 }
 
+body {
+	overflow-x: clip;
+}
+
 button {
 	margin: 0;
 	padding: 0;
