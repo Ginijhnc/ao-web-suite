@@ -1,4 +1,4 @@
-import { LogsIcon } from '@Components/icons';
+import { ErrorOutlineIcon } from '@Components/icons';
 import { Button } from '@Components/shared/Button';
 import { Text } from '@Components/shared/Text';
 import { ROUTES } from '@Constants/routes';
@@ -28,7 +28,7 @@ const MAX_PREVIEW_ENTRIES = 5;
 const EmptyState = (): React.ReactElement => {
 	return (
 		<div className={emptyStateStyle}>
-			<LogsIcon />
+			<ErrorOutlineIcon />
 			<Text renderAs="span" variant="body">
 				Sin registros recientes.
 			</Text>

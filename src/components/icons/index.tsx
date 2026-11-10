@@ -1,4 +1,5 @@
 import { ArrowForwardIcon } from './ArrowForwardIcon';
+import { CancelIcon } from './CancelIcon';
 import { CheckIcon } from './CheckIcon';
 import { ChevronLeftIcon } from './ChevronLeftIcon';
 import { ChevronRightIcon } from './ChevronRightIcon';
@@ -8,13 +9,13 @@ import { CloudUploadIcon } from './CloudUploadIcon';
 import { CodeIcon } from './CodeIcon';
 import { CopyIcon } from './CopyIcon';
 import { DatsIcon } from './DatsIcon';
-import { ErrorIcon } from './ErrorIcon';
+import { ErrorFilledIcon } from './ErrorFilledIcon';
+import { ErrorOutlineIcon } from './ErrorOutlineIcon';
 import { EyeIcon } from './EyeIcon';
 import { HomeIcon } from './HomeIcon';
 import { ImageIcon } from './ImageIcon';
 import { IndexingDataIcon } from './IndexingDataIcon';
 import { InfoIcon } from './InfoIcon';
-import { LogsIcon } from './LogsIcon';
 import { MapeadorIcon } from './MapeadorIcon';
 import { MenuIcon } from './MenuIcon';
 import { MoreHorizIcon } from './MoreHorizIcon';
@@ -30,6 +31,7 @@ import { WarningIcon } from './WarningIcon';
 // Named exports for direct imports when the icon is statically known.
 export {
 	ArrowForwardIcon,
+	CancelIcon,
 	CheckIcon,
 	ChevronLeftIcon,
 	CloudDoneIcon,
@@ -38,18 +40,18 @@ export {
 	CloseIcon,
 	CodeIcon,
 	CopyIcon,
-	PanelIcon,
 	DatsIcon,
-	ErrorIcon,
+	ErrorFilledIcon,
+	ErrorOutlineIcon,
 	EyeIcon,
 	HomeIcon,
 	ImageIcon,
 	IndexingDataIcon,
 	InfoIcon,
-	LogsIcon,
 	MapeadorIcon,
 	MenuIcon,
 	MoreHorizIcon,
+	PanelIcon,
 	SearchIcon,
 	SearchOffIcon,
 	SettingsIcon,
@@ -62,6 +64,7 @@ export {
 // Map for dynamic lookup by IconName
 export const icons = {
 	ArrowForwardIcon,
+	CancelIcon,
 	CheckIcon,
 	ChevronLeftIcon,
 	CloudDoneIcon,
@@ -70,18 +73,18 @@ export const icons = {
 	CloseIcon,
 	CodeIcon,
 	CopyIcon,
-	PanelIcon,
 	DatsIcon,
-	ErrorIcon,
+	ErrorFilledIcon,
+	ErrorOutlineIcon,
 	EyeIcon,
 	HomeIcon,
 	ImageIcon,
 	IndexingDataIcon,
 	InfoIcon,
-	LogsIcon,
 	MapeadorIcon,
 	MenuIcon,
 	MoreHorizIcon,
+	PanelIcon,
 	SearchIcon,
 	SearchOffIcon,
 	SettingsIcon,

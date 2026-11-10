@@ -18,7 +18,7 @@ const LEVEL_OPTIONS: ReadonlyArray<{
 	icon?: IconName;
 }> = [
 	{ value: 'all', label: 'Todos' },
-	{ value: 'error', label: 'Error', icon: 'ErrorIcon' },
+	{ value: 'error', label: 'Error', icon: 'ErrorFilledIcon' },
 	{ value: 'warn', label: 'Warn', icon: 'WarningIcon' },
 ];
 
