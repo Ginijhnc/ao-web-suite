@@ -1,5 +1,10 @@
 import { test } from '@playwright/test';
 import {
+	assertCopyButtonBehavior,
+	assertDetailDialogRendersContent,
+	assertScrollHintVisibleThenHides,
+} from './flows/logsDetailDialog';
+import {
 	assertEmptyStateWhenNoLogs,
 	assertErrorFilterShowsOnlyErrors,
 	assertFilterResetsToPage1,
@@ -75,4 +80,20 @@ test('logs page: search input resets pagination to page 1', async ({
 	page,
 }) => {
 	await assertSearchResetsToPage1(page);
+});
+
+test('logs page: detail dialog renders log content', async ({ page }) => {
+	await assertDetailDialogRendersContent(page);
+});
+
+test('logs page: scroll hint is visible on overflow and hides after scroll', async ({
+	page,
+}) => {
+	await assertScrollHintVisibleThenHides(page);
+});
+
+test('logs page: copy button copies message, swaps icon, and shows toast', async ({
+	page,
+}) => {
+	await assertCopyButtonBehavior(page);
 });

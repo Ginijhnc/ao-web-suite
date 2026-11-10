@@ -77,3 +77,8 @@ export const DATS_MESSAGES = {
 		return `"${fileName}" contiene campos duplicados dentro de una misma entrada: ${detail}. Corregí el archivo antes de subirlo.`;
 	},
 } as const;
+
+export const LOGS_MESSAGES = {
+	COPY_SUCCESS: 'Log copiado exitosamente.',
+	COPY_ERROR: 'No se pudo copiar el log.',
+} as const;

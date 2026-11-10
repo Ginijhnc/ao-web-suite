@@ -4,6 +4,7 @@ import { ChevronLeftIcon } from './ChevronLeftIcon';
 import { ChevronRightIcon } from './ChevronRightIcon';
 import { CloseIcon } from './CloseIcon';
 import { CodeIcon } from './CodeIcon';
+import { CopyIcon } from './CopyIcon';
 import { DatsIcon } from './DatsIcon';
 import { ErrorIcon } from './ErrorIcon';
 import { EyeIcon } from './EyeIcon';
@@ -31,6 +32,7 @@ export {
 	ChevronRightIcon,
 	CloseIcon,
 	CodeIcon,
+	CopyIcon,
 	DatsIcon,
 	ErrorIcon,
 	EyeIcon,
@@ -59,6 +61,7 @@ export const icons = {
 	ChevronRightIcon,
 	CloseIcon,
 	CodeIcon,
+	CopyIcon,
 	DatsIcon,
 	ErrorIcon,
 	EyeIcon,

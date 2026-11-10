@@ -1,6 +1,6 @@
 import { useMountEffect } from '@Hooks/useMountEffect';
 import { useLogEntries } from '@Stores/logStore';
-import { prefetchLogRowMenu } from '@Utils/prefetcher';
+import { prefetchLogRowActions } from '@Utils/prefetcher';
 import { LogsTable } from '../LogsTable';
 import { layoutStyle } from './LogsPageLayout.styles';
 
@@ -10,10 +10,10 @@ export const LogsPageLayout = (): React.ReactElement => {
 	useMountEffect(() => {
 		if ('requestIdleCallback' in window) {
 			requestIdleCallback(() => {
-				setTimeout(prefetchLogRowMenu, 2000);
+				setTimeout(prefetchLogRowActions, 1000);
 			});
 		} else {
-			setTimeout(prefetchLogRowMenu, 2000);
+			setTimeout(prefetchLogRowActions, 1000);
 		}
 	});
 

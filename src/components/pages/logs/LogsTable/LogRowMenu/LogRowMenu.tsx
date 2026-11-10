@@ -7,8 +7,14 @@ import type { LogRowMenuProps } from './LogRowMenu.types';
 export const LogRowMenu = ({
 	anchorEl,
 	onClose,
+	onShowDetail,
 	paperRef,
 }: LogRowMenuProps) => {
+	const handleShowDetail = () => {
+		onShowDetail();
+		onClose();
+	};
+
 	return (
 		<Menu
 			anchorEl={anchorEl}
@@ -22,7 +28,7 @@ export const LogRowMenu = ({
 			}}
 			disableScrollLock
 		>
-			<MenuItem onClick={onClose}>
+			<MenuItem onClick={handleShowDetail}>
 				<EyeIcon />
 				Ver detalle
 			</MenuItem>

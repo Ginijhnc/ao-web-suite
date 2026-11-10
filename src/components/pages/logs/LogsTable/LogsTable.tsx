@@ -50,10 +50,17 @@ const LogRowMenu = lazy(() => {
 	});
 });
 
+const LogDetailDialog = lazy(() => {
+	return import('./LogDetailDialog').then((m) => {
+		return { default: m.LogDetailDialog };
+	});
+});
+
 const DEFAULT_ROWS_PER_PAGE = 10;
 
 const LogTableRow = ({ entry }: LogTableRowProps): React.ReactElement => {
 	const [menuAnchor, setMenuAnchor] = useState<HTMLElement | null>(null);
+	const [detailOpen, setDetailOpen] = useState(false);
 	const paperRef = useRef<HTMLDivElement | null>(null);
 
 	const handleOpenMenu = (
@@ -64,6 +71,14 @@ const LogTableRow = ({ entry }: LogTableRowProps): React.ReactElement => {
 
 	const handleCloseMenu = () => {
 		setMenuAnchor(null);
+	};
+
+	const handleOpenDetail = () => {
+		setDetailOpen(true);
+	};
+
+	const handleCloseDetail = () => {
+		setDetailOpen(false);
 	};
 
 	/*
@@ -123,12 +138,25 @@ const LogTableRow = ({ entry }: LogTableRowProps): React.ReactElement => {
 				>
 					<MoreHorizIcon />
 				</button>
+				{/* The only scenario where the user would see a loading gap is
+				    if they click the button within the first 1000ms before
+				    the prefetch completes */}
 				<Suspense fallback={null}>
-					<LogRowMenu
-						anchorEl={menuAnchor}
-						onClose={handleCloseMenu}
-						paperRef={paperRef}
-					/>
+					{menuAnchor !== null && (
+						<LogRowMenu
+							anchorEl={menuAnchor}
+							onClose={handleCloseMenu}
+							onShowDetail={handleOpenDetail}
+							paperRef={paperRef}
+						/>
+					)}
+					{detailOpen && (
+						<LogDetailDialog
+							entry={entry}
+							open={detailOpen}
+							onClose={handleCloseDetail}
+						/>
+					)}
 				</Suspense>
 			</TableCell>
 		</TableRow>
