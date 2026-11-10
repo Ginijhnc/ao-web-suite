@@ -6,7 +6,6 @@ export const contentStyle = css`
 	flex-direction: column;
 	align-items: stretch;
 	width: 100%;
-	max-width: 60rem;
 	gap: 1.5rem;
 	margin: 2rem 0;
 `;
