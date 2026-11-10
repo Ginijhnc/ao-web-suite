@@ -24,9 +24,7 @@ const navigateToOverviewPage = async (page: Page): Promise<void> => {
 
 const waitForOverviewElements = async (page: Page): Promise<void> => {
 	await page.getByText('Assets').waitFor({ state: 'visible' });
-	await page
-		.getByText('Cambios sin exportar')
-		.waitFor({ state: 'visible' });
+	await page.getByText('Exportación').waitFor({ state: 'visible' });
 	await page
 		.locator('article')
 		.filter({ hasText: 'Indexador' })
@@ -69,7 +67,7 @@ const assertPendingChangesEmptyState = async (
 	page: Page,
 ): Promise<void> => {
 	await expect(
-		page.getByText('Cambios sin exportar', { exact: true }),
+		page.getByText('Exportación', { exact: true }),
 	).toBeVisible();
 	await expect(
 		page.getByText('No hay cambios para exportar.', { exact: true }),
