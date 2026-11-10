@@ -17,21 +17,21 @@ export const toastBaseStyle = css`
 `;
 
 export const successToastStyle = css`
-	background-color: hsl(145, 45%, 25%, 0.78) !important;
+	background-color: hsl(145, 45%, 25%) !important;
 	color: hsl(145, 70%, 90%) !important;
-	border: 1px solid hsl(145, 55%, 48%, 0.55);
+	border: 1px solid hsl(145, 55%, 48%);
 `;
 
 export const warningToastStyle = css`
-	background-color: hsl(36, 60%, 25%, 0.78) !important;
+	background-color: hsl(36, 60%, 25%) !important;
 	color: hsl(36, 100%, 90%) !important;
-	border: 1px solid hsl(36, 75%, 52%, 0.55);
+	border: 1px solid hsl(36, 75%, 52%);
 `;
 
 export const errorToastStyle = css`
-	background-color: hsl(357, 50%, 25%, 0.78) !important;
+	background-color: hsl(357, 50%, 25%) !important;
 	color: hsl(357, 80%, 90%) !important;
-	border: 1px solid hsl(357, 65%, 52%, 0.55);
+	border: 1px solid hsl(357, 65%, 52%);
 `;
 
 export const warningIconContainerStyle = css`
