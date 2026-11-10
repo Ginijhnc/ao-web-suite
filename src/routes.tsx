@@ -1,23 +1,14 @@
-import { lazy } from 'react';
+import { Suspense } from 'react';
+import { DashboardLayout } from '@Components/shared/DashboardLayout';
 import { LoadingOverlay } from '@Components/shared/LoadingOverlay';
+import { NavigationProgressBar } from '@Components/shared/NavigationProgressBar';
 import { RequireAssets } from '@Components/shared/RequireAssets';
 import { ROUTES } from '@Constants/routes';
 import { useAssetsReady } from '@Hooks/useAssetsReady';
 import { useDelayedFlag } from '@Hooks/useDelayedFlag';
 import { useHydrated } from '@Hooks/useHydrateStores';
 import { HomePage } from '@Pages/HomePage';
-import { Navigate } from 'react-router';
-import type { RouteObject } from 'react-router';
-
-const OverviewPage = lazy(async () => {
-	const module = await import('@Pages/OverviewPage');
-	return { default: module.OverviewPage };
-});
-
-const LogsPage = lazy(async () => {
-	const module = await import('@Pages/LogsPage');
-	return { default: module.LogsPage };
-});
+import { createBrowserRouter, Navigate, Outlet } from 'react-router';
 
 const HYDRATION_OVERLAY_DELAY_MS = 300;
 
@@ -43,22 +34,48 @@ const RootRedirect = (): React.ReactElement => {
 	);
 };
 
-export const routeConfig: Array<RouteObject> = [
+const RootLayout = (): React.ReactElement => {
+	return (
+		<>
+			<NavigationProgressBar />
+			<DashboardLayout>
+				<Suspense fallback={<LoadingOverlay visible />}>
+					<Outlet />
+				</Suspense>
+			</DashboardLayout>
+		</>
+	);
+};
+
+export const router = createBrowserRouter([
 	{
-		path: '/',
-		element: <RootRedirect />,
+		element: <RootLayout />,
+		children: [
+			{ path: '/', element: <RootRedirect /> },
+			{ path: ROUTES.RECURSOS, element: <HomePage /> },
+			{
+				path: ROUTES.OVERVIEW,
+				element: <RequireAssets />,
+				children: [
+					{
+						index: true,
+						lazy: async () => {
+							const { OverviewPage } =
+								await import('@Pages/OverviewPage');
+							return { Component: OverviewPage };
+						},
+					},
+				],
+			},
+			{
+				path: ROUTES.LOGS,
+				lazy: async () => {
+					const { LogsPage } = await import('@Pages/LogsPage');
+					return { Component: LogsPage };
+				},
+			},
+			// temporal hasta que termine de agregar todas las páginas
+			{ path: '*', element: null },
+		],
 	},
-	{
-		path: ROUTES.RECURSOS,
-		element: <HomePage />,
-	},
-	{
-		path: ROUTES.OVERVIEW,
-		element: (
-			<RequireAssets>
-				<OverviewPage />
-			</RequireAssets>
-		),
-	},
-	{ path: ROUTES.LOGS, element: <LogsPage /> },
-];
+]);
