@@ -20,6 +20,24 @@ export const titleStyle = css`
 	color: ${theme.palette.text.secondary};
 `;
 
+export const emptyStateStyle = css`
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 0.5rem;
+	padding: 2.5rem 0;
+
+	span {
+		color: ${theme.palette.text.secondary};
+	}
+
+	svg {
+		width: 3rem;
+		height: 3rem;
+		opacity: 0.4;
+	}
+`;
+
 export const entryStyle = css`
 	display: flex;
 	flex-wrap: wrap;
@@ -77,12 +95,8 @@ export const messageStyle = css`
 		flex: 1;
 		flex-basis: auto;
 		min-width: 0;
-		-webkit-line-clamp: 1;
-		text-overflow: ellipsis;
+		display: block;
 		white-space: nowrap;
+		text-overflow: ellipsis;
 	}
-`;
-
-export const emptyStyle = css`
-	color: ${theme.palette.text.secondary};
 `;

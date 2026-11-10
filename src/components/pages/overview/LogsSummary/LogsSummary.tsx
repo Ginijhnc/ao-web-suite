@@ -1,14 +1,17 @@
+import { LogsIcon } from '@Components/icons';
 import { Button } from '@Components/shared/Button';
 import { Text } from '@Components/shared/Text';
 import { ROUTES } from '@Constants/routes';
 import { cx } from '@emotion/css';
+import useMediaQuery from '@mui/material/useMediaQuery';
 import { useLogEntries } from '@Stores/logStore';
+import theme from '@Theme/theme';
 import { formatDayMonthYearTime } from '@Utils/date';
 import { prefetchLogsPage } from '@Utils/prefetcher';
 import { useNavigate } from 'react-router';
 import {
 	cardStyle,
-	emptyStyle,
+	emptyStateStyle,
 	entryStyle,
 	headerRowStyle,
 	levelBadgeBaseStyle,
@@ -21,6 +24,17 @@ import {
 import type { LogEntryRowProps } from './LogsSummary.types';
 
 const MAX_PREVIEW_ENTRIES = 5;
+
+const EmptyState = (): React.ReactElement => {
+	return (
+		<div className={emptyStateStyle}>
+			<LogsIcon />
+			<Text renderAs="span" variant="body">
+				Sin registros recientes.
+			</Text>
+		</div>
+	);
+};
 
 const LogEntryRow = ({ entry }: LogEntryRowProps): React.ReactElement => {
 	return (
@@ -46,7 +60,12 @@ const LogEntryRow = ({ entry }: LogEntryRowProps): React.ReactElement => {
 			>
 				{formatDayMonthYearTime(entry.timestamp)}
 			</Text>
-			<Text renderAs="span" variant="body" className={messageStyle}>
+			<Text
+				renderAs="span"
+				variant="body"
+				size="sm"
+				className={messageStyle}
+			>
 				{entry.message}
 			</Text>
 		</div>
@@ -56,6 +75,9 @@ const LogEntryRow = ({ entry }: LogEntryRowProps): React.ReactElement => {
 export const LogsSummary = (): React.ReactElement => {
 	const entries = useLogEntries();
 	const navigate = useNavigate();
+	const isMobile = useMediaQuery(
+		`(max-width: ${theme.breakpoints.values.md}em)`,
+	);
 	const recent = entries.slice(-MAX_PREVIEW_ENTRIES).reverse();
 
 	return (
@@ -68,12 +90,13 @@ export const LogsSummary = (): React.ReactElement => {
 					size="lg"
 					className={titleStyle}
 				>
-					Logs
+					Últimos logs
 				</Text>
 				<Button
-					size="md"
+					size={isMobile ? 'sm' : 'md'}
 					variant="secondary"
 					endIcon="ArrowForwardIcon"
+					disabled={recent.length === 0}
 					onClick={() => {
 						void navigate(ROUTES.LOGS);
 					}}
@@ -82,9 +105,7 @@ export const LogsSummary = (): React.ReactElement => {
 				</Button>
 			</div>
 			{recent.length === 0 ? (
-				<Text renderAs="p" variant="body" className={emptyStyle}>
-					Sin registros recientes.
-				</Text>
+				<EmptyState />
 			) : (
 				recent.map((entry) => {
 					return <LogEntryRow key={entry.id} entry={entry} />;
