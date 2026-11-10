@@ -2,7 +2,7 @@ import type { ComponentPropsWithoutRef } from 'react';
 
 export type TextElement = keyof Pick<
 	React.JSX.IntrinsicElements,
-	'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'p' | 'span' | 'a'
+	'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'p' | 'pre' | 'span' | 'a'
 >;
 
 export type TextVariant = 'body' | 'label';

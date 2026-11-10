@@ -21,10 +21,29 @@ const getSearchInput = (page: Page): Locator => {
 	return page.getByPlaceholder('Buscar por mensaje');
 };
 
+const openDetailDialog = async (
+	page: Page,
+	rowIndex: number,
+): Promise<void> => {
+	const row = getBodyRows(page).nth(rowIndex);
+	const menuButton = row.getByRole('button', {
+		name: 'Ver mensaje completo',
+	});
+	await menuButton.click();
+	const menuItem = page.getByRole('menuitem', { name: 'Ver detalle' });
+	await menuItem.click();
+};
+
+const getDetailDialog = (page: Page): Locator => {
+	return page.getByRole('dialog', { name: 'Detalle del log' });
+};
+
 export const LogsTestHelpers = {
 	waitForLogsTable,
 	getBodyRows,
 	getPaginationSummary,
 	getSortButton,
 	getSearchInput,
+	openDetailDialog,
+	getDetailDialog,
 };

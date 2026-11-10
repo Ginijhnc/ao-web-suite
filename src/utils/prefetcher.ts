@@ -54,6 +54,12 @@ export const prefetchLogsPage = createPagePrefetcher(async () => {
 	return import('@Pages/LogsPage');
 });
 
-export const prefetchLogRowMenu = createPagePrefetcher(() => {
-	return import('@Components/pages/logs/LogsTable/LogRowMenu');
+export const prefetchLogRowActions = createPagePrefetcher(async () => {
+	const [, , { default: borderSquareImg }] = await Promise.all([
+		import('@Components/pages/logs/LogsTable/LogRowMenu'),
+		import('@Components/pages/logs/LogsTable/LogDetailDialog'),
+		import('@Assets/images/textures/border_square.png'),
+	]);
+
+	prefetchImages([borderSquareImg]);
 });
