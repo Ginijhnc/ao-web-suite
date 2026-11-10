@@ -1,8 +1,8 @@
 import type { ValueOf } from '../types/utility-types';
 
 export const ROUTES = {
-	ROOT: '/',
-	OVERVIEW: '/overview',
+	RECURSOS: '/recursos',
+	OVERVIEW: '/panel',
 	INDEXADOR: '/indexador',
 	DATEADOR: '/dateador',
 	MAPEADOR: '/mapeador',
@@ -12,7 +12,7 @@ export const ROUTES = {
 } as const;
 
 export const ROUTES_TITLES: Record<RouteKey, string> = {
-	ROOT: 'Recursos',
+	RECURSOS: 'Recursos',
 	OVERVIEW: 'Panel',
 	INDEXADOR: 'Indexador',
 	DATEADOR: 'Dateador',

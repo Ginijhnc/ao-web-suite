@@ -1,7 +1,7 @@
 import {
 	CodeIcon,
+	PanelIcon,
 	DatsIcon,
-	HomeIcon,
 	ImageIcon,
 	IndexingDataIcon,
 	LogsIcon,
@@ -19,13 +19,13 @@ export const SIDEBAR_INTERNAL_LINKS: ReadonlyArray<SidebarInternalLink> = [
 	{
 		label: ROUTES_TITLES.OVERVIEW,
 		route: ROUTES.OVERVIEW,
-		icon: HomeIcon,
+		icon: PanelIcon,
 		requiresAssets: true,
 		disabled: false,
 	},
 	{
-		label: ROUTES_TITLES.ROOT,
-		route: ROUTES.ROOT,
+		label: ROUTES_TITLES.RECURSOS,
+		route: ROUTES.RECURSOS,
 		icon: ImageIcon,
 		requiresAssets: false,
 		disabled: false,
