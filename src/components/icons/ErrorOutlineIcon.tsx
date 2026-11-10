@@ -1,6 +1,6 @@
 import type { IconProps } from './index';
 
-export const LogsIcon = (props: IconProps) => {
+export const ErrorOutlineIcon = (props: IconProps) => {
 	return (
 		<svg
 			xmlns="http://www.w3.org/2000/svg"

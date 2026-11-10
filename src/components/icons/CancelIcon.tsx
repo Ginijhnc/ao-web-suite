@@ -1,6 +1,6 @@
 import type { IconProps } from './index';
 
-export const ErrorIcon = (props: IconProps) => {
+export const CancelIcon = (props: IconProps) => {
 	return (
 		<svg
 			xmlns="http://www.w3.org/2000/svg"
