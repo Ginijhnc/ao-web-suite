@@ -1,3 +1,1 @@
-export type RequireAssetsProps = {
-	children: React.ReactNode;
-};
+export type RequireAssetsProps = Record<string, never>;
