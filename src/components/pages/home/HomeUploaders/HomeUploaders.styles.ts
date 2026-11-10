@@ -7,7 +7,6 @@ export const uploadersSectionStyle = css`
 	align-items: center;
 	margin-top: 1.5rem;
 	width: 100%;
-	max-width: 60rem;
 `;
 
 export const uploadersContainerStyle = css`

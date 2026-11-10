@@ -4,7 +4,7 @@ import { Container } from '@Components/shared/Container';
 
 export const HomePage = (): React.ReactElement => {
 	return (
-		<Container maxWidth="xl">
+		<Container maxWidth="lg">
 			<AppHeader />
 			<HomeUploaders />
 		</Container>
