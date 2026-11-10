@@ -33,6 +33,25 @@ Read the local uncommitted changes' diffs and suggest a branch name and commit m
 - Do not reference function/file names or hard-coded values; keep the body implementation-agnostic and future-proof
 - The commit message should be a single continuous block with title and body together, separated by a blank line (do not separate them into different sections)
 - Wrap commit body lines at **72 characters**
+- If the commit message contains double quotes (`"`), wrap the whole `git commit -m` argument in single quotes so the inner double quotes are preserved literally. Otherwise the message can be safely wrapped in double quotes.
+- Always output the ready-to-run `git checkout -b`, `git commit -m` and `git push origin` commands in that order. Never run `git commit` or `git add` unless the user explicitly asks you to.
+
+**Example output format** (all three commands must always be present):
+
+```
+git checkout -b fix/dateador-form-validation
+```
+
+```
+git commit -m "fix(dateador): prevent form from submitting invalid data
+
+Adds validation before submission so users cannot save entities
+with missing required fields."
+```
+
+```
+git push origin fix/dateador-form-validation
+```
 
 ### Scopes
 

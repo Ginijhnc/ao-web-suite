@@ -74,13 +74,35 @@ const assertPendingChangesEmptyState = async (
 	).toBeVisible();
 };
 
+/**
+ * Asserts the Logs card "Ver todos" button is visible and in the
+ * expected enabled/disabled state. Disabled when there are no logs,
+ * enabled once at least one entry exists.
+ */
+const assertVerTodosButton = async (
+	page: Page,
+	enabled: boolean,
+): Promise<void> => {
+	const verTodosButton = page.getByRole('button', {
+		name: 'Ver todos',
+	});
+	await expect(verTodosButton).toBeVisible();
+	if (enabled) {
+		await expect(verTodosButton).toBeEnabled();
+		return;
+	}
+	await expect(verTodosButton).toBeDisabled();
+};
+
 const assertLogsEmptyState = async (page: Page): Promise<void> => {
 	await expect(
-		page.getByRole('main').getByText('Logs', { exact: true }),
+		page.getByRole('main').getByText('Últimos logs', { exact: true }),
 	).toBeVisible();
 	await expect(
 		page.getByText('Sin registros recientes.', { exact: true }),
 	).toBeVisible();
+
+	await assertVerTodosButton(page, false);
 };
 
 /**
@@ -95,7 +117,7 @@ const assertLogsShowsEntry = async (
 	expectedMessage: string,
 ): Promise<void> => {
 	await expect(
-		page.getByRole('main').getByText('Logs', { exact: true }),
+		page.getByRole('main').getByText('Últimos logs', { exact: true }),
 	).toBeVisible();
 	await expect(
 		page.getByRole('main').getByText(levelLabel).first(),
@@ -103,6 +125,8 @@ const assertLogsShowsEntry = async (
 	await expect(
 		page.getByRole('main').getByText(expectedMessage),
 	).toBeVisible();
+
+	await assertVerTodosButton(page, true);
 };
 
 export const OverviewTestHelpers = {
@@ -111,6 +135,7 @@ export const OverviewTestHelpers = {
 	assertStatRow,
 	assertAssetStats,
 	assertPendingChangesEmptyState,
+	assertVerTodosButton,
 	assertLogsEmptyState,
 	assertLogsShowsEntry,
 };
