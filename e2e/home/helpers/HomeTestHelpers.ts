@@ -5,7 +5,7 @@ import { GENERAL_SELECTORS } from '@Constants/selectors';
 import { expect, type Locator, type Page } from '@playwright/test';
 
 const navigateToHomePage = async (page: Page): Promise<void> => {
-	await page.goto(ROUTES.ROOT, { waitUntil: 'domcontentloaded' });
+	await page.goto(ROUTES.RECURSOS, { waitUntil: 'domcontentloaded' });
 	await page.waitForLoadState('networkidle');
 };
 

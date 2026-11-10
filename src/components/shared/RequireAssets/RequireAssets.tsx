@@ -19,7 +19,7 @@ export const RequireAssets = ({
 	}
 
 	if (!assetsReady) {
-		return <Navigate to={ROUTES.ROOT} replace />;
+		return <Navigate to={ROUTES.RECURSOS} replace />;
 	}
 
 	return <>{children}</>;
