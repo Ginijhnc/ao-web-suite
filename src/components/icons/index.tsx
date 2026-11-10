@@ -3,6 +3,8 @@ import { CheckIcon } from './CheckIcon';
 import { ChevronLeftIcon } from './ChevronLeftIcon';
 import { ChevronRightIcon } from './ChevronRightIcon';
 import { CloseIcon } from './CloseIcon';
+import { CloudDoneIcon } from './CloudDoneIcon';
+import { CloudUploadIcon } from './CloudUploadIcon';
 import { CodeIcon } from './CodeIcon';
 import { CopyIcon } from './CopyIcon';
 import { DatsIcon } from './DatsIcon';
@@ -30,6 +32,8 @@ export {
 	ArrowForwardIcon,
 	CheckIcon,
 	ChevronLeftIcon,
+	CloudDoneIcon,
+	CloudUploadIcon,
 	ChevronRightIcon,
 	CloseIcon,
 	CodeIcon,
@@ -60,6 +64,8 @@ export const icons = {
 	ArrowForwardIcon,
 	CheckIcon,
 	ChevronLeftIcon,
+	CloudDoneIcon,
+	CloudUploadIcon,
 	ChevronRightIcon,
 	CloseIcon,
 	CodeIcon,
