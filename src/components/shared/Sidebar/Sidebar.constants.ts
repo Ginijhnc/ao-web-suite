@@ -15,6 +15,10 @@ import type {
 	SidebarInternalLink,
 } from './Sidebar.types';
 
+export const SIDEBAR_BADGE_KEYS = {
+	LOGS: 'logs',
+} as const;
+
 export const SIDEBAR_INTERNAL_LINKS: ReadonlyArray<SidebarInternalLink> = [
 	{
 		label: ROUTES_TITLES.OVERVIEW,
@@ -64,6 +68,7 @@ export const SIDEBAR_INTERNAL_LINKS: ReadonlyArray<SidebarInternalLink> = [
 		icon: ErrorOutlineIcon,
 		requiresAssets: false,
 		disabled: false,
+		badgeKey: SIDEBAR_BADGE_KEYS.LOGS,
 	},
 	{
 		label: ROUTES_TITLES.CONFIGURACION,

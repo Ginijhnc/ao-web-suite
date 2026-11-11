@@ -1,4 +1,5 @@
 import { getLogActions } from '@Stores/logStore';
+import { prefetchLogsPage } from '@Utils/prefetcher';
 
 /**
  * Converts an object to text so it can be stored as a log
@@ -40,12 +41,14 @@ const error = (...rest: Array<unknown>): void => {
 	// eslint-disable-next-line no-restricted-syntax
 	console.error(...rest);
 	getLogActions().addEntry('error', serialize(rest));
+	prefetchLogsPage();
 };
 
 const warn = (...rest: Array<unknown>): void => {
 	// eslint-disable-next-line no-restricted-syntax
 	console.warn(...rest);
 	getLogActions().addEntry('warn', serialize(rest));
+	prefetchLogsPage();
 };
 
 export const log = { error, warn } as const;

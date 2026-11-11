@@ -2,7 +2,10 @@ import { FILE_TYPES } from '@Constants/database';
 import { ROUTES_TITLES } from '@Constants/routes';
 import { expect, type Page } from '@playwright/test';
 import { uploadPublicGraphics } from '../../home/flows/homeAssetsUpload';
-import { uploadPublicDats } from '../../home/flows/homeDatsUpload';
+import {
+	uploadPublicDats,
+	rejectDuplicateIds,
+} from '../../home/flows/homeDatsUpload';
 import { uploadPublicIndices } from '../../home/flows/homeIndicesUpload';
 import { HomeTestHelpers } from '../../home/helpers/HomeTestHelpers';
 import { SidebarTestHelpers } from '../helpers/SidebarTestHelpers';
@@ -129,4 +132,21 @@ export const assertNoTooltipAfterReexpandingSidebar = async (
 		ROUTES_TITLES.TUTORIAL,
 	);
 	await expect(tooltip).toBeHidden();
+};
+
+export const assertLogsBadgeAbsentWithNoLogs = async (
+	page: Page,
+): Promise<void> => {
+	const badge = SidebarTestHelpers.getLogsBadge(page);
+	await expect(badge).toBeHidden();
+};
+
+export const assertLogsBadgeAppearsAfterUploadError = async (
+	page: Page,
+): Promise<void> => {
+	await HomeTestHelpers.selectFileType(page, FILE_TYPES.DATS);
+	await rejectDuplicateIds(page);
+
+	const badge = SidebarTestHelpers.getLogsBadge(page);
+	await expect(badge).toHaveText('2');
 };

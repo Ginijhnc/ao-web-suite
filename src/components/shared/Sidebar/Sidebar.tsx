@@ -4,8 +4,10 @@ import { Tooltip, loadMuiTooltip } from '@Components/shared/Tooltip';
 import { useAssetsReady } from '@Hooks/useAssetsReady';
 import Drawer from '@mui/material/Drawer';
 import useMediaQuery from '@mui/material/useMediaQuery';
+import { useLogCount } from '@Stores/logStore';
 import { useLocation, useNavigate } from 'react-router';
 import {
+	SIDEBAR_BADGE_KEYS,
 	SIDEBAR_EXTERNAL_LINKS,
 	SIDEBAR_INTERNAL_LINKS,
 } from './Sidebar.constants';
@@ -18,6 +20,7 @@ import {
 	linkStyle,
 	linkTextStyle,
 	mobileDrawerToggleStyle,
+	sidebarBadgeStyle,
 	sidebarCollapsedStyle,
 	sidebarLinksStyle,
 	sidebarLinksCollapsedStyle,
@@ -27,6 +30,7 @@ import {
 	sidebarStyle,
 } from './Sidebar.styles';
 import type {
+	SidebarBadgeProps,
 	SidebarDesktopCollapseButtonProps,
 	SidebarExternalLinkItemProps,
 	SidebarInternalLinkItemProps,
@@ -75,12 +79,31 @@ const SidebarDesktopCollapseButton = ({
 	);
 };
 
+const SidebarBadge = ({
+	count,
+	label,
+}: SidebarBadgeProps): React.ReactElement | null => {
+	if (count === 0) return null;
+
+	return (
+		<Text
+			renderAs="span"
+			size="xs"
+			weight="semiBold"
+			className={sidebarBadgeStyle}
+		>
+			{label}
+		</Text>
+	);
+};
+
 const SidebarInternalLinkItem = ({
 	link,
 	isActive,
 	isCollapsed,
 	isDisabled,
 	showTooltip,
+	badge,
 	onNavigate,
 }: SidebarInternalLinkItemProps): React.ReactElement => {
 	const Icon = link.icon;
@@ -115,6 +138,7 @@ const SidebarInternalLinkItem = ({
 				>
 					{link.label}
 				</Text>
+				{badge}
 			</div>
 		</button>
 	);
@@ -190,6 +214,15 @@ const SidebarLinks = ({
 	showTooltip,
 	onNavigate,
 }: SidebarLinksProps): React.ReactElement => {
+	const logCount = useLogCount();
+	const logCountLabel = logCount > 99 ? '99+' : String(logCount);
+
+	const badgeMap: Record<string, React.ReactNode> = {
+		[SIDEBAR_BADGE_KEYS.LOGS]: (
+			<SidebarBadge count={logCount} label={logCountLabel} />
+		),
+	};
+
 	const linksClassName = [
 		sidebarLinksStyle,
 		isCollapsed ? sidebarLinksCollapsedStyle : undefined,
@@ -202,6 +235,9 @@ const SidebarLinks = ({
 			{SIDEBAR_INTERNAL_LINKS.map((link) => {
 				const isDisabled =
 					link.disabled || (link.requiresAssets && !assetsReady);
+				const badge = link.badgeKey
+					? badgeMap[link.badgeKey]
+					: undefined;
 
 				return (
 					<SidebarInternalLinkItem
@@ -211,6 +247,7 @@ const SidebarLinks = ({
 						isCollapsed={isCollapsed}
 						isDisabled={isDisabled}
 						showTooltip={showTooltip}
+						badge={badge}
 						onNavigate={onNavigate}
 					/>
 				);

@@ -1,6 +1,8 @@
 import { test } from '@playwright/test';
 import { HomeTestHelpers } from '../home/helpers/HomeTestHelpers';
 import {
+	assertLogsBadgeAbsentWithNoLogs,
+	assertLogsBadgeAppearsAfterUploadError,
 	assertNoTooltipAfterReexpandingSidebar,
 	assertNoTooltipOnExpandedSidebar,
 	assertTooltipOnCollapsedSidebarDisabledLink,
@@ -41,4 +43,16 @@ test('sidebar: tooltip stops appearing after re-expanding the sidebar', async ({
 	page,
 }) => {
 	await assertNoTooltipAfterReexpandingSidebar(page);
+});
+
+test('sidebar: logs badge is absent when there are no log entries', async ({
+	page,
+}) => {
+	await assertLogsBadgeAbsentWithNoLogs(page);
+});
+
+test('sidebar: logs badge appears after an upload error is logged', async ({
+	page,
+}) => {
+	await assertLogsBadgeAppearsAfterUploadError(page);
 });

@@ -83,3 +83,9 @@ export const useLogActions = () => {
 export const getLogActions = () => {
 	return useLogStore.getState().actions;
 };
+
+export const useLogCount = () => {
+	return useLogStore((state) => {
+		return state.entries.length;
+	});
+};
