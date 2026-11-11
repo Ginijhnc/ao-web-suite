@@ -30,6 +30,7 @@ import {
 	sidebarStyle,
 } from './Sidebar.styles';
 import type {
+	SidebarBadgeKey,
 	SidebarBadgeProps,
 	SidebarDesktopCollapseButtonProps,
 	SidebarExternalLinkItemProps,
@@ -217,7 +218,7 @@ const SidebarLinks = ({
 	const logCount = useLogCount();
 	const logCountLabel = logCount > 99 ? '99+' : String(logCount);
 
-	const badgeMap: Record<string, React.ReactNode> = {
+	const badgeMap: Record<SidebarBadgeKey, React.ReactNode> = {
 		[SIDEBAR_BADGE_KEYS.LOGS]: (
 			<SidebarBadge count={logCount} label={logCountLabel} />
 		),
