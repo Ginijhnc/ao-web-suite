@@ -1,4 +1,5 @@
 import type { RouteTitleValue } from '@Constants/routes';
+import { ROUTES_TITLES } from '@Constants/routes';
 import { expect, type Locator, type Page } from '@playwright/test';
 
 const getNavLink = (page: Page, label: RouteTitleValue): Locator => {
@@ -49,6 +50,16 @@ const getTooltip = (page: Page, label: RouteTitleValue): Locator => {
 	return page.getByRole('tooltip', { name: label });
 };
 
+const getLogsBadge = (page: Page): Locator => {
+	return (
+		page
+			.getByRole('navigation', { name: 'Navegación principal' })
+			.getByRole('button', { name: ROUTES_TITLES.LOGS })
+			// Matches the badge text: either a plain integer or the capped "99+" label.
+			.getByText(/^\d+$|^99\+$/)
+	);
+};
+
 export const SidebarTestHelpers = {
 	getNavLink,
 	assertLinksDisabled,
@@ -56,4 +67,5 @@ export const SidebarTestHelpers = {
 	collapseSidebar,
 	expandSidebar,
 	getTooltip,
+	getLogsBadge,
 };

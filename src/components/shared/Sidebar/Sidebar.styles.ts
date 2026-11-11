@@ -203,6 +203,20 @@ export const linkDisabledTooltipWrapperStyle = css`
 	width: 100%;
 `;
 
+export const sidebarBadgeStyle = css`
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	min-width: 2em;
+	height: 2em;
+	padding: 0 0.55em;
+	border-radius: 1em;
+	background: hsl(0, 0%, 100%, 0.15);
+	border: 1px solid hsl(0, 0%, 100%, 0.15);
+	margin-left: auto;
+	flex-shrink: 0;
+`;
+
 export const mobileDrawerToggleStyle = css`
 	position: fixed;
 	top: 0;

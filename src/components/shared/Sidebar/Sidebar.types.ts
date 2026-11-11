@@ -1,5 +1,9 @@
 import type { IconProps } from '@Components/icons';
 import type { RouteTitleValue, RouteValue } from '@Constants/routes';
+import type { ValueOf } from '@Types/utility-types';
+import type { SIDEBAR_BADGE_KEYS } from './Sidebar.constants';
+
+export type SidebarBadgeKey = ValueOf<typeof SIDEBAR_BADGE_KEYS>;
 
 export type SidebarInternalLink = {
 	label: RouteTitleValue;
@@ -7,6 +11,7 @@ export type SidebarInternalLink = {
 	icon: (props: IconProps) => React.ReactElement;
 	requiresAssets: boolean;
 	disabled: boolean;
+	badgeKey?: SidebarBadgeKey;
 };
 
 export type SidebarExternalLink = {
@@ -39,6 +44,7 @@ export type SidebarInternalLinkItemProps = {
 	isCollapsed: boolean;
 	isDisabled: boolean;
 	showTooltip: boolean;
+	badge?: React.ReactNode;
 	onNavigate: (route: RouteValue) => void;
 };
 
@@ -54,4 +60,9 @@ export type SidebarLinksProps = {
 	assetsReady: boolean;
 	showTooltip: boolean;
 	onNavigate: (route: RouteValue) => void;
+};
+
+export type SidebarBadgeProps = {
+	count: number;
+	label: string;
 };
