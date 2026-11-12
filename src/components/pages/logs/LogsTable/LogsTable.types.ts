@@ -23,3 +23,5 @@ export type LogsTableContentProps = {
 export type LogTableRowProps = {
 	entry: LogEntry;
 };
+
+export type LogRowActionsCellProps = LogTableRowProps;

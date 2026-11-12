@@ -42,6 +42,7 @@ import {
 	tableStyle,
 } from './LogsTable.styles';
 import type {
+	LogRowActionsCellProps,
 	LogTableRowProps,
 	LogsTableContentProps,
 	LogsTableHeaderProps,
@@ -63,7 +64,9 @@ const LogDetailDialog = lazy(() => {
 
 const DEFAULT_ROWS_PER_PAGE = 10;
 
-const LogTableRow = ({ entry }: LogTableRowProps): React.ReactElement => {
+const LogRowActionsCell = ({
+	entry,
+}: LogRowActionsCellProps): React.ReactElement => {
 	const [menuAnchor, setMenuAnchor] = useState<HTMLElement | null>(null);
 	const {
 		isOpen: detailIsOpen,
@@ -133,6 +136,51 @@ const LogTableRow = ({ entry }: LogTableRowProps): React.ReactElement => {
 	}, [menuAnchor]);
 
 	return (
+		<TableCell className={actionCellStyle}>
+			<button
+				type="button"
+				aria-label="Abrir menú de acciones"
+				onClick={handleOpenMenu}
+			>
+				<MoreHorizIcon />
+			</button>
+			{/* The only scenario where the user would see a loading gap is
+			    if they click the button within the first 1000ms before
+			    the prefetch completes */}
+			<Suspense fallback={null}>
+				{menuAnchor !== null && (
+					<LogRowMenu
+						anchorEl={menuAnchor}
+						onClose={handleCloseMenu}
+						actions={rowActions}
+						paperRef={paperRef}
+					/>
+				)}
+				{detailIsOpen && (
+					<LogDetailDialog
+						entry={entry}
+						open={detailIsOpen}
+						onClose={detailOnClose}
+					/>
+				)}
+			</Suspense>
+			{deletionIsOpen && (
+				<ConfirmationDialog
+					open={deletionIsOpen}
+					title="Eliminar log"
+					message={LOGS_MESSAGES.DELETE_CONFIRM}
+					confirmLabel="Eliminar"
+					cancelLabel="Cancelar"
+					onConfirm={handleConfirmDelete}
+					onCancel={deletionOnClose}
+				/>
+			)}
+		</TableCell>
+	);
+};
+
+const LogTableRow = ({ entry }: LogTableRowProps): React.ReactElement => {
+	return (
 		<TableRow>
 			<TableCell>
 				<Text
@@ -160,46 +208,7 @@ const LogTableRow = ({ entry }: LogTableRowProps): React.ReactElement => {
 					{entry.message}
 				</Text>
 			</TableCell>
-			<TableCell className={actionCellStyle}>
-				<button
-					type="button"
-					aria-label="Abrir menú de acciones"
-					onClick={handleOpenMenu}
-				>
-					<MoreHorizIcon />
-				</button>
-				{/* The only scenario where the user would see a loading gap is
-				    if they click the button within the first 1000ms before
-				    the prefetch completes */}
-				<Suspense fallback={null}>
-					{menuAnchor !== null && (
-						<LogRowMenu
-							anchorEl={menuAnchor}
-							onClose={handleCloseMenu}
-							actions={rowActions}
-							paperRef={paperRef}
-						/>
-					)}
-					{detailIsOpen && (
-						<LogDetailDialog
-							entry={entry}
-							open={detailIsOpen}
-							onClose={detailOnClose}
-						/>
-					)}
-				</Suspense>
-				{deletionIsOpen && (
-					<ConfirmationDialog
-						open={deletionIsOpen}
-						title="Eliminar log"
-						message={LOGS_MESSAGES.DELETE_CONFIRM}
-						confirmLabel="Eliminar"
-						cancelLabel="Cancelar"
-						onConfirm={handleConfirmDelete}
-						onCancel={deletionOnClose}
-					/>
-				)}
-			</TableCell>
+			<LogRowActionsCell entry={entry} />
 		</TableRow>
 	);
 };
