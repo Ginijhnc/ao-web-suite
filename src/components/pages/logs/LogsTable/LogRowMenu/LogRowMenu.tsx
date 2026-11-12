@@ -1,4 +1,4 @@
-import { EyeIcon } from '@Components/icons';
+import { icons } from '@Components/icons';
 import { Menu, MenuItem } from '@mui/material';
 import Fade from '@mui/material/Fade';
 import { menuPaperStyle } from './LogRowMenu.styles';
@@ -7,14 +7,9 @@ import type { LogRowMenuProps } from './LogRowMenu.types';
 export const LogRowMenu = ({
 	anchorEl,
 	onClose,
-	onShowDetail,
+	actions,
 	paperRef,
 }: LogRowMenuProps) => {
-	const handleShowDetail = () => {
-		onShowDetail();
-		onClose();
-	};
-
 	return (
 		<Menu
 			anchorEl={anchorEl}
@@ -28,10 +23,21 @@ export const LogRowMenu = ({
 			}}
 			disableScrollLock
 		>
-			<MenuItem onClick={handleShowDetail}>
-				<EyeIcon />
-				Ver detalle
-			</MenuItem>
+			{actions.map((action) => {
+				const Icon = icons[action.icon];
+				return (
+					<MenuItem
+						key={action.label}
+						onClick={() => {
+							action.onClick();
+							onClose();
+						}}
+					>
+						<Icon />
+						{action.label}
+					</MenuItem>
+				);
+			})}
 		</Menu>
 	);
 };

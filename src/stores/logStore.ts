@@ -14,6 +14,7 @@ export type LogEntry = {
 type LogActions = {
 	addEntry: (level: LogLevel, message: string) => void;
 	clearEntries: () => void;
+	deleteEntry: (id: string) => boolean;
 };
 
 type LogState = {
@@ -52,6 +53,19 @@ const useLogStore = create<LogState>()(
 						return set({
 							entries: LOGS_INITIAL_STATE.entries,
 						});
+					},
+					deleteEntry: (id) => {
+						const current = get().entries;
+						const exists = current.some((e) => {
+							return e.id === id;
+						});
+						if (!exists) return false;
+						set({
+							entries: current.filter((e) => {
+								return e.id !== id;
+							}),
+						});
+						return true;
 					},
 				},
 			};

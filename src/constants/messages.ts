@@ -81,4 +81,8 @@ export const DATS_MESSAGES = {
 export const LOGS_MESSAGES = {
 	COPY_SUCCESS: 'Log copiado exitosamente.',
 	COPY_ERROR: 'No se pudo copiar el log.',
+	DELETE_CONFIRM: '¿Está seguro que quiere eliminar el log?',
+	DELETE_SUCCESS: 'Log eliminado correctamente.',
+	DELETE_NOT_FOUND:
+		'No se encontró el log. Es posible que ya haya sido eliminado.',
 } as const;
