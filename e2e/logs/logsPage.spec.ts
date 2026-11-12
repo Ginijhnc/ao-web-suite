@@ -1,5 +1,10 @@
 import { test } from '@playwright/test';
 import {
+	assertDeleteCancelKeepsRow,
+	assertDeleteConfirmRemovesRow,
+	assertDeleteDialogRendersContent,
+} from './flows/logsDeletion';
+import {
 	assertCopyButtonBehavior,
 	assertDetailDialogRendersContent,
 	assertScrollHintVisibleThenHides,
@@ -96,4 +101,22 @@ test('logs page: copy button copies message, swaps icon, and shows toast', async
 	page,
 }) => {
 	await assertCopyButtonBehavior(page);
+});
+
+test('logs page: delete dialog renders correct content', async ({
+	page,
+}) => {
+	await assertDeleteDialogRendersContent(page);
+});
+
+test('logs page: cancelling delete keeps the row in the table', async ({
+	page,
+}) => {
+	await assertDeleteCancelKeepsRow(page);
+});
+
+test('logs page: confirming delete removes the entry from the table', async ({
+	page,
+}) => {
+	await assertDeleteConfirmRemovesRow(page);
 });

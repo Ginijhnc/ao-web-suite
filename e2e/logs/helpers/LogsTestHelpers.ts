@@ -27,7 +27,7 @@ const openDetailDialog = async (
 ): Promise<void> => {
 	const row = getBodyRows(page).nth(rowIndex);
 	const menuButton = row.getByRole('button', {
-		name: 'Ver mensaje completo',
+		name: 'Abrir menú de acciones',
 	});
 	await menuButton.click();
 	const menuItem = page.getByRole('menuitem', { name: 'Ver detalle' });
@@ -38,6 +38,23 @@ const getDetailDialog = (page: Page): Locator => {
 	return page.getByRole('dialog', { name: 'Detalle del log' });
 };
 
+const openDeleteDialog = async (
+	page: Page,
+	rowIndex: number,
+): Promise<void> => {
+	const row = getBodyRows(page).nth(rowIndex);
+	const menuButton = row.getByRole('button', {
+		name: 'Abrir menú de acciones',
+	});
+	await menuButton.click();
+	const menuItem = page.getByRole('menuitem', { name: 'Eliminar' });
+	await menuItem.click();
+};
+
+const getDeleteDialog = (page: Page): Locator => {
+	return page.getByRole('dialog', { name: 'Eliminar log' });
+};
+
 export const LogsTestHelpers = {
 	waitForLogsTable,
 	getBodyRows,
@@ -46,4 +63,6 @@ export const LogsTestHelpers = {
 	getSearchInput,
 	openDetailDialog,
 	getDetailDialog,
+	openDeleteDialog,
+	getDeleteDialog,
 };

@@ -5,11 +5,14 @@ import {
 	MoreHorizIcon,
 	SearchOffIcon,
 } from '@Components/icons';
+import { ConfirmationDialog } from '@Components/shared/ConfirmationDialog';
 import { StatusMessage } from '@Components/shared/StatusMessage';
 import { Text } from '@Components/shared/Text';
+import { LOGS_MESSAGES } from '@Constants/messages';
 import { LOGS_SELECTORS } from '@Constants/selectors';
 import { cx } from '@emotion/css';
 import { useDebounce } from '@Hooks/useDebounce';
+import { useDisclosure } from '@Hooks/useDisclosure';
 import {
 	Pagination,
 	PaginationItem,
@@ -20,7 +23,9 @@ import {
 	TableHead,
 	TableRow,
 } from '@mui/material';
+import { useLogActions } from '@Stores/logStore';
 import { formatDayMonthYearTime } from '@Utils/date';
+import { Toast } from '@Utils/toast';
 import { LogsFilterBar } from '../LogsFilterBar';
 import type { LevelFilter } from '../LogsFilterBar/LogsFilterBar.types';
 import {
@@ -60,8 +65,18 @@ const DEFAULT_ROWS_PER_PAGE = 10;
 
 const LogTableRow = ({ entry }: LogTableRowProps): React.ReactElement => {
 	const [menuAnchor, setMenuAnchor] = useState<HTMLElement | null>(null);
-	const [detailOpen, setDetailOpen] = useState(false);
+	const {
+		isOpen: detailIsOpen,
+		onOpen: detailOnOpen,
+		onClose: detailOnClose,
+	} = useDisclosure();
+	const {
+		isOpen: deletionIsOpen,
+		onOpen: deletionOnOpen,
+		onClose: deletionOnClose,
+	} = useDisclosure();
 	const paperRef = useRef<HTMLDivElement | null>(null);
+	const { deleteEntry } = useLogActions();
 
 	const handleOpenMenu = (
 		event: React.MouseEvent<HTMLButtonElement>,
@@ -73,13 +88,28 @@ const LogTableRow = ({ entry }: LogTableRowProps): React.ReactElement => {
 		setMenuAnchor(null);
 	};
 
-	const handleOpenDetail = () => {
-		setDetailOpen(true);
+	const handleConfirmDelete = () => {
+		const deleted = deleteEntry(entry.id);
+		if (deleted) {
+			Toast.success(LOGS_MESSAGES.DELETE_SUCCESS);
+		} else {
+			Toast.error(LOGS_MESSAGES.DELETE_NOT_FOUND);
+		}
+		deletionOnClose();
 	};
 
-	const handleCloseDetail = () => {
-		setDetailOpen(false);
-	};
+	const rowActions = [
+		{
+			label: 'Ver detalle',
+			icon: 'EyeIcon' as const,
+			onClick: detailOnOpen,
+		},
+		{
+			label: 'Eliminar',
+			icon: 'TrashIcon' as const,
+			onClick: deletionOnOpen,
+		},
+	];
 
 	/*
 	 * Syncing with an external scroll event is a genuine side effect.
@@ -133,7 +163,7 @@ const LogTableRow = ({ entry }: LogTableRowProps): React.ReactElement => {
 			<TableCell className={actionCellStyle}>
 				<button
 					type="button"
-					aria-label="Ver mensaje completo"
+					aria-label="Abrir menú de acciones"
 					onClick={handleOpenMenu}
 				>
 					<MoreHorizIcon />
@@ -146,18 +176,29 @@ const LogTableRow = ({ entry }: LogTableRowProps): React.ReactElement => {
 						<LogRowMenu
 							anchorEl={menuAnchor}
 							onClose={handleCloseMenu}
-							onShowDetail={handleOpenDetail}
+							actions={rowActions}
 							paperRef={paperRef}
 						/>
 					)}
-					{detailOpen && (
+					{detailIsOpen && (
 						<LogDetailDialog
 							entry={entry}
-							open={detailOpen}
-							onClose={handleCloseDetail}
+							open={detailIsOpen}
+							onClose={detailOnClose}
 						/>
 					)}
 				</Suspense>
+				{deletionIsOpen && (
+					<ConfirmationDialog
+						open={deletionIsOpen}
+						title="Eliminar log"
+						message={LOGS_MESSAGES.DELETE_CONFIRM}
+						confirmLabel="Eliminar"
+						cancelLabel="Cancelar"
+						onConfirm={handleConfirmDelete}
+						onCancel={deletionOnClose}
+					/>
+				)}
 			</TableCell>
 		</TableRow>
 	);
