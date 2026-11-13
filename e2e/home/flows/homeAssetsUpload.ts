@@ -1,6 +1,12 @@
 import path from 'path';
 import { fileURLToPath } from 'url';
-import { GRAPHICS_MESSAGES } from '@Constants/messages';
+import { FILE_TYPES } from '@Constants/database';
+import {
+	CLEAR_CONFIRM_MESSAGE,
+	CLEAR_SUCCESS,
+	GRAPHICS_MESSAGES,
+} from '@Constants/messages';
+import { GENERAL_SELECTORS } from '@Constants/selectors';
 import { expect, type Page } from '@playwright/test';
 import { GeneralTestHelpers } from '../../shared/helpers/GeneralTestHelpers';
 import { HomeTestHelpers } from '../helpers/HomeTestHelpers';
@@ -103,10 +109,53 @@ export const clearGraphics = async (page: Page): Promise<void> => {
 	await expect(clearButton).toBeEnabled();
 
 	await clearButton.click();
+	const dialog = HomeTestHelpers.getClearAssetConfirmationDialog(
+		page,
+		FILE_TYPES.GRAPHICS,
+	);
+	await expect(dialog).toBeVisible();
+	await expect(
+		dialog.getByText(CLEAR_CONFIRM_MESSAGE(FILE_TYPES.GRAPHICS)),
+	).toBeVisible();
+	await HomeTestHelpers.confirmAssetClearDialog(
+		page,
+		FILE_TYPES.GRAPHICS,
+	);
+	await expect(page.getByTestId(GENERAL_SELECTORS.TOAST)).toContainText(
+		CLEAR_SUCCESS(FILE_TYPES.GRAPHICS),
+	);
 	await expect(clearButton).toBeDisabled();
 	await expect(
 		page.getByText('Falta subir los gráficos.'),
 	).toBeVisible();
+};
+
+export const dismissClearGraphicsDialog = async (
+	page: Page,
+): Promise<void> => {
+	const file = [path.join(FIXTURES, 'uploads/3082.png')];
+	await HomeTestHelpers.uploadFiles(
+		page,
+		file,
+		GRAPHICS_MESSAGES.UPLOAD_SUCCESS,
+	);
+
+	const clearButton = HomeTestHelpers.getClearButton(page);
+	await clearButton.click();
+	const dialog = HomeTestHelpers.getClearAssetConfirmationDialog(
+		page,
+		FILE_TYPES.GRAPHICS,
+	);
+	await expect(dialog).toBeVisible();
+	await expect(
+		dialog.getByText(CLEAR_CONFIRM_MESSAGE(FILE_TYPES.GRAPHICS)),
+	).toBeVisible();
+	await HomeTestHelpers.cancelAssetClearDialog(
+		page,
+		FILE_TYPES.GRAPHICS,
+	);
+	await expect(clearButton).toBeEnabled();
+	await expect(page.getByText('1 imagen subida.')).toBeVisible();
 };
 
 export const uploadSameFileForReplacement = async (

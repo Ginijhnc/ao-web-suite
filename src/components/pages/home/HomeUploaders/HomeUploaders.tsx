@@ -2,6 +2,7 @@ import { useState } from 'react';
 import type { IconName } from '@Components/icons';
 import { Button } from '@Components/shared/Button';
 import { Chip } from '@Components/shared/Chip';
+import { ConfirmationDialog } from '@Components/shared/ConfirmationDialog';
 import { Text } from '@Components/shared/Text';
 import { FILE_TYPES } from '@Constants/database';
 import type { FileType } from '@Constants/database';
@@ -10,7 +11,9 @@ import {
 	INDICES_ACCEPTED_EXTENSIONS,
 	INDICES_NAMES,
 } from '@Constants/indices';
+import { CLEAR_CONFIRM_MESSAGE } from '@Constants/messages';
 import { ROUTES } from '@Constants/routes';
+import { useDisclosure } from '@Hooks/useDisclosure';
 import { useFileUploader } from '@Hooks/useFileUploader';
 import { useDats } from '@Stores/datsStore';
 import { useGraphicsFiles } from '@Stores/graphicsStore';
@@ -100,6 +103,11 @@ export const HomeUploaders = (): React.ReactElement => {
 		FILE_TYPES.GRAPHICS,
 	);
 	const { openFilePicker, clearFiles } = useFileUploader();
+	const {
+		isOpen: isDeleteConfirmationOpen,
+		onOpen: onDeleteConfirmationOpen,
+		onClose: onDeleteConfirmationClose,
+	} = useDisclosure();
 	const graphicsFiles = useGraphicsFiles();
 	const dats = useDats();
 	const indices = useIndices();
@@ -162,11 +170,24 @@ export const HomeUploaders = (): React.ReactElement => {
 	};
 
 	const handleClear = (): void => {
+		onDeleteConfirmationOpen();
+	};
+
+	const handleConfirmClear = (): void => {
+		onDeleteConfirmationClose();
 		void clearFiles(selected);
 	};
 
 	return (
 		<section className={uploadersSectionStyle}>
+			<ConfirmationDialog
+				open={isDeleteConfirmationOpen}
+				title={`Borrar ${selected.toLowerCase()}`}
+				message={CLEAR_CONFIRM_MESSAGE(selected)}
+				confirmLabel="Borrar"
+				onConfirm={handleConfirmClear}
+				onCancel={onDeleteConfirmationClose}
+			/>
 			<div className={uploadersContainerStyle}>
 				<FileTypeSelector
 					selected={selected}

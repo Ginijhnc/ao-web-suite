@@ -43,6 +43,33 @@ const getClearButton = (page: Page): Locator => {
 	return page.getByRole('button', { name: 'Borrar' });
 };
 
+const getClearAssetConfirmationDialog = (
+	page: Page,
+	fileType: FileType,
+): Locator => {
+	return page.getByRole('dialog', {
+		name: `Borrar ${fileType.toLowerCase()}`,
+	});
+};
+
+const confirmAssetClearDialog = async (
+	page: Page,
+	fileType: FileType,
+): Promise<void> => {
+	const dialog = getClearAssetConfirmationDialog(page, fileType);
+	await dialog.getByRole('button', { name: 'Borrar' }).click();
+	await expect(dialog).not.toBeVisible();
+};
+
+const cancelAssetClearDialog = async (
+	page: Page,
+	fileType: FileType,
+): Promise<void> => {
+	const dialog = getClearAssetConfirmationDialog(page, fileType);
+	await dialog.getByRole('button', { name: 'Cancelar' }).click();
+	await expect(dialog).not.toBeVisible();
+};
+
 const uploadFiles = async (
 	page: Page,
 	files: Array<string>,
@@ -63,5 +90,8 @@ export const HomeTestHelpers = {
 	selectFileType,
 	getUploadButton,
 	getClearButton,
+	getClearAssetConfirmationDialog,
+	confirmAssetClearDialog,
+	cancelAssetClearDialog,
 	uploadFiles,
 };

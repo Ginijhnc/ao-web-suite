@@ -3,6 +3,7 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 import { DB_NAME, DB_STORE_NAMES, FILE_TYPES } from '@Constants/database';
 import {
+	CLEAR_CONFIRM_MESSAGE,
 	CLEAR_SUCCESS,
 	GRAPHICS_MESSAGES,
 	INDICES_MESSAGES,
@@ -230,6 +231,10 @@ export const clearIndicesLeavesGraphicsIntact = async (
 	);
 
 	await HomeTestHelpers.getClearButton(page).click();
+	await HomeTestHelpers.confirmAssetClearDialog(
+		page,
+		FILE_TYPES.INDICES,
+	);
 	await expect(page.getByTestId(GENERAL_SELECTORS.TOAST)).toContainText(
 		CLEAR_SUCCESS(FILE_TYPES.INDICES),
 	);
@@ -305,6 +310,18 @@ export const clearIndices = async (page: Page): Promise<void> => {
 	await expect(clearButton).toBeEnabled();
 
 	await clearButton.click();
+	const dialog = HomeTestHelpers.getClearAssetConfirmationDialog(
+		page,
+		FILE_TYPES.INDICES,
+	);
+	await expect(dialog).toBeVisible();
+	await expect(
+		dialog.getByText(CLEAR_CONFIRM_MESSAGE(FILE_TYPES.INDICES)),
+	).toBeVisible();
+	await HomeTestHelpers.confirmAssetClearDialog(
+		page,
+		FILE_TYPES.INDICES,
+	);
 	await expect(page.getByTestId(GENERAL_SELECTORS.TOAST)).toContainText(
 		CLEAR_SUCCESS(FILE_TYPES.INDICES),
 	);
