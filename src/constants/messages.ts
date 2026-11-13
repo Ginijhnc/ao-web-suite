@@ -6,6 +6,10 @@ export const CLEAR_SUCCESS = (fileType: FileType) => {
 	return `Todos los ${fileType.toLowerCase()} fueron eliminados correctamente.`;
 };
 
+export const CLEAR_CONFIRM_MESSAGE = (fileType: FileType) => {
+	return `Se eliminarán todos los ${fileType.toLowerCase()} cargados. Esta acción no se puede deshacer.`;
+};
+
 export const GRAPHICS_MESSAGES = {
 	UPLOAD_SUCCESS: 'Todas las imágenes fueron subidas correctamente.',
 	UPLOAD_REPLACED: (names: string) => {

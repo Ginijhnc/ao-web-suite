@@ -4,6 +4,7 @@ import {
 	uploadBatchWithConflict,
 	uploadBatchWithMultipleConflicts,
 	clearGraphics,
+	dismissClearGraphicsDialog,
 	uploadSameFileForReplacement,
 	rejectReplacementWithDifferentExtension,
 } from './flows/homeAssetsUpload';
@@ -32,6 +33,12 @@ test('upload graphics: rejects batch with multiple format conflicts', async ({
 
 test('clear graphics: removes uploaded files', async ({ page }) => {
 	await clearGraphics(page);
+});
+
+test('clear graphics: dismissing the dialog does not delete files', async ({
+	page,
+}) => {
+	await dismissClearGraphicsDialog(page);
 });
 
 test('replace graphics: allows uploading the same file (same name and extension)', async ({
