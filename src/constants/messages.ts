@@ -85,4 +85,8 @@ export const LOGS_MESSAGES = {
 	DELETE_SUCCESS: 'Log eliminado correctamente.',
 	DELETE_NOT_FOUND:
 		'No se encontró el log. Es posible que ya haya sido eliminado.',
+	MENU_CHUNK_ERROR:
+		'No se pudo cargar el menú. Intentá recargar la página.',
+	DIALOG_CHUNK_ERROR:
+		'No se pudo cargar el popup de detalle. Intentá recargar la página.',
 } as const;

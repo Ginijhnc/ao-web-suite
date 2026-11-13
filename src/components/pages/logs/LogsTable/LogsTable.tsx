@@ -6,6 +6,7 @@ import {
 	SearchOffIcon,
 } from '@Components/icons';
 import { ConfirmationDialog } from '@Components/shared/ConfirmationDialog';
+import { ErrorBoundary } from '@Components/shared/ErrorBoundary';
 import { StatusMessage } from '@Components/shared/StatusMessage';
 import { Text } from '@Components/shared/Text';
 import { LOGS_MESSAGES } from '@Constants/messages';
@@ -147,23 +148,43 @@ const LogRowActionsCell = ({
 			{/* The only scenario where the user would see a loading gap is
 			    if they click the button within the first 1000ms before
 			    the prefetch completes */}
-			<Suspense fallback={null}>
-				{menuAnchor !== null && (
-					<LogRowMenu
-						anchorEl={menuAnchor}
-						onClose={handleCloseMenu}
-						actions={rowActions}
-						paperRef={paperRef}
-					/>
-				)}
-				{detailIsOpen && (
-					<LogDetailDialog
-						entry={entry}
-						open={detailIsOpen}
-						onClose={detailOnClose}
-					/>
-				)}
-			</Suspense>
+			<ErrorBoundary
+				onError={() => {
+					Toast.error(LOGS_MESSAGES.MENU_CHUNK_ERROR);
+				}}
+				fallback={() => {
+					return null;
+				}}
+			>
+				<Suspense fallback={null}>
+					{menuAnchor !== null && (
+						<LogRowMenu
+							anchorEl={menuAnchor}
+							onClose={handleCloseMenu}
+							actions={rowActions}
+							paperRef={paperRef}
+						/>
+					)}
+				</Suspense>
+			</ErrorBoundary>
+			<ErrorBoundary
+				onError={() => {
+					Toast.error(LOGS_MESSAGES.DIALOG_CHUNK_ERROR);
+				}}
+				fallback={() => {
+					return null;
+				}}
+			>
+				<Suspense fallback={null}>
+					{detailIsOpen && (
+						<LogDetailDialog
+							entry={entry}
+							open={detailIsOpen}
+							onClose={detailOnClose}
+						/>
+					)}
+				</Suspense>
+			</ErrorBoundary>
 			{deletionIsOpen && (
 				<ConfirmationDialog
 					open={deletionIsOpen}
