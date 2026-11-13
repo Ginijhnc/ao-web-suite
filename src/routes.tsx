@@ -2,6 +2,7 @@ import { Suspense } from 'react';
 import { DashboardLayout } from '@Components/shared/DashboardLayout';
 import { LoadingOverlay } from '@Components/shared/LoadingOverlay';
 import { NavigationProgressBar } from '@Components/shared/NavigationProgressBar';
+import { PageErrorFallback } from '@Components/shared/PageErrorFallback';
 import { RequireAssets } from '@Components/shared/RequireAssets';
 import { ROUTES } from '@Constants/routes';
 import { useAssetsReady } from '@Hooks/useAssetsReady';
@@ -50,6 +51,7 @@ const RootLayout = (): React.ReactElement => {
 export const router = createBrowserRouter([
 	{
 		element: <RootLayout />,
+		errorElement: <PageErrorFallback />,
 		children: [
 			{ path: '/', element: <RootRedirect /> },
 			{ path: ROUTES.RECURSOS, element: <HomePage /> },

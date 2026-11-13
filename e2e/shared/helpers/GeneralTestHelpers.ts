@@ -185,10 +185,22 @@ const assertIdbStoreIsEmpty = async (
 	expect(keys).toHaveLength(0);
 };
 
+const getLocalStorageItem = async <T>(
+	page: Page,
+	key: string,
+): Promise<T | null> => {
+	const raw = await page.evaluate((k: string) => {
+		return localStorage.getItem(k);
+	}, key);
+	if (!raw) return null;
+	return JSON.parse(raw) as T;
+};
+
 export const GeneralTestHelpers = {
 	getFilePathsFromDirectory,
 	getIdbEntry,
 	assertIdbStoreHasKeys,
 	assertIdbStoreHasEntry,
 	assertIdbStoreIsEmpty,
+	getLocalStorageItem,
 };

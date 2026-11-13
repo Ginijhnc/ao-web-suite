@@ -1,4 +1,5 @@
 import { test } from '@playwright/test';
+import { assertDialogChunkFailureBehaviour } from './flows/logsChunkError';
 import {
 	assertDeleteCancelKeepsRow,
 	assertDeleteConfirmRemovesRow,
@@ -119,4 +120,10 @@ test('logs page: confirming delete removes the entry from the table', async ({
 	page,
 }) => {
 	await assertDeleteConfirmRemovesRow(page);
+});
+
+test('logs page: dialog chunk load failure shows toast and logs the error', async ({
+	page,
+}) => {
+	await assertDialogChunkFailureBehaviour(page);
 });
