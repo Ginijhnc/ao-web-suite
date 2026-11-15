@@ -4,7 +4,7 @@
 
 - **Functions**: `camelCase`
 - **Variables**: `camelCase`
-- **Constants**: `SCREAMING_SNAKE_CASE` (top-level only; prefer `const` with camelCase for module constants)
+- **Constants**: `SCREAMING_SNAKE_CASE` (top-level only. Prefer `const` with camelCase for module constants)
 - **React Components & Files**: `PascalCase.tsx` (e.g., `UserProfile.tsx`, `LoginForm.tsx`)
 - **Types/Interfaces**: `PascalCase` (e.g., `User`, `AppState`, `ComponentProps`)
 - **Custom Hooks**: `useCamelCase`
@@ -20,7 +20,7 @@
 - **Prefer guard clauses**: Use guard clauses over nested `if-else` statements
 - **Semantic HTML**: Use semantic HTML (`<section>`, `<article>`, `<main>`) over `<div>` where appropriate
 - **React Compiler**: Don't be over-eager to use `useMemo`, `React.memo`, or `useCallback`. React Compiler handles memoization automatically.
-- **No AI-isms**: Avoid emojis, em dashes, and double dashes anywhere.
+- **No AI-isms**: Avoid emojis, em dashes, double dashes, and semicolons anywhere.
 
 ## Dependencies
 
@@ -57,9 +57,15 @@
 - **English for code**: Variable names, function names, comments, and code identifiers remain in English
 - **In some cases Spanglish is OK**: For very specific cases, you can use established domain-specific Spanglish terms in code (e.g., `mapeadorSlice`, `DateadorHelpers`, `IndexadorPopup`)
 
-## Relevant Commands
+## Model Behavior
 
-- Do not start a dev server unless the user explicitly asks.
+- **Questions are read-only**: A question is a request for an answer, not for action. Questions like "how hard would it be", "what are your thoughts", "why does", "should we", "is it possible", or "can X do Y" primarily signal intent to discuss, not to change code. Answer the question and then offer to make the change. Exception: if the user asks "did you run X?" where X is one of the relevant commands (lint, format, type-check, unit tests, e2e tests, audit), treat it as an instruction to run it if you haven't already.
+- **Prefer Bash over PowerShell**: Use the Bash tool to run shell commands (`pnpm`, `grep`, `cat`, `ls`, `echo`, etc). Only fall back to PowerShell for tasks that are strictly Windows-specific and cannot be handled in Bash.
+- **No redundant `cd` prefix**: Don't assume commands always need to be prefixed with `cd <project-root>`. The shell starts at the project root.
+- **Plans go in chat, not artifacts**: When outlining an implementation plan, write it directly in the chat response. Include relevant file paths and code snippets. Do not use artifacts. If the user asks to save the plan, write it as a `.md` file under `plans/` in the appropriate subfolder: `features`, `fixes`, `refactors`, or `testing`.
+- **No dev server**: Never start the dev server unless the user explicitly asks.
+
+## Relevant Commands
 
 ```bash
 pnpm lint                      # Lint check on all files
