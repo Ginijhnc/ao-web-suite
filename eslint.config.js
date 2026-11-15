@@ -8,6 +8,7 @@ import globals from 'globals';
 import requireJsdocInHelpers from './scripts/eslint/rules/require-jsdoc-in-helpers.js';
 import noHardcodedThemeColors from './scripts/eslint/rules/no-hardcoded-theme-colors.js';
 import noDeepSharedImport from './scripts/eslint/rules/no-deep-shared-import.js';
+import requireUseDisclosureDestructuring from './scripts/eslint/rules/require-use-disclosure-destructuring.js';
 
 export default [
 	js.configs.recommended,
@@ -62,6 +63,12 @@ export default [
 			'local-shared': {
 				rules: {
 					'no-deep-shared-import': noDeepSharedImport,
+				},
+			},
+			'local-hooks': {
+				rules: {
+					'require-use-disclosure-destructuring':
+						requireUseDisclosureDestructuring,
 				},
 			},
 		},
@@ -300,6 +307,7 @@ export default [
 			'spaced-comment': ['error', 'always', { markers: ['/'] }],
 			'local-colors/no-hardcoded-theme-colors': 'error',
 			'local-shared/no-deep-shared-import': 'error',
+			'local-hooks/require-use-disclosure-destructuring': 'error',
 
 			/* ==================== Import Organization ==================== */
 			'import/order': [
