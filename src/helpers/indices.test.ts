@@ -1,7 +1,7 @@
 import {
 	armasStripped,
 	armasWithZeros,
-} from '@Fixtures/indices/armas/armas';
+} from '@Fixtures/indices/armas/valid/armas';
 import { describe, it, expect } from 'vitest';
 import { stripZeroSentinels } from './indices';
 
