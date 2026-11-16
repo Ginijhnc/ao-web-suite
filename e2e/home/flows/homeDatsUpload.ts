@@ -1,5 +1,5 @@
 import fs from 'fs';
-import path from 'path';
+import path, { join } from 'path';
 import { fileURLToPath } from 'url';
 import { DB_NAME, DB_STORE_NAMES } from '@Constants/database';
 import { DATS_MESSAGES } from '@Constants/messages';
@@ -12,7 +12,7 @@ import { GeneralTestHelpers } from '../../shared/helpers/GeneralTestHelpers';
 import { HomeTestHelpers } from '../helpers/HomeTestHelpers';
 
 const dirName = path.dirname(fileURLToPath(import.meta.url));
-const FIXTURES = path.resolve(dirName, '../../../fixtures/dats');
+const FIXTURES = join(process.cwd(), 'fixtures', 'dats');
 const PUBLIC_DATS = path.resolve(
 	dirName,
 	'../../../public/game_assets/dats',

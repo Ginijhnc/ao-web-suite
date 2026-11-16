@@ -1,15 +1,15 @@
 import fs from 'fs';
-import path from 'path';
-import { fileURLToPath } from 'url';
+import { join } from 'path';
 import { ROUTES } from '@Constants/routes';
 import { STORE_NAMES } from '@Constants/storage';
 import type { Page } from '@playwright/test';
 import type { LogEntry } from '@Stores/logStore';
 
-const dirName = path.dirname(fileURLToPath(import.meta.url));
-const FIXTURE_PATH = path.resolve(
-	dirName,
-	'../../../fixtures/logs/logs_fixture.json',
+const FIXTURE_PATH = join(
+	process.cwd(),
+	'fixtures',
+	'logs',
+	'logs_fixture.json',
 );
 
 export const loadFixture = (): ReadonlyArray<LogEntry> => {
