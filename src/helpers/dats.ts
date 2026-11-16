@@ -6,7 +6,13 @@ import {
 	NUMBER_FIELD_BY_DAT,
 	type DatName,
 } from '@Constants/dats';
-import { DAT_ENTRY_KEYS, DAT_SCHEMAS } from '@Types/dats';
+import {
+	DAT_ENTRY_KEYS,
+	DAT_SCHEMAS,
+	type HechizosDat,
+	type NpcsDat,
+	type ObjDat,
+} from '@Types/dats';
 import type { DeepWriteable } from '@Types/utility-types';
 
 type RawPair = {
@@ -371,10 +377,10 @@ export const parseHechizoTargets = (
 	return parseApostropheCategories(segment);
 };
 
-export type ParsedDat = {
-	name: DatName;
-	data: unknown;
-};
+export type ParsedDat =
+	| { name: 'npcs'; data: NpcsDat }
+	| { name: 'obj'; data: ObjDat }
+	| { name: 'hechizos'; data: HechizosDat };
 
 export type DatParseFailureReason =
 	| 'missing-header'
@@ -602,5 +608,8 @@ export const parseDatFile = (
 		};
 	}
 
-	return { success: true, parsed: { name, data: result.data } };
+	return {
+		success: true,
+		parsed: { name, data: result.data } as ParsedDat,
+	};
 };
