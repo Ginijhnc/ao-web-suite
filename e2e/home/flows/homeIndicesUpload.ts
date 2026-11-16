@@ -12,8 +12,8 @@ import { GENERAL_SELECTORS } from '@Constants/selectors';
 import {
 	armasReplacementStripped,
 	armasStripped,
-} from '@Fixtures/indices/armas/armas';
-import { cabezasStripped } from '@Fixtures/indices/cabezas/cabezas';
+} from '@Fixtures/indices/armas/valid/armas';
+import { cabezasStripped } from '@Fixtures/indices/cabezas/valid/cabezas';
 import { expect, type Page } from '@playwright/test';
 import { GeneralTestHelpers } from '../../shared/helpers/GeneralTestHelpers';
 import { HomeTestHelpers } from '../helpers/HomeTestHelpers';
@@ -50,7 +50,7 @@ export const uploadValidIndices = async (page: Page): Promise<void> => {
 
 	await uploadIndice(
 		page,
-		path.join(FIXTURES, 'armas/valid.json'),
+		path.join(FIXTURES, 'armas/valid/armas.json'),
 		'armas.json',
 		INDICES_MESSAGES.UPLOAD_SUCCESS,
 	);
@@ -60,7 +60,7 @@ export const uploadValidIndices = async (page: Page): Promise<void> => {
 
 	await uploadIndice(
 		page,
-		path.join(FIXTURES, 'cabezas/valid.json'),
+		path.join(FIXTURES, 'cabezas/valid/cabezas.json'),
 		'cabezas.json',
 		INDICES_MESSAGES.UPLOAD_SUCCESS,
 	);
@@ -99,7 +99,7 @@ export const replaceIndice = async (page: Page): Promise<void> => {
 	// Upload initial file and capture its uploadedAt timestamp
 	await uploadIndice(
 		page,
-		path.join(FIXTURES, 'armas/valid.json'),
+		path.join(FIXTURES, 'armas/valid/armas.json'),
 		'armas.json',
 		INDICES_MESSAGES.UPLOAD_SUCCESS,
 	);
@@ -114,7 +114,7 @@ export const replaceIndice = async (page: Page): Promise<void> => {
 	// Replace with a different file and assert entries and timestamp both updated
 	await uploadIndice(
 		page,
-		path.join(FIXTURES, 'armas/armas-valid-replacement.json'),
+		path.join(FIXTURES, 'armas/replacement/armas.json'),
 		'armas.json',
 		INDICES_MESSAGES.UPLOAD_REPLACED('armas.json'),
 	);
@@ -160,7 +160,7 @@ export const rejectUnknownIndice = async (page: Page): Promise<void> => {
 };
 
 export const rejectMalformedJson = async (page: Page): Promise<void> => {
-	const disk = path.join(FIXTURES, 'armas/malformed.json');
+	const disk = path.join(FIXTURES, 'armas/malformed/armas.json');
 	await uploadIndice(
 		page,
 		disk,
@@ -170,7 +170,7 @@ export const rejectMalformedJson = async (page: Page): Promise<void> => {
 };
 
 export const rejectInvalidShape = async (page: Page): Promise<void> => {
-	const disk = path.join(FIXTURES, 'armas/invalid-shape.json');
+	const disk = path.join(FIXTURES, 'armas/invalid-shape/armas.json');
 	await uploadIndice(
 		page,
 		disk,
@@ -180,7 +180,7 @@ export const rejectInvalidShape = async (page: Page): Promise<void> => {
 };
 
 export const rejectInvalidEntry = async (page: Page): Promise<void> => {
-	const disk = path.join(FIXTURES, 'armas/invalid-entry.json');
+	const disk = path.join(FIXTURES, 'armas/invalid-entry/armas.json');
 	await uploadIndice(
 		page,
 		disk,
@@ -190,7 +190,7 @@ export const rejectInvalidEntry = async (page: Page): Promise<void> => {
 };
 
 export const rejectEmptyIndice = async (page: Page): Promise<void> => {
-	const disk = path.join(FIXTURES, 'armas/empty.json');
+	const disk = path.join(FIXTURES, 'armas/empty/armas.json');
 	await uploadIndice(
 		page,
 		disk,
@@ -225,7 +225,7 @@ export const clearIndicesLeavesGraphicsIntact = async (
 	await HomeTestHelpers.selectFileType(page, FILE_TYPES.INDICES);
 	await uploadIndice(
 		page,
-		path.join(FIXTURES, 'armas/valid.json'),
+		path.join(FIXTURES, 'armas/valid/armas.json'),
 		'armas.json',
 		INDICES_MESSAGES.UPLOAD_SUCCESS,
 	);
@@ -300,7 +300,7 @@ export const clearIndices = async (page: Page): Promise<void> => {
 	const clearButton = HomeTestHelpers.getClearButton(page);
 	await expect(clearButton).toBeDisabled();
 
-	const disk = path.join(FIXTURES, 'armas/valid.json');
+	const disk = path.join(FIXTURES, 'armas/valid/armas.json');
 	await uploadIndice(
 		page,
 		disk,

@@ -224,7 +224,7 @@ const expectedCategories = new Map<number, string>([
 
 describe('parseDatFile (NPCs)', () => {
 	it('extracts numNpcs and npcCategories from the preamble', () => {
-		const npcsCategoriesData = readFixture('npcs/categories.dat');
+		const npcsCategoriesData = readFixture('npcs/categories/NPCs.dat');
 		const result = parseDatFile('NPCs.dat', npcsCategoriesData);
 		expect(result.success).toBe(true);
 		if (!result.success) return;
@@ -234,7 +234,7 @@ describe('parseDatFile (NPCs)', () => {
 	});
 
 	it('parses NPC entries with datComentario and indexed Obj fields', () => {
-		const npcsCommentData = readFixture('npcs/with-comments.dat');
+		const npcsCommentData = readFixture('npcs/with-comments/NPCs.dat');
 		const result = parseDatFile('NPCs.dat', npcsCommentData);
 		expect(result.success).toBe(true);
 		if (!result.success) return;
@@ -382,7 +382,7 @@ describe('parseHechizoTargets', () => {
 
 describe('parseDatFile (Obj)', () => {
 	it('extracts numObjs, objCategories and potionCategories from a valid obj.dat file', () => {
-		const objData = readFixture('obj/valid.dat');
+		const objData = readFixture('obj/valid/obj.dat');
 		const result = parseDatFile('obj.dat', objData);
 		expect(result.success).toBe(true);
 		if (!result.success) return;
@@ -404,7 +404,7 @@ describe('parseDatFile (Obj)', () => {
 	});
 
 	it('parses OBJ entries with correct field names and values', () => {
-		const objData = readFixture('obj/valid.dat');
+		const objData = readFixture('obj/valid/obj.dat');
 		const result = parseDatFile('obj.dat', objData);
 		expect(result.success).toBe(true);
 		if (!result.success) return;
@@ -428,7 +428,7 @@ describe('parseDatFile (Obj)', () => {
 
 describe('parseDatFile (Hechizos)', () => {
 	it('extracts numeroHechizos, hechizoTypes and hechizoTargets from a valid hechizos.dat file', () => {
-		const hechizosData = readFixture('hechizos/valid.dat');
+		const hechizosData = readFixture('hechizos/valid/Hechizos.dat');
 		const result = parseDatFile('Hechizos.dat', hechizosData);
 		expect(result.success).toBe(true);
 		if (!result.success) return;
@@ -450,7 +450,7 @@ describe('parseDatFile (Hechizos)', () => {
 	});
 
 	it('parses Hechizo entries with spell-specific fields and values', () => {
-		const hechizosData = readFixture('hechizos/valid.dat');
+		const hechizosData = readFixture('hechizos/valid/Hechizos.dat');
 		const result = parseDatFile('Hechizos.dat', hechizosData);
 		expect(result.success).toBe(true);
 		if (!result.success) return;

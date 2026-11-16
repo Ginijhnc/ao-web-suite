@@ -4,9 +4,9 @@ import { fileURLToPath } from 'url';
 import { DB_NAME, DB_STORE_NAMES } from '@Constants/database';
 import { DATS_MESSAGES } from '@Constants/messages';
 import { GENERAL_SELECTORS } from '@Constants/selectors';
-import * as beefyHechizos from '@Fixtures/dats/hechizos/beefyHechizosExpected';
-import * as beefyNpcs from '@Fixtures/dats/npcs/beefyNpcsExpected';
-import * as beefyObj from '@Fixtures/dats/obj/beefyObjExpected';
+import * as beefyHechizos from '@Fixtures/dats/hechizos/beefy/beefyHechizosExpected';
+import * as beefyNpcs from '@Fixtures/dats/npcs/beefy/beefyNpcsExpected';
+import * as beefyObj from '@Fixtures/dats/obj/beefy/beefyObjExpected';
 import { expect, type Page } from '@playwright/test';
 import { GeneralTestHelpers } from '../../shared/helpers/GeneralTestHelpers';
 import { HomeTestHelpers } from '../helpers/HomeTestHelpers';
@@ -46,7 +46,7 @@ export const uploadValidNpcs = async (page: Page): Promise<void> => {
 
 	await uploadDat(
 		page,
-		path.join(FIXTURES, 'npcs/beefyNpcs.dat'),
+		path.join(FIXTURES, 'npcs/beefy/NPCs.dat'),
 		'NPCs.dat',
 		DATS_MESSAGES.UPLOAD_SUCCESS,
 	);
@@ -79,7 +79,7 @@ export const uploadValidNpcs = async (page: Page): Promise<void> => {
 export const uploadValidHechizos = async (page: Page): Promise<void> => {
 	await uploadDat(
 		page,
-		path.join(FIXTURES, 'hechizos/beefyHechizos.dat'),
+		path.join(FIXTURES, 'hechizos/beefy/Hechizos.dat'),
 		'Hechizos.dat',
 		DATS_MESSAGES.UPLOAD_SUCCESS,
 	);
@@ -109,7 +109,7 @@ export const uploadValidHechizos = async (page: Page): Promise<void> => {
 export const rejectDuplicateIds = async (page: Page): Promise<void> => {
 	await uploadDat(
 		page,
-		path.join(FIXTURES, 'npcs/duplicate-ids.dat'),
+		path.join(FIXTURES, 'npcs/duplicate-ids/NPCs.dat'),
 		'NPCs.dat',
 		DATS_MESSAGES.DUPLICATE_IDS('NPCs.dat', '923'),
 	);
@@ -118,7 +118,7 @@ export const rejectDuplicateIds = async (page: Page): Promise<void> => {
 export const rejectDuplicateFields = async (page: Page): Promise<void> => {
 	await uploadDat(
 		page,
-		path.join(FIXTURES, 'hechizos/duplicate-fields.dat'),
+		path.join(FIXTURES, 'hechizos/duplicate-fields/Hechizos.dat'),
 		'Hechizos.dat',
 		DATS_MESSAGES.DUPLICATE_FIELDS(
 			'Hechizos.dat',
@@ -151,7 +151,7 @@ export const uploadPublicDats = async (page: Page): Promise<void> => {
 export const uploadValidObj = async (page: Page): Promise<void> => {
 	await uploadDat(
 		page,
-		path.join(FIXTURES, 'obj/beefyObj.dat'),
+		path.join(FIXTURES, 'obj/beefy/obj.dat'),
 		'obj.dat',
 		DATS_MESSAGES.UPLOAD_SUCCESS,
 	);
