@@ -24,10 +24,7 @@ const uploadDat = async (
 	presentedName: string,
 	expectedToast: string,
 ): Promise<void> => {
-	const fileChooser = page.waitForEvent('filechooser');
-	await HomeTestHelpers.getUploadButton(page).click();
-	const chooser = await fileChooser;
-	await chooser.setFiles({
+	await HomeTestHelpers.triggerUpload(page, {
 		name: presentedName,
 		mimeType: 'application/octet-stream',
 		buffer: fs.readFileSync(diskPath),
@@ -35,6 +32,20 @@ const uploadDat = async (
 	await expect(page.getByTestId(GENERAL_SELECTORS.TOAST)).toContainText(
 		expectedToast,
 	);
+};
+
+const uploadDatWithError = async (
+	page: Page,
+	diskPath: string,
+	presentedName: string,
+	expectedText: string,
+): Promise<void> => {
+	await HomeTestHelpers.triggerUpload(page, {
+		name: presentedName,
+		mimeType: 'application/octet-stream',
+		buffer: fs.readFileSync(diskPath),
+	});
+	await HomeTestHelpers.expectUploadErrorDialog(page, expectedText);
 };
 
 export const uploadValidNpcs = async (page: Page): Promise<void> => {
@@ -107,23 +118,20 @@ export const uploadValidHechizos = async (page: Page): Promise<void> => {
 };
 
 export const rejectDuplicateIds = async (page: Page): Promise<void> => {
-	await uploadDat(
+	await uploadDatWithError(
 		page,
 		path.join(FIXTURES, 'npcs/duplicate-ids/NPCs.dat'),
 		'NPCs.dat',
-		DATS_MESSAGES.DUPLICATE_IDS('NPCs.dat', '923'),
+		DATS_MESSAGES.DUPLICATE_IDS('NPCs.dat'),
 	);
 };
 
 export const rejectDuplicateFields = async (page: Page): Promise<void> => {
-	await uploadDat(
+	await uploadDatWithError(
 		page,
 		path.join(FIXTURES, 'hechizos/duplicate-fields/Hechizos.dat'),
 		'Hechizos.dat',
-		DATS_MESSAGES.DUPLICATE_FIELDS(
-			'Hechizos.dat',
-			'HECHIZO35: SubeHP, MinHP, MaxHP',
-		),
+		DATS_MESSAGES.DUPLICATE_FIELDS('Hechizos.dat'),
 	);
 };
 

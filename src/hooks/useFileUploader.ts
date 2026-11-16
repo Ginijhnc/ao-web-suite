@@ -34,6 +34,10 @@ import { validateDatsFiles } from '@Validators/dats';
 import { validateGraphicsFiles } from '@Validators/graphics';
 import { validateIndicesFiles } from '@Validators/indices';
 
+type UseFileUploaderOptions = {
+	onError: (message: string) => void;
+};
+
 type UploadState = {
 	isUploading: boolean;
 };
@@ -191,17 +195,17 @@ const processFiles = (
 };
 
 /**
- * Runs the validator for the given file type and shows an error toast
- * on failure. Returns true when files are valid.
+ * Runs the validator for the given file type and calls onError on
+ * failure. Returns the ValidationResult.
  */
 const runValidation = async (
 	fileType: FileType,
 	files: ReadonlyArray<File>,
+	onError: (message: string) => void,
 ): Promise<ValidationResult> => {
 	const result = await FILE_TYPE_CONFIG[fileType].validate(files);
 	if (!result.valid) {
-		log.error(result.message);
-		Toast.error(result.message);
+		onError(result.message);
 	}
 	return result;
 };
@@ -244,8 +248,9 @@ const runUpload = async (
 	fileType: FileType,
 	fileArray: Array<File>,
 	setUploadState: (state: UploadState) => void,
+	onError: (message: string) => void,
 ): Promise<void> => {
-	const result = await runValidation(fileType, fileArray);
+	const result = await runValidation(fileType, fileArray, onError);
 	if (!result.valid) {
 		return;
 	}
@@ -260,6 +265,7 @@ const runUpload = async (
 			parsedIndices: result.parsedIndices,
 			parsedDats: result.parsedDats,
 		},
+		onError,
 	);
 
 	setUploadState({ isUploading: false });
@@ -277,6 +283,7 @@ const persistAndNotify = async (
 		parsedIndices?: ReadonlyArray<ParsedIndice>;
 		parsedDats?: ReadonlyArray<ParsedDat>;
 	},
+	onError: (message: string) => void,
 ): Promise<void> => {
 	const config = FILE_TYPE_CONFIG[fileType];
 	try {
@@ -290,7 +297,7 @@ const persistAndNotify = async (
 		const message =
 			error instanceof Error ? error.message : String(error);
 		log.error(message);
-		Toast.error(
+		onError(
 			'Error al guardar los archivos. No se guardó ningún archivo.',
 		);
 		return;
@@ -305,7 +312,7 @@ const persistAndNotify = async (
 	Toast.success(config.successMessages.uploadReplaced(replacedList));
 };
 
-export const useFileUploader = () => {
+export const useFileUploader = ({ onError }: UseFileUploaderOptions) => {
 	const inputRef = useRef<HTMLInputElement | null>(null);
 	const [uploadState, setUploadState] = useState<UploadState>({
 		isUploading: false,
@@ -324,7 +331,7 @@ export const useFileUploader = () => {
 				return;
 			}
 			const fileArray = Array.from(currentInput.files);
-			await runUpload(fileType, fileArray, setUploadState);
+			await runUpload(fileType, fileArray, setUploadState, onError);
 			currentInput.value = '';
 		};
 	};
@@ -363,7 +370,7 @@ export const useFileUploader = () => {
 		} else {
 			const message = `Error al limpiar ${fileType}: ${result.error.message}`;
 			log.error(message);
-			Toast.error(message);
+			onError(message);
 		}
 		return result;
 	};

@@ -31,10 +31,7 @@ const uploadIndice = async (
 	presentedName: string,
 	expectedToast: string,
 ): Promise<void> => {
-	const fileChooser = page.waitForEvent('filechooser');
-	await HomeTestHelpers.getUploadButton(page).click();
-	const chooser = await fileChooser;
-	await chooser.setFiles({
+	await HomeTestHelpers.triggerUpload(page, {
 		name: presentedName,
 		mimeType: 'application/json',
 		buffer: fs.readFileSync(diskPath),
@@ -42,6 +39,20 @@ const uploadIndice = async (
 	await expect(page.getByTestId(GENERAL_SELECTORS.TOAST)).toContainText(
 		expectedToast,
 	);
+};
+
+const uploadIndiceWithError = async (
+	page: Page,
+	diskPath: string,
+	presentedName: string,
+	expectedText: string,
+): Promise<void> => {
+	await HomeTestHelpers.triggerUpload(page, {
+		name: presentedName,
+		mimeType: 'application/json',
+		buffer: fs.readFileSync(diskPath),
+	});
+	await HomeTestHelpers.expectUploadErrorDialog(page, expectedText);
 };
 
 export const uploadValidIndices = async (page: Page): Promise<void> => {
@@ -151,7 +162,7 @@ export const replaceIndice = async (page: Page): Promise<void> => {
 
 export const rejectUnknownIndice = async (page: Page): Promise<void> => {
 	const disk = path.join(FIXTURES, 'unknown/unknown.json');
-	await uploadIndice(
+	await uploadIndiceWithError(
 		page,
 		disk,
 		'unknown.json',
@@ -161,7 +172,7 @@ export const rejectUnknownIndice = async (page: Page): Promise<void> => {
 
 export const rejectMalformedJson = async (page: Page): Promise<void> => {
 	const disk = path.join(FIXTURES, 'armas/malformed/armas.json');
-	await uploadIndice(
+	await uploadIndiceWithError(
 		page,
 		disk,
 		'armas.json',
@@ -171,7 +182,7 @@ export const rejectMalformedJson = async (page: Page): Promise<void> => {
 
 export const rejectInvalidShape = async (page: Page): Promise<void> => {
 	const disk = path.join(FIXTURES, 'armas/invalid-shape/armas.json');
-	await uploadIndice(
+	await uploadIndiceWithError(
 		page,
 		disk,
 		'armas.json',
@@ -181,7 +192,7 @@ export const rejectInvalidShape = async (page: Page): Promise<void> => {
 
 export const rejectInvalidEntry = async (page: Page): Promise<void> => {
 	const disk = path.join(FIXTURES, 'armas/invalid-entry/armas.json');
-	await uploadIndice(
+	await uploadIndiceWithError(
 		page,
 		disk,
 		'armas.json',
@@ -191,7 +202,7 @@ export const rejectInvalidEntry = async (page: Page): Promise<void> => {
 
 export const rejectEmptyIndice = async (page: Page): Promise<void> => {
 	const disk = path.join(FIXTURES, 'armas/empty/armas.json');
-	await uploadIndice(
+	await uploadIndiceWithError(
 		page,
 		disk,
 		'armas.json',
@@ -216,7 +227,7 @@ export const clearIndicesLeavesGraphicsIntact = async (
 	});
 
 	await HomeTestHelpers.selectFileType(page, FILE_TYPES.GRAPHICS);
-	await HomeTestHelpers.uploadFiles(
+	await HomeTestHelpers.uploadGraphics(
 		page,
 		graphicsFiles,
 		GRAPHICS_MESSAGES.UPLOAD_SUCCESS,

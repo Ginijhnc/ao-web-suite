@@ -3,6 +3,7 @@ import type { FileType } from '@Constants/database';
 import { ROUTES } from '@Constants/routes';
 import { GENERAL_SELECTORS } from '@Constants/selectors';
 import { expect, type Locator, type Page } from '@playwright/test';
+import type { FileChooser } from '@playwright/test';
 
 const navigateToHomePage = async (page: Page): Promise<void> => {
 	await page.goto(ROUTES.RECURSOS, { waitUntil: 'domcontentloaded' });
@@ -70,18 +71,49 @@ const cancelAssetClearDialog = async (
 	await expect(dialog).not.toBeVisible();
 };
 
-const uploadFiles = async (
+const triggerUpload = async (
 	page: Page,
-	files: Array<string>,
-	expectedToastText: RegExp | string,
+	files: Parameters<FileChooser['setFiles']>[0],
 ): Promise<void> => {
 	const fileChooser = page.waitForEvent('filechooser');
 	await getUploadButton(page).click();
 	const chooser = await fileChooser;
 	await chooser.setFiles(files);
+};
+
+const uploadGraphics = async (
+	page: Page,
+	files: Array<string>,
+	expectedToastText: RegExp | string,
+): Promise<void> => {
+	await triggerUpload(page, files);
 	await expect(page.getByTestId(GENERAL_SELECTORS.TOAST)).toContainText(
 		expectedToastText,
 	);
+};
+
+const getUploadErrorDialog = (page: Page): Locator => {
+	return page.getByRole('dialog', { name: 'Error al subir archivos' });
+};
+
+const expectUploadErrorDialog = async (
+	page: Page,
+	expectedText: string,
+): Promise<void> => {
+	const dialog = getUploadErrorDialog(page);
+	await expect(dialog).toBeVisible();
+	await expect(dialog).toContainText(expectedText);
+	await dialog.getByRole('button', { name: 'Aceptar' }).click();
+	await expect(dialog).not.toBeVisible();
+};
+
+const uploadGraphicsWithError = async (
+	page: Page,
+	files: Array<string>,
+	expectedText: string,
+): Promise<void> => {
+	await triggerUpload(page, files);
+	await expectUploadErrorDialog(page, expectedText);
 };
 
 export const HomeTestHelpers = {
@@ -93,5 +125,9 @@ export const HomeTestHelpers = {
 	getClearAssetConfirmationDialog,
 	confirmAssetClearDialog,
 	cancelAssetClearDialog,
-	uploadFiles,
+	triggerUpload,
+	uploadGraphics,
+	getUploadErrorDialog,
+	expectUploadErrorDialog,
+	uploadGraphicsWithError,
 };
