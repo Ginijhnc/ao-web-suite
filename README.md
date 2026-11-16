@@ -16,4 +16,4 @@ _Soon_
 
 - [Web Archive - Argentum Online Forum](https://web.archive.org/web/20100430205238/http://www.alkon.com.ar/foro/argentum-online.53/738002-nueva-version-nueva-cara.html)
 - [Web Archive - Destruction-AO Index-Dater](https://web.archive.org/web/20100622081001/http://www.gs-zone.org/ft28263_destruction_ao_index_dater.html)
-- [SourceForge - morgoao](https://sourceforge.net/p/morgoao/code/)
+- [SourceForge - morgoao](https://sourceforge.net/projects/morgoao/)
