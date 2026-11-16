@@ -23,11 +23,11 @@ type LogState = {
 	actions: LogActions;
 };
 
-const LOGS_INITIAL_STATE: Pick<LogState, 'entries'> = {
+export const LOGS_INITIAL_STATE: Pick<LogState, 'entries'> = {
 	entries: [],
 };
 
-const useLogStore = create<LogState>()(
+export const useLogStore = create<LogState>()(
 	persist(
 		(set, get) => {
 			return {
