@@ -21,7 +21,7 @@ const PUBLIC_GRAPHICS = path.resolve(
 export const uploadPublicGraphics = async (page: Page): Promise<void> => {
 	const files =
 		GeneralTestHelpers.getFilePathsFromDirectory(PUBLIC_GRAPHICS);
-	await HomeTestHelpers.uploadFiles(
+	await HomeTestHelpers.uploadGraphics(
 		page,
 		files,
 		GRAPHICS_MESSAGES.UPLOAD_SUCCESS,
@@ -44,7 +44,7 @@ export const uploadValidGraphics = async (page: Page): Promise<void> => {
 		page.getByText('Falta subir los gráficos.'),
 	).toBeVisible();
 
-	await HomeTestHelpers.uploadFiles(
+	await HomeTestHelpers.uploadGraphics(
 		page,
 		files,
 		GRAPHICS_MESSAGES.UPLOAD_SUCCESS,
@@ -63,7 +63,7 @@ export const uploadBatchWithConflict = async (
 		return path.basename(a).localeCompare(path.basename(b));
 	});
 
-	await HomeTestHelpers.uploadFiles(
+	await HomeTestHelpers.uploadGraphicsWithError(
 		page,
 		files,
 		GRAPHICS_MESSAGES.CONFLICT_BATCH('3082.png'),
@@ -82,7 +82,7 @@ export const uploadBatchWithMultipleConflicts = async (
 		return path.basename(a).localeCompare(path.basename(b));
 	});
 
-	await HomeTestHelpers.uploadFiles(
+	await HomeTestHelpers.uploadGraphicsWithError(
 		page,
 		allFiles,
 		GRAPHICS_MESSAGES.CONFLICT_BATCH('3082.png, 4006.png'),
@@ -101,7 +101,7 @@ export const clearGraphics = async (page: Page): Promise<void> => {
 		return !f.endsWith('3082.bmp') && !f.endsWith('4006.avif');
 	});
 
-	await HomeTestHelpers.uploadFiles(
+	await HomeTestHelpers.uploadGraphics(
 		page,
 		files,
 		GRAPHICS_MESSAGES.UPLOAD_SUCCESS,
@@ -134,7 +134,7 @@ export const dismissClearGraphicsDialog = async (
 	page: Page,
 ): Promise<void> => {
 	const file = [path.join(FIXTURES, 'uploads/3082.png')];
-	await HomeTestHelpers.uploadFiles(
+	await HomeTestHelpers.uploadGraphics(
 		page,
 		file,
 		GRAPHICS_MESSAGES.UPLOAD_SUCCESS,
@@ -163,12 +163,12 @@ export const uploadSameFileForReplacement = async (
 ): Promise<void> => {
 	const file = [path.join(FIXTURES, 'magic-byte/valid.png')];
 
-	await HomeTestHelpers.uploadFiles(
+	await HomeTestHelpers.uploadGraphics(
 		page,
 		file,
 		GRAPHICS_MESSAGES.UPLOAD_SUCCESS,
 	);
-	await HomeTestHelpers.uploadFiles(
+	await HomeTestHelpers.uploadGraphics(
 		page,
 		file,
 		GRAPHICS_MESSAGES.UPLOAD_REPLACED('valid.png'),
@@ -181,12 +181,12 @@ export const rejectReplacementWithDifferentExtension = async (
 	const pngFile = [path.join(FIXTURES, 'uploads/3082.png')];
 	const bmpFile = [path.join(FIXTURES, 'uploads/3082.bmp')];
 
-	await HomeTestHelpers.uploadFiles(
+	await HomeTestHelpers.uploadGraphics(
 		page,
 		pngFile,
 		GRAPHICS_MESSAGES.UPLOAD_SUCCESS,
 	);
-	await HomeTestHelpers.uploadFiles(
+	await HomeTestHelpers.uploadGraphicsWithError(
 		page,
 		bmpFile,
 		GRAPHICS_MESSAGES.CONFLICT_EXISTING('3082.bmp'),

@@ -3,6 +3,7 @@ import type { IconName } from '@Components/icons';
 import { Button } from '@Components/shared/Button';
 import { Chip } from '@Components/shared/Chip';
 import { ConfirmationDialog } from '@Components/shared/ConfirmationDialog';
+import { ErrorDialog } from '@Components/shared/ErrorDialog';
 import { Text } from '@Components/shared/Text';
 import { FILE_TYPES } from '@Constants/database';
 import type { FileType } from '@Constants/database';
@@ -102,7 +103,10 @@ export const HomeUploaders = (): React.ReactElement => {
 	const [selected, setSelected] = useState<FileType>(
 		FILE_TYPES.GRAPHICS,
 	);
-	const { openFilePicker, clearFiles } = useFileUploader();
+	const [uploadError, setUploadError] = useState<string | null>(null);
+	const { openFilePicker, clearFiles } = useFileUploader({
+		onError: setUploadError,
+	});
 	const {
 		isOpen: isDeleteConfirmationOpen,
 		onOpen: onDeleteConfirmationOpen,
@@ -180,6 +184,14 @@ export const HomeUploaders = (): React.ReactElement => {
 
 	return (
 		<section className={uploadersSectionStyle}>
+			<ErrorDialog
+				open={uploadError !== null}
+				title="Error al subir archivos"
+				message={uploadError ?? ''}
+				onClose={() => {
+					setUploadError(null);
+				}}
+			/>
 			<ConfirmationDialog
 				open={isDeleteConfirmationOpen}
 				title={`Borrar ${selected.toLowerCase()}`}

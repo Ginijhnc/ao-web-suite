@@ -148,5 +148,5 @@ export const assertLogsBadgeAppearsAfterUploadError = async (
 	await rejectDuplicateIds(page);
 
 	const badge = SidebarTestHelpers.getLogsBadge(page);
-	await expect(badge).toHaveText('2');
+	await expect(badge).toHaveText('1');
 };

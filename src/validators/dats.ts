@@ -54,7 +54,6 @@ export const checkRecognizedNames = (
 const buildParseErrorMessage = (
 	fileName: string,
 	reason: DatParseFailureReason,
-	detail: string,
 ): string => {
 	const name = getDatBasename(fileName);
 	if (reason === 'missing-header') {
@@ -70,10 +69,10 @@ const buildParseErrorMessage = (
 		);
 	}
 	if (reason === 'duplicate-ids') {
-		return DATS_MESSAGES.DUPLICATE_IDS(fileName, detail);
+		return DATS_MESSAGES.DUPLICATE_IDS(fileName);
 	}
 	if (reason === 'duplicate-fields') {
-		return DATS_MESSAGES.DUPLICATE_FIELDS(fileName, detail);
+		return DATS_MESSAGES.DUPLICATE_FIELDS(fileName);
 	}
 	return DATS_MESSAGES.SCHEMA_MISMATCH(fileName);
 };
@@ -100,11 +99,9 @@ const validateOneFile = async (file: File): Promise<OneFileResult> => {
 	const parsed = parseDatFile(file.name, text);
 	if (parsed.success) return { valid: true, dat: parsed.parsed };
 
-	log.error(`${file.name}: ${parsed.detail}`);
-	const message = buildParseErrorMessage(
-		file.name,
-		parsed.reason,
-		parsed.detail,
+	const message = buildParseErrorMessage(file.name, parsed.reason);
+	log.error(
+		`${file.name} [${parsed.reason}]: ${parsed.detail}. ${message}`,
 	);
 	return { valid: false, message };
 };

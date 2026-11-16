@@ -43,10 +43,7 @@ test.describe('Overview page with a rejected dat upload log', () => {
 		await OverviewTestHelpers.assertLogsShowsEntry(
 			page,
 			'Error',
-			DATS_MESSAGES.DUPLICATE_FIELDS(
-				'Hechizos.dat',
-				'HECHIZO35: SubeHP, MinHP, MaxHP',
-			),
+			`Hechizos.dat [duplicate-fields]: HECHIZO35: SubeHP, MinHP, MaxHP. ${DATS_MESSAGES.DUPLICATE_FIELDS('Hechizos.dat')}`,
 		);
 	});
 });
