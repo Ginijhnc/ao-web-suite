@@ -4,7 +4,7 @@ import { describe, it, expect, beforeEach } from 'vitest';
 import { getDatsActions, useDatsStore } from './datsStore';
 
 const makeDat = (name: DatName, data: unknown = {}): ParsedDat => {
-	return { name, data };
+	return { name, data } as ParsedDat;
 };
 
 const getDats = () => {

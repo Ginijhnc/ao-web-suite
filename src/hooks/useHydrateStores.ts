@@ -1,6 +1,6 @@
 import { useSyncExternalStore } from 'react';
 import { DB_STORE_NAMES } from '@Constants/database';
-import { getDatBasename } from '@Helpers/dats';
+import { getDatBasename, type ParsedDat } from '@Helpers/dats';
 import { getIndiceBasename } from '@Helpers/indices';
 import { getDatsActions } from '@Stores/datsStore';
 import { getGraphicsActions } from '@Stores/graphicsStore';
@@ -65,7 +65,10 @@ export const useHydrateStores = (): void => {
 			}>(DB_STORE_NAMES.DATS);
 			getDatsActions().setDats(
 				datRecords.map((r) => {
-					return { name: getDatBasename(r.name), data: r.data };
+					return {
+						name: getDatBasename(r.name),
+						data: r.data,
+					} as ParsedDat;
 				}),
 			);
 

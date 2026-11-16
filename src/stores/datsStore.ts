@@ -3,7 +3,7 @@ import type { ParsedDat } from '@Helpers/dats';
 import type { HechizosDat, NpcsDat, ObjDat } from '@Types/dats';
 import { create } from 'zustand';
 
-type ParsedDatData = NpcsDat | ObjDat | HechizosDat;
+type DatData = ParsedDat['data'];
 
 type DatsActions = {
 	setDats: (dats: ReadonlyArray<ParsedDat>) => void;
@@ -13,7 +13,7 @@ type DatsActions = {
 
 type DatsState = {
 	// consumers read only; mutations go through actions
-	dats: ReadonlyMap<DatName, ParsedDatData>;
+	dats: ReadonlyMap<DatName, DatData>;
 	actions: DatsActions;
 };
 
@@ -22,14 +22,12 @@ const DATS_INITIAL_STATE: Pick<DatsState, 'dats'> = {
 };
 
 const buildDatsMap = (
-	source: ReadonlyMap<DatName, ParsedDatData>,
+	source: ReadonlyMap<DatName, DatData>,
 	incoming: ReadonlyArray<ParsedDat>,
-): ReadonlyMap<DatName, ParsedDatData> => {
+): ReadonlyMap<DatName, DatData> => {
 	const map = new Map(source);
 	for (const dat of incoming) {
-		/* Each DatName key deterministically maps to its schema's output type
-		 (the parser validated it against DAT_SCHEMAS[name]). */
-		map.set(dat.name, dat.data as ParsedDatData);
+		map.set(dat.name, dat.data);
 	}
 	return map;
 };
