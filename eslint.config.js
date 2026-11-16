@@ -9,6 +9,7 @@ import requireJsdocInHelpers from './scripts/eslint/rules/require-jsdoc-in-helpe
 import noHardcodedThemeColors from './scripts/eslint/rules/no-hardcoded-theme-colors.js';
 import noDeepSharedImport from './scripts/eslint/rules/no-deep-shared-import.js';
 import requireUseDisclosureDestructuring from './scripts/eslint/rules/require-use-disclosure-destructuring.js';
+import requireProcessCwdFixtures from './scripts/eslint/rules/require-process-cwd-fixtures.js';
 
 export default [
 	js.configs.recommended,
@@ -392,6 +393,21 @@ export default [
 		},
 		rules: {
 			'local/require-jsdoc-in-helpers': 'error',
+		},
+	},
+	/* ==================== Test files: enforce fixture path consistency ==================== */
+	{
+		files: ['e2e/**/*.ts', '**/*.test.ts', '**/*.spec.ts'],
+		plugins: {
+			'local-fixtures': {
+				rules: {
+					'require-process-cwd-fixtures':
+						requireProcessCwdFixtures,
+				},
+			},
+		},
+		rules: {
+			'local-fixtures/require-process-cwd-fixtures': 'error',
 		},
 	},
 ];

@@ -1,5 +1,5 @@
 import fs from 'fs';
-import path from 'path';
+import path, { join } from 'path';
 import { fileURLToPath } from 'url';
 import { DB_NAME, DB_STORE_NAMES, FILE_TYPES } from '@Constants/database';
 import {
@@ -19,7 +19,7 @@ import { GeneralTestHelpers } from '../../shared/helpers/GeneralTestHelpers';
 import { HomeTestHelpers } from '../helpers/HomeTestHelpers';
 
 const dirName = path.dirname(fileURLToPath(import.meta.url));
-const FIXTURES = path.resolve(dirName, '../../../fixtures/indices');
+const FIXTURES = join(process.cwd(), 'fixtures', 'indices');
 const PUBLIC_INDICES = path.resolve(
 	dirName,
 	'../../../public/game_assets/indices',
@@ -213,9 +213,11 @@ export const rejectEmptyIndice = async (page: Page): Promise<void> => {
 export const clearIndicesLeavesGraphicsIntact = async (
 	page: Page,
 ): Promise<void> => {
-	const graphicsDir = path.resolve(
-		dirName,
-		'../../../fixtures/graphics/uploads',
+	const graphicsDir = join(
+		process.cwd(),
+		'fixtures',
+		'graphics',
+		'uploads',
 	);
 	const graphicsFiles = GeneralTestHelpers.getFilePathsFromDirectory(
 		graphicsDir,

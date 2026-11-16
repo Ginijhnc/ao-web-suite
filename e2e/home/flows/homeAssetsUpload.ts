@@ -1,4 +1,4 @@
-import path from 'path';
+import path, { join } from 'path';
 import { fileURLToPath } from 'url';
 import { FILE_TYPES } from '@Constants/database';
 import {
@@ -12,7 +12,7 @@ import { GeneralTestHelpers } from '../../shared/helpers/GeneralTestHelpers';
 import { HomeTestHelpers } from '../helpers/HomeTestHelpers';
 
 const dirName = path.dirname(fileURLToPath(import.meta.url));
-const FIXTURES = path.resolve(dirName, '../../../fixtures/graphics');
+const FIXTURES = join(process.cwd(), 'fixtures', 'graphics');
 const PUBLIC_GRAPHICS = path.resolve(
 	dirName,
 	'../../../public/game_assets/graphics',
