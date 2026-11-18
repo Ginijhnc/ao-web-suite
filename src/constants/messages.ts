@@ -10,6 +10,11 @@ export const CLEAR_CONFIRM_MESSAGE = (fileType: FileType) => {
 	return `Se eliminarán todos los ${fileType.toLowerCase()} cargados. Esta acción no se puede deshacer.`;
 };
 
+export const DEMO_UPLOAD_ERROR = 'Error al cargar los datos de demo.';
+
+export const DEMO_UPLOAD_CANCELLED =
+	'Carga de demo interrumpida: es posible que no todos los archivos se hayan subido correctamente.';
+
 export const GRAPHICS_MESSAGES = {
 	UPLOAD_SUCCESS: 'Todas las imágenes fueron subidas correctamente.',
 	UPLOAD_REPLACED: (names: string) => {

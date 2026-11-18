@@ -1,6 +1,8 @@
 import fs from 'fs';
 import path from 'path';
+import { STORE_NAMES } from '@Constants/storage';
 import { expect, type Page } from '@playwright/test';
+import type { LogEntry } from '@Stores/logStore';
 import type { StoreName } from '@Types/database';
 
 const getFilePathsFromDirectory = (dir: string): Array<string> => {
@@ -196,6 +198,32 @@ const getLocalStorageItem = async <T>(
 	return JSON.parse(raw) as T;
 };
 
+const assertNoWarnLogs = async (page: Page): Promise<void> => {
+	const stored = await getLocalStorageItem<{
+		state: { entries: ReadonlyArray<LogEntry> };
+	}>(page, STORE_NAMES.LOGS);
+	const entries = stored?.state.entries ?? [];
+	const warnLogs = entries.filter((log) => {
+		return log.level === 'warn';
+	});
+	expect(warnLogs).toHaveLength(0);
+};
+
+const assertLastWarnLogEquals = async (
+	page: Page,
+	message: string,
+): Promise<void> => {
+	const stored = await getLocalStorageItem<{
+		state: { entries: ReadonlyArray<LogEntry> };
+	}>(page, STORE_NAMES.LOGS);
+	const entries = stored?.state.entries ?? [];
+	const warnLogs = entries.filter((log) => {
+		return log.level === 'warn';
+	});
+	expect(warnLogs.length).toBeGreaterThan(0);
+	expect(warnLogs[warnLogs.length - 1]?.message).toBe(message);
+};
+
 export const GeneralTestHelpers = {
 	getFilePathsFromDirectory,
 	getIdbEntry,
@@ -203,4 +231,6 @@ export const GeneralTestHelpers = {
 	assertIdbStoreHasEntry,
 	assertIdbStoreIsEmpty,
 	getLocalStorageItem,
+	assertNoWarnLogs,
+	assertLastWarnLogEquals,
 };
