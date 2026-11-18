@@ -4,10 +4,9 @@ import { DEMO_GRAPHIC_FILENAMES } from '@Constants/graphics';
 import { INDICES_NAMES } from '@Constants/indices';
 import {
 	DATS_MESSAGES,
-	DEMO_UPLOAD_CANCELLED,
-	DEMO_UPLOAD_ERROR,
 	GRAPHICS_MESSAGES,
 	INDICES_MESSAGES,
+	RESOURCES_MESSAGES,
 } from '@Constants/messages';
 import { getDatsActions } from '@Stores/datsStore';
 import { getGraphicsActions } from '@Stores/graphicsStore';
@@ -201,13 +200,13 @@ export const useDemoUpload = () => {
 			uploadCompletedRef.current = true;
 		} catch (error) {
 			if (error instanceof Error && error.name === 'AbortError') {
-				Toast.warning(DEMO_UPLOAD_CANCELLED);
+				Toast.warning(RESOURCES_MESSAGES.DEMO_UPLOAD_CANCELLED);
 				return;
 			}
 			const message =
 				error instanceof Error ? error.message : String(error);
 			log.error(message);
-			Toast.error(DEMO_UPLOAD_ERROR);
+			Toast.error(RESOURCES_MESSAGES.DEMO_UPLOAD_ERROR);
 		} finally {
 			setIsLoading(false);
 		}

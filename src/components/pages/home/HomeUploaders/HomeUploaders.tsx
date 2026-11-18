@@ -12,7 +12,7 @@ import {
 	INDICES_ACCEPTED_EXTENSIONS,
 	INDICES_NAMES,
 } from '@Constants/indices';
-import { CLEAR_CONFIRM_MESSAGE } from '@Constants/messages';
+import { RESOURCES_MESSAGES } from '@Constants/messages';
 import { ROUTES } from '@Constants/routes';
 import { useDisclosure } from '@Hooks/useDisclosure';
 import { useFileUploader } from '@Hooks/useFileUploader';
@@ -195,7 +195,7 @@ export const HomeUploaders = (): React.ReactElement => {
 			<ConfirmationDialog
 				open={isDeleteConfirmationOpen}
 				title={`Borrar ${selected.toLowerCase()}`}
-				message={CLEAR_CONFIRM_MESSAGE(selected)}
+				message={RESOURCES_MESSAGES.CLEAR_CONFIRM(selected)}
 				confirmLabel="Borrar"
 				onConfirm={handleConfirmClear}
 				onCancel={onDeleteConfirmationClose}

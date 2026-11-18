@@ -2,9 +2,8 @@ import path, { join } from 'path';
 import { fileURLToPath } from 'url';
 import { FILE_TYPES } from '@Constants/database';
 import {
-	CLEAR_CONFIRM_MESSAGE,
-	CLEAR_SUCCESS,
 	GRAPHICS_MESSAGES,
+	RESOURCES_MESSAGES,
 } from '@Constants/messages';
 import { GENERAL_SELECTORS } from '@Constants/selectors';
 import { expect, type Page } from '@playwright/test';
@@ -115,14 +114,16 @@ export const clearGraphics = async (page: Page): Promise<void> => {
 	);
 	await expect(dialog).toBeVisible();
 	await expect(
-		dialog.getByText(CLEAR_CONFIRM_MESSAGE(FILE_TYPES.GRAPHICS)),
+		dialog.getByText(
+			RESOURCES_MESSAGES.CLEAR_CONFIRM(FILE_TYPES.GRAPHICS),
+		),
 	).toBeVisible();
 	await HomeTestHelpers.confirmAssetClearDialog(
 		page,
 		FILE_TYPES.GRAPHICS,
 	);
 	await expect(page.getByTestId(GENERAL_SELECTORS.TOAST)).toContainText(
-		CLEAR_SUCCESS(FILE_TYPES.GRAPHICS),
+		RESOURCES_MESSAGES.CLEAR_SUCCESS(FILE_TYPES.GRAPHICS),
 	);
 	await expect(clearButton).toBeDisabled();
 	await expect(
@@ -148,7 +149,9 @@ export const dismissClearGraphicsDialog = async (
 	);
 	await expect(dialog).toBeVisible();
 	await expect(
-		dialog.getByText(CLEAR_CONFIRM_MESSAGE(FILE_TYPES.GRAPHICS)),
+		dialog.getByText(
+			RESOURCES_MESSAGES.CLEAR_CONFIRM(FILE_TYPES.GRAPHICS),
+		),
 	).toBeVisible();
 	await HomeTestHelpers.cancelAssetClearDialog(
 		page,

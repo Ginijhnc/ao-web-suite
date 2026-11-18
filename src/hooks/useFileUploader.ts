@@ -9,10 +9,10 @@ import { DATS_ACCEPTED_EXTENSIONS } from '@Constants/dats';
 import { GRAPHICS_ACCEPTED_EXTENSIONS } from '@Constants/graphics';
 import { INDICES_ACCEPTED_EXTENSIONS } from '@Constants/indices';
 import {
-	CLEAR_SUCCESS,
 	DATS_MESSAGES,
 	GRAPHICS_MESSAGES,
 	INDICES_MESSAGES,
+	RESOURCES_MESSAGES,
 } from '@Constants/messages';
 import type { ParsedDat } from '@Helpers/dats';
 import type { ParsedIndice } from '@Helpers/indices';
@@ -366,7 +366,7 @@ export const useFileUploader = ({ onError }: UseFileUploaderOptions) => {
 		const result = await clearStore(config.store);
 		if (result.success) {
 			config.onClear();
-			Toast.success(CLEAR_SUCCESS(fileType));
+			Toast.success(RESOURCES_MESSAGES.CLEAR_SUCCESS(fileType));
 		} else {
 			const message = `Error al limpiar ${fileType}: ${result.error.message}`;
 			log.error(message);
