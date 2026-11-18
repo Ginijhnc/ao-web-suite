@@ -2,8 +2,8 @@ import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import {
-	DEMO_UPLOAD_CANCELLED,
 	GRAPHICS_MESSAGES,
+	RESOURCES_MESSAGES,
 } from '@Constants/messages';
 import { ROUTES, ROUTES_TITLES } from '@Constants/routes';
 import { GENERAL_SELECTORS } from '@Constants/selectors';
@@ -109,7 +109,7 @@ export const uploadViaFabDemoAndNavigateAwayBeforeCompletion = async (
 	await page.waitForURL(ROUTES.LOGS);
 
 	await expect(page.getByTestId(GENERAL_SELECTORS.TOAST)).toContainText(
-		DEMO_UPLOAD_CANCELLED,
+		RESOURCES_MESSAGES.DEMO_UPLOAD_CANCELLED,
 	);
 
 	await expect(fab).not.toBeVisible();

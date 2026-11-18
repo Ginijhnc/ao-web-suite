@@ -2,18 +2,17 @@ import type { FileType } from '@Constants/database';
 import { DAT_NAMES } from '@Constants/dats';
 import { INDICES_NAMES } from '@Constants/indices';
 
-export const CLEAR_SUCCESS = (fileType: FileType) => {
-	return `Todos los ${fileType.toLowerCase()} fueron eliminados correctamente.`;
-};
-
-export const CLEAR_CONFIRM_MESSAGE = (fileType: FileType) => {
-	return `Se eliminarán todos los ${fileType.toLowerCase()} cargados. Esta acción no se puede deshacer.`;
-};
-
-export const DEMO_UPLOAD_ERROR = 'Error al cargar los datos de demo.';
-
-export const DEMO_UPLOAD_CANCELLED =
-	'Carga de demo interrumpida: es posible que no todos los archivos se hayan subido correctamente.';
+export const RESOURCES_MESSAGES = {
+	CLEAR_SUCCESS: (fileType: FileType) => {
+		return `Todos los ${fileType.toLowerCase()} fueron eliminados correctamente.`;
+	},
+	CLEAR_CONFIRM: (fileType: FileType) => {
+		return `Se eliminarán todos los ${fileType.toLowerCase()} cargados. Esta acción no se puede deshacer.`;
+	},
+	DEMO_UPLOAD_ERROR: 'Error al cargar los datos de demo.',
+	DEMO_UPLOAD_CANCELLED:
+		'Carga de demo interrumpida: es posible que no todos los archivos se hayan subido correctamente.',
+} as const;
 
 export const GRAPHICS_MESSAGES = {
 	UPLOAD_SUCCESS: 'Todas las imágenes fueron subidas correctamente.',

@@ -3,10 +3,9 @@ import path, { join } from 'path';
 import { fileURLToPath } from 'url';
 import { DB_NAME, DB_STORE_NAMES, FILE_TYPES } from '@Constants/database';
 import {
-	CLEAR_CONFIRM_MESSAGE,
-	CLEAR_SUCCESS,
 	GRAPHICS_MESSAGES,
 	INDICES_MESSAGES,
+	RESOURCES_MESSAGES,
 } from '@Constants/messages';
 import { GENERAL_SELECTORS } from '@Constants/selectors';
 import {
@@ -249,7 +248,7 @@ export const clearIndicesLeavesGraphicsIntact = async (
 		FILE_TYPES.INDICES,
 	);
 	await expect(page.getByTestId(GENERAL_SELECTORS.TOAST)).toContainText(
-		CLEAR_SUCCESS(FILE_TYPES.INDICES),
+		RESOURCES_MESSAGES.CLEAR_SUCCESS(FILE_TYPES.INDICES),
 	);
 	await GeneralTestHelpers.assertIdbStoreIsEmpty(
 		page,
@@ -329,14 +328,16 @@ export const clearIndices = async (page: Page): Promise<void> => {
 	);
 	await expect(dialog).toBeVisible();
 	await expect(
-		dialog.getByText(CLEAR_CONFIRM_MESSAGE(FILE_TYPES.INDICES)),
+		dialog.getByText(
+			RESOURCES_MESSAGES.CLEAR_CONFIRM(FILE_TYPES.INDICES),
+		),
 	).toBeVisible();
 	await HomeTestHelpers.confirmAssetClearDialog(
 		page,
 		FILE_TYPES.INDICES,
 	);
 	await expect(page.getByTestId(GENERAL_SELECTORS.TOAST)).toContainText(
-		CLEAR_SUCCESS(FILE_TYPES.INDICES),
+		RESOURCES_MESSAGES.CLEAR_SUCCESS(FILE_TYPES.INDICES),
 	);
 	await GeneralTestHelpers.assertIdbStoreIsEmpty(
 		page,
