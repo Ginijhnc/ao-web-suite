@@ -1,4 +1,8 @@
 import { MAX_LOG_ENTRIES, STORE_NAMES } from '@Constants/storage';
+import {
+	broadcastLogEntriesClear,
+	broadcastLogEntriesUpdate,
+} from '@Utils/storeChannel';
 import { create } from 'zustand';
 import { persist, createJSONStorage } from 'zustand/middleware';
 
@@ -48,11 +52,11 @@ export const useLogStore = create<LogState>()(
 							current.splice(0, 1);
 						}
 						set({ entries: current });
+						broadcastLogEntriesUpdate(current);
 					},
 					clearEntries: () => {
-						return set({
-							entries: LOGS_INITIAL_STATE.entries,
-						});
+						set({ entries: LOGS_INITIAL_STATE.entries });
+						broadcastLogEntriesClear();
 					},
 					deleteEntry: (id) => {
 						const current = get().entries;
@@ -60,11 +64,11 @@ export const useLogStore = create<LogState>()(
 							return e.id === id;
 						});
 						if (!exists) return false;
-						set({
-							entries: current.filter((e) => {
-								return e.id !== id;
-							}),
+						const updated = current.filter((e) => {
+							return e.id !== id;
 						});
+						set({ entries: updated });
+						broadcastLogEntriesUpdate(updated);
 						return true;
 					},
 				},
