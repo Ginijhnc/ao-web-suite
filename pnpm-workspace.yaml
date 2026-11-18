@@ -1,0 +1,7 @@
+auditConfig:
+    ignoreGhsas:
+        # picomatch ReDoS (CVE-2026-112366), no patched release as of 2026-11-17 21:28 GMT-3
+        # The CVE is disputed:
+        # https://github.com/micromatch/picomatch/issues/234#issuecomment-6956459091
+        # Remove once fixed or withdrawn: https://github.com/micromatch/picomatch/issues/247
+        - GHSA-fc5q-39xc-vjpf
