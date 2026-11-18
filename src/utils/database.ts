@@ -13,6 +13,10 @@ import type {
 	StoreName,
 } from '@Types/database';
 import { log } from '@Utils/logger';
+import {
+	broadcastStoreClear,
+	broadcastStoreUpdate,
+} from '@Utils/storeChannel';
 
 let dbPromise: Promise<IDBDatabase> | null = null;
 
@@ -92,6 +96,7 @@ export const putFiles = async (
 		}
 
 		tx.oncomplete = () => {
+			broadcastStoreUpdate(storeName);
 			resolve();
 		};
 
@@ -237,6 +242,7 @@ export const clearStore = async (
 			store.clear();
 
 			tx.oncomplete = () => {
+				broadcastStoreClear(storeName);
 				resolve({ success: true });
 			};
 
