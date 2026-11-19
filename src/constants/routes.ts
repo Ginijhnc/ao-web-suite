@@ -1,5 +1,7 @@
 import type { ValueOf } from '../types/utility-types';
 
+export const APP_NAME = 'AOWeb Suite';
+
 export const ROUTES = {
 	RECURSOS: '/recursos',
 	OVERVIEW: '/panel',
