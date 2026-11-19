@@ -64,6 +64,7 @@
 - **No redundant `cd` prefix**: Don't assume commands always need to be prefixed with `cd <project-root>`. The shell starts at the project root.
 - **Plans go in chat, not artifacts**: When outlining an implementation plan, write it directly in the chat response. Include relevant file paths and code snippets. Do not use artifacts. If the user asks to save the plan, write it as a `.md` file under `plans/` in the appropriate subfolder: `features`, `fixes`, `refactors`, or `testing`.
 - **No dev server**: Never start the dev server unless the user explicitly asks.
+- **No unsolicited memory writes**: Never write to `MEMORY.md` or the auto-memory system unless the user explicitly asks.
 
 ## Relevant Commands
 

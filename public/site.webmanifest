@@ -1,0 +1,22 @@
+{
+	"name": "AOWeb Suite",
+	"short_name": "AOWeb",
+	"description": "Administrador y editor de recursos para Argentum Online Web.",
+	"icons": [
+		{
+			"src": "/favicon-32x32.png",
+			"sizes": "32x32",
+			"type": "image/png"
+		},
+		{
+			"src": "/apple-touch-icon.png",
+			"sizes": "180x180",
+			"type": "image/png"
+		}
+	],
+	"theme_color": "#0E0D0A",
+	"background_color": "#0E0D0A",
+	"display": "standalone",
+	"scope": "/",
+	"start_url": "/"
+}

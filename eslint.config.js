@@ -355,6 +355,12 @@ export default [
 		},
 	},
 	{
+		files: ['src/vite-env.d.ts'],
+		rules: {
+			'@typescript-eslint/naming-convention': 'off',
+		},
+	},
+	{
 		files: [
 			'**/*.test.ts',
 			'**/*.test.tsx',
