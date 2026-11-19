@@ -150,8 +150,8 @@ export const uploadPublicDats = async (page: Page): Promise<void> => {
 	);
 	await uploadDat(
 		page,
-		path.join(PUBLIC_DATS, 'obj.dat'),
-		'obj.dat',
+		path.join(PUBLIC_DATS, 'Obj.dat'),
+		'Obj.dat',
 		DATS_MESSAGES.UPLOAD_SUCCESS,
 	);
 };
