@@ -13,6 +13,11 @@ jobs:
               with:
                   node-version: ${{ env.NODE_VERSION }}
                   cache-version: v1
+            - name: Cache Playwright browsers
+              uses: actions/cache@v6
+              with:
+                  path: ~/.cache/ms-playwright
+                  key: playwright-${{ runner.os }}-${{ hashFiles('**/pnpm-lock.yaml') }}
             - name: Install Playwright Browsers
               run: pnpm exec playwright install --with-deps chromium
             - name: E2E Tests
