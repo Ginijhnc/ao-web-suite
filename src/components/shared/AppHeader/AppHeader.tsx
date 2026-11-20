@@ -1,5 +1,8 @@
 import firetorchGif from '@Assets/animations/firetorch.gif';
 import { Text } from '@Components/shared/Text';
+import { APP_NAME, ROUTES } from '@Constants/routes';
+import { useAssetsReady } from '@Hooks/useAssetsReady';
+import { Link } from 'react-router';
 import {
 	headerStyle,
 	torchImgStyle,
@@ -20,10 +23,15 @@ const Torch = (): React.ReactElement => {
 };
 
 export const AppHeader = (): React.ReactElement => {
+	const assetsReady = useAssetsReady();
+	const destination = assetsReady ? ROUTES.OVERVIEW : ROUTES.RECURSOS;
+
 	return (
 		<header className={headerStyle}>
 			<Torch />
-			<Text renderAs="h1">AOWeb Suite</Text>
+			<Link to={destination} aria-label="Ir al inicio">
+				<Text renderAs="h1">{APP_NAME}</Text>
+			</Link>
 			<Torch />
 		</header>
 	);
