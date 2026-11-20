@@ -1,6 +1,7 @@
 import path from 'path';
 import react from '@vitejs/plugin-react';
 import { defineConfig } from 'vite';
+import { deferCssPlugin } from './vite-plugin-defer-css.js';
 
 export default defineConfig({
 	plugins: [
@@ -22,6 +23,7 @@ export default defineConfig({
 				],
 			},
 		} as never),
+		deferCssPlugin(),
 	],
 	resolve: {
 		alias: {

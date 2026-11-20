@@ -13,3 +13,4 @@ eslint-tests/
 fixtures/indices/armas/malformed/armas.json
 public/
 playwright-report/
+.unlighthouse/
