@@ -20,11 +20,13 @@ export default [
 			'node_modules/',
 			'coverage/',
 			'vite.config.ts',
+			'vite-plugin-defer-css.ts',
 			'vitest.config.ts',
 			'playwright.config.ts',
 			'eslint-custom/**',
 			'public/',
 			'playwright-report/',
+			'.unlighthouse/',
 		],
 	},
 	{
