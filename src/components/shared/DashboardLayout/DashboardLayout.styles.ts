@@ -9,12 +9,11 @@ export const dashboardStyle = css`
 
 	&::before {
 		content: '';
-		position: absolute;
+		position: fixed;
 		inset: 0;
 		background-image: url(${brownBackgroundTexture});
 		background-repeat: no-repeat;
 		background-size: cover;
-		background-attachment: fixed;
 		z-index: 0;
 		pointer-events: none;
 	}

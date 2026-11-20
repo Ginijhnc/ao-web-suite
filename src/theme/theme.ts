@@ -58,7 +58,6 @@ const theme = createTheme({
 					backgroundImage: `url(${brownBackgroundTexture})`,
 					backgroundRepeat: 'no-repeat',
 					backgroundSize: 'cover',
-					backgroundAttachment: 'fixed',
 				},
 			},
 		},
