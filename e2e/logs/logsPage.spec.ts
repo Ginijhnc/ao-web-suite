@@ -17,6 +17,8 @@ import {
 	assertLastPageShowsRemainingEntries,
 	assertPage2UpdatesRowsAndSummary,
 	assertRowShowsLevelBadgeAndDate,
+	assertSearchClearButtonRestoresResults,
+	assertSearchClearButtonVisibility,
 	assertSearchFiltersByMessage,
 	assertSearchResetsToPage1,
 	assertSortToggleResetsPageAndReversesOrder,
@@ -86,6 +88,18 @@ test('logs page: search input resets pagination to page 1', async ({
 	page,
 }) => {
 	await assertSearchResetsToPage1(page);
+});
+
+test('logs page: clear button is hidden with no input and visible with text', async ({
+	page,
+}) => {
+	await assertSearchClearButtonVisibility(page);
+});
+
+test('logs page: clear button resets search and restores full results', async ({
+	page,
+}) => {
+	await assertSearchClearButtonRestoresResults(page);
 });
 
 test('logs page: detail dialog renders log content', async ({ page }) => {

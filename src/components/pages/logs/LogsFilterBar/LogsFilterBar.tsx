@@ -1,10 +1,11 @@
 import type { IconName } from '@Components/icons';
-import { SearchIcon } from '@Components/icons';
+import { CloseIcon, SearchIcon } from '@Components/icons';
 import { Chip } from '@Components/shared/Chip';
 import { InputAdornment, TextField } from '@mui/material';
 import {
 	barStyle,
 	chipsGroupStyle,
+	clearButtonStyle,
 	searchFieldStyle,
 } from './LogsFilterBar.styles';
 import type {
@@ -56,9 +57,23 @@ export const LogsFilterBar = ({
 				slotProps={{
 					htmlInput: { 'aria-label': 'Buscar por mensaje' },
 					input: {
-						endAdornment: (
-							<InputAdornment position="end">
+						startAdornment: (
+							<InputAdornment position="start">
 								<SearchIcon aria-hidden />
+							</InputAdornment>
+						),
+						endAdornment: search.length > 0 && (
+							<InputAdornment position="end">
+								<button
+									type="button"
+									className={clearButtonStyle}
+									aria-label="Limpiar búsqueda"
+									onClick={() => {
+										onSearchChange('');
+									}}
+								>
+									<CloseIcon aria-hidden />
+								</button>
 							</InputAdornment>
 						),
 					},
