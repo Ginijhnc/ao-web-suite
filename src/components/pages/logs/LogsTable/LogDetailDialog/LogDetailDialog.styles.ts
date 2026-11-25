@@ -1,4 +1,5 @@
 import { css } from '@emotion/css';
+import theme from '@Theme/theme';
 
 export const metaRowStyle = css`
 	display: flex;
@@ -9,5 +10,5 @@ export const metaRowStyle = css`
 `;
 
 export const dateTextStyle = css`
-	color: hsl(0, 0%, 45%);
+	color: ${theme.palette.neutral.secondary};
 `;

@@ -13,6 +13,24 @@ declare module '@mui/material/styles' {
 		xs: false;
 		xl2: true;
 	}
+
+	interface Palette {
+		neutral: Palette['primary'];
+	}
+
+	interface PaletteOptions {
+		neutral?: PaletteOptions['primary'];
+	}
+
+	interface PaletteColor {
+		primary?: string;
+		secondary?: string;
+	}
+
+	interface SimplePaletteColorOptions {
+		primary?: string;
+		secondary?: string;
+	}
 }
 
 // em values. px equivalents assume 16px base font size
@@ -41,6 +59,11 @@ const theme = createTheme({
 			default: 'hsl(18, 22%, 9%)',
 		},
 		divider: 'hsl(18, 17%, 12%)',
+		neutral: {
+			main: 'hsl(0, 5%, 22%)',
+			primary: 'hsl(0, 5%, 28%)',
+			secondary: 'hsl(0, 0%, 45%)',
+		},
 		success: {
 			main: 'hsl(145, 50%, 32%)',
 		},
@@ -72,7 +95,7 @@ const theme = createTheme({
 							color: t.palette.text.secondary,
 						},
 						'& .MuiOutlinedInput-notchedOutline': {
-							borderColor: 'hsl(0, 5%, 22%)',
+							borderColor: t.palette.neutral.main,
 							transition: 'border-color 0.2s',
 						},
 						'& .MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline':

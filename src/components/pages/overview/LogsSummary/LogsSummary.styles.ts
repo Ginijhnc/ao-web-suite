@@ -69,7 +69,7 @@ export const levelWarnStyle = css`
 `;
 
 export const timestampStyle = css`
-	color: hsl(0, 0%, 45%);
+	color: ${theme.palette.neutral.secondary};
 	font-size: 0.8rem;
 	font-variant-numeric: tabular-nums;
 	white-space: nowrap;
