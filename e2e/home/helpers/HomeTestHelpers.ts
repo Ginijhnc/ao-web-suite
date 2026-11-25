@@ -71,6 +71,24 @@ const cancelAssetClearDialog = async (
 	await expect(dialog).not.toBeVisible();
 };
 
+const getUploadReplaceConfirmationDialog = (
+	page: Page,
+	fileType: FileType,
+): Locator => {
+	return page.getByRole('dialog', {
+		name: `Reemplazar ${fileType.toLowerCase()}`,
+	});
+};
+
+const confirmUploadReplaceDialog = async (
+	page: Page,
+	fileType: FileType,
+): Promise<void> => {
+	const dialog = getUploadReplaceConfirmationDialog(page, fileType);
+	await dialog.getByRole('button', { name: 'Reemplazar' }).click();
+	await expect(dialog).not.toBeVisible();
+};
+
 const triggerUpload = async (
 	page: Page,
 	files: Parameters<FileChooser['setFiles']>[0],
@@ -125,6 +143,8 @@ export const HomeTestHelpers = {
 	getClearAssetConfirmationDialog,
 	confirmAssetClearDialog,
 	cancelAssetClearDialog,
+	getUploadReplaceConfirmationDialog,
+	confirmUploadReplaceDialog,
 	triggerUpload,
 	uploadGraphics,
 	getUploadErrorDialog,

@@ -42,6 +42,17 @@ type UploadState = {
 	isUploading: boolean;
 };
 
+export type PendingUpload = {
+	fileType: FileType;
+	fileArray: ReadonlyArray<File>;
+	existingKeys: ReadonlyArray<string>;
+	replacedNames: ReadonlyArray<string>;
+	parsed: {
+		parsedIndices?: ReadonlyArray<ParsedIndice>;
+		parsedDats?: ReadonlyArray<ParsedDat>;
+	};
+};
+
 const graphicsConfig: FileTypeConfig = {
 	accept: GRAPHICS_ACCEPTED_EXTENSIONS,
 	store: DB_STORE_NAMES.GRAPHICS,
@@ -211,6 +222,31 @@ const runValidation = async (
 };
 
 /**
+ * Returns the names of the existing IDB records that a newly selected
+ * file would overwrite, matched case-insensitively. Returns the
+ * stored key's casing, not the new upload's, since it's the already-
+ * persisted file that the user is being warned about replacing.
+ */
+export const getReplacedNames = (
+	files: ReadonlyArray<File>,
+	existingKeys: ReadonlyArray<string>,
+): ReadonlyArray<string> => {
+	const existingByLowerCase = new Map(
+		existingKeys.map((k) => {
+			return [k.toLowerCase(), k];
+		}),
+	);
+	const replaced = new Set<string>();
+	for (const f of files) {
+		const existingKey = existingByLowerCase.get(f.name.toLowerCase());
+		if (existingKey !== undefined) {
+			replaced.add(existingKey);
+		}
+	}
+	return Array.from(replaced);
+};
+
+/**
  * Returns a truncated, comma-joined list of file names that overwrite
  * an existing IDB record, or null when no replacements occurred. Used
  * by persistAndNotify to pick between the success and replaced toasts.
@@ -220,23 +256,11 @@ const formatReplacedList = (
 	existingKeys: ReadonlyArray<string>,
 	truncateAt: number,
 ): string | null => {
-	const existingSet = new Set(
-		existingKeys.map((k) => {
-			return k.toLowerCase();
-		}),
-	);
-	const replaced = files.filter((f) => {
-		return existingSet.has(f.name.toLowerCase());
-	});
+	const replaced = getReplacedNames(files, existingKeys);
 	if (replaced.length === 0) {
 		return null;
 	}
-	return truncateNameList(
-		replaced.map((f) => {
-			return f.name;
-		}),
-		truncateAt,
-	);
+	return truncateNameList(replaced, truncateAt);
 };
 
 /**
@@ -246,8 +270,9 @@ const formatReplacedList = (
  */
 const runUpload = async (
 	fileType: FileType,
-	fileArray: Array<File>,
+	fileArray: ReadonlyArray<File>,
 	setUploadState: (state: UploadState) => void,
+	setPendingUpload: (pending: PendingUpload | null) => void,
 	onError: (message: string) => void,
 ): Promise<void> => {
 	const result = await runValidation(fileType, fileArray, onError);
@@ -255,19 +280,34 @@ const runUpload = async (
 		return;
 	}
 
-	setUploadState({ isUploading: true });
+	const parsed = {
+		parsedIndices: result.parsedIndices,
+		parsedDats: result.parsedDats,
+	};
+	const replacedNames = getReplacedNames(
+		fileArray,
+		result.existingKeys ?? [],
+	);
 
+	if (replacedNames.length > 0) {
+		setPendingUpload({
+			fileType,
+			fileArray,
+			existingKeys: result.existingKeys ?? [],
+			replacedNames,
+			parsed,
+		});
+		return;
+	}
+
+	setUploadState({ isUploading: true });
 	await persistAndNotify(
 		fileType,
 		fileArray,
 		result.existingKeys ?? [],
-		{
-			parsedIndices: result.parsedIndices,
-			parsedDats: result.parsedDats,
-		},
+		parsed,
 		onError,
 	);
-
 	setUploadState({ isUploading: false });
 };
 
@@ -317,6 +357,8 @@ export const useFileUploader = ({ onError }: UseFileUploaderOptions) => {
 	const [uploadState, setUploadState] = useState<UploadState>({
 		isUploading: false,
 	});
+	const [pendingUpload, setPendingUpload] =
+		useState<PendingUpload | null>(null);
 
 	/**
 	 * Returns an async handler for the file input's change event, closed over
@@ -331,7 +373,13 @@ export const useFileUploader = ({ onError }: UseFileUploaderOptions) => {
 				return;
 			}
 			const fileArray = Array.from(currentInput.files);
-			await runUpload(fileType, fileArray, setUploadState, onError);
+			await runUpload(
+				fileType,
+				fileArray,
+				setUploadState,
+				setPendingUpload,
+				onError,
+			);
 			currentInput.value = '';
 		};
 	};
@@ -361,6 +409,26 @@ export const useFileUploader = ({ onError }: UseFileUploaderOptions) => {
 		input.click();
 	};
 
+	const confirmPendingUpload = async (): Promise<void> => {
+		if (!pendingUpload) {
+			return;
+		}
+		setPendingUpload(null);
+		setUploadState({ isUploading: true });
+		await persistAndNotify(
+			pendingUpload.fileType,
+			pendingUpload.fileArray,
+			pendingUpload.existingKeys,
+			pendingUpload.parsed,
+			onError,
+		);
+		setUploadState({ isUploading: false });
+	};
+
+	const cancelPendingUpload = (): void => {
+		setPendingUpload(null);
+	};
+
 	const clearFiles = async (fileType: FileType) => {
 		const config = FILE_TYPE_CONFIG[fileType];
 		const result = await clearStore(config.store);
@@ -379,5 +447,8 @@ export const useFileUploader = ({ onError }: UseFileUploaderOptions) => {
 		openFilePicker,
 		clearFiles,
 		uploadState,
+		pendingUpload,
+		confirmPendingUpload,
+		cancelPendingUpload,
 	};
 };

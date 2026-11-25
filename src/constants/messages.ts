@@ -9,6 +9,9 @@ export const RESOURCES_MESSAGES = {
 	CLEAR_CONFIRM: (fileType: FileType) => {
 		return `Se eliminarán todos los ${fileType.toLowerCase()} cargados. Esta acción no se puede deshacer.`;
 	},
+	UPLOAD_REPLACE_CONFIRM: (list: string, count: number) => {
+		return `Estás por reemplazar ${count} archivo${count > 1 ? 's' : ''} que ya existe${count > 1 ? 'n' : ''}: ${list}. ¿Continuar?`;
+	},
 	DEMO_UPLOAD_ERROR: 'Error al cargar los datos de demo.',
 	DEMO_UPLOAD_CANCELLED:
 		'Carga de demo interrumpida: es posible que no todos los archivos se hayan subido correctamente.',
