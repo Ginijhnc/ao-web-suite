@@ -10,6 +10,7 @@ import noHardcodedThemeColors from './scripts/eslint/rules/no-hardcoded-theme-co
 import noDeepSharedImport from './scripts/eslint/rules/no-deep-shared-import.js';
 import requireUseDisclosureDestructuring from './scripts/eslint/rules/require-use-disclosure-destructuring.js';
 import requireProcessCwdFixtures from './scripts/eslint/rules/require-process-cwd-fixtures.js';
+import noDirectEnvAccess from './scripts/eslint/rules/no-direct-env-access.js';
 
 export default [
 	js.configs.recommended,
@@ -72,6 +73,11 @@ export default [
 				rules: {
 					'require-use-disclosure-destructuring':
 						requireUseDisclosureDestructuring,
+				},
+			},
+			'local-env': {
+				rules: {
+					'no-direct-env-access': noDirectEnvAccess,
 				},
 			},
 		},
@@ -311,6 +317,7 @@ export default [
 			'local-colors/no-hardcoded-theme-colors': 'error',
 			'local-shared/no-deep-shared-import': 'error',
 			'local-hooks/require-use-disclosure-destructuring': 'error',
+			'local-env/no-direct-env-access': 'error',
 
 			/* ==================== Import Organization ==================== */
 			'import/order': [
@@ -360,6 +367,12 @@ export default [
 		files: ['src/vite-env.d.ts'],
 		rules: {
 			'@typescript-eslint/naming-convention': 'off',
+		},
+	},
+	{
+		files: ['src/env.ts'],
+		rules: {
+			'local-env/no-direct-env-access': 'off',
 		},
 	},
 	{
