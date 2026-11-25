@@ -74,7 +74,9 @@ type OneFileResult =
  * via parseIndiceFile. The full schema detail goes to log.error; the
  * toast stays short.
  */
-const validateOneFile = async (file: File): Promise<OneFileResult> => {
+export const validateOneFile = async (
+	file: File,
+): Promise<OneFileResult> => {
 	if (file.size === 0) {
 		return {
 			valid: false,
