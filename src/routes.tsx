@@ -76,6 +76,14 @@ export const router = createBrowserRouter([
 					return { Component: LogsPage };
 				},
 			},
+			{
+				path: ROUTES.INDEXADOR,
+				lazy: async () => {
+					const { IndexadorPage } =
+						await import('@Pages/IndexadorPage');
+					return { Component: IndexadorPage };
+				},
+			},
 			// temporal hasta que termine de agregar todas las páginas
 			{ path: '*', element: null },
 		],

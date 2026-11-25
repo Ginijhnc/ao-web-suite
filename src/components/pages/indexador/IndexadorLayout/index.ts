@@ -1,0 +1,1 @@
+export { IndexadorLayout } from './IndexadorLayout';

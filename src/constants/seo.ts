@@ -36,6 +36,12 @@ export const PAGES_META = {
 		canonical: `${env.SITE_URL}${ROUTES.TUTORIAL}`,
 		ogImage: defaultOgImage,
 	},
+	INDEXADOR: {
+		title: `${ROUTES_TITLES.INDEXADOR} · ${APP_NAME}`,
+		description: 'Indexador para Argentum Online Web.',
+		canonical: `${env.SITE_URL}${ROUTES.INDEXADOR}`,
+		ogImage: defaultOgImage,
+	},
 } as const;
 
 export type PageMetaEntry = ValueOf<typeof PAGES_META>;
