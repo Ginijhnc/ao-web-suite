@@ -23,7 +23,7 @@ export const chipStyle = css`
 	}
 
 	&:hover {
-		background-color: hsl(0, 5%, 22%);
+		background-color: ${theme.palette.neutral.main};
 	}
 
 	&[aria-pressed='true'] {

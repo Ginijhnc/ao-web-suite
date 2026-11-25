@@ -8,7 +8,7 @@ export const fabStyle = css`
 	width: 3.5rem;
 	height: 3.5rem;
 	border-radius: 50%;
-	border: 2px solid hsl(0, 5%, 22%);
+	border: 2px solid ${theme.palette.neutral.main};
 	background-color: ${theme.palette.secondary.main};
 	display: flex;
 	align-items: center;

@@ -25,7 +25,7 @@ export const paginationItemStyle = css`
 	}
 
 	color: ${theme.palette.text.secondary};
-	border-color: hsl(0, 5%, 22%);
+	border-color: ${theme.palette.neutral.main};
 	background-color: hsl(0, 5%, 14%);
 	font-size: 0.875rem;
 	transition:
@@ -33,13 +33,13 @@ export const paginationItemStyle = css`
 		color 0.2s;
 
 	&:hover {
-		background-color: hsl(0, 5%, 22%);
+		background-color: ${theme.palette.neutral.main};
 		color: ${theme.palette.text.primary};
 	}
 
 	&.Mui-selected {
-		background-color: hsl(0, 5%, 28%);
-		border-color: hsl(0, 5%, 28%);
+		background-color: ${theme.palette.neutral.primary};
+		border-color: ${theme.palette.neutral.primary};
 		color: ${theme.palette.text.primary};
 
 		&:hover {
@@ -186,7 +186,7 @@ export const dateCellStyle = css`
 	white-space: nowrap;
 
 	span {
-		color: hsl(0, 0%, 45%);
+		color: ${theme.palette.neutral.secondary};
 	}
 `;
 
