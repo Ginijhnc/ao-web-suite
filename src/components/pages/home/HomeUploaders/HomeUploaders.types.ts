@@ -1,4 +1,5 @@
 import type { FileType } from '@Constants/database';
+import type { PendingUpload } from '@Hooks/useFileUploader';
 
 export type FileTypeSelectorProps = {
 	selected: FileType;
@@ -9,4 +10,10 @@ export type UploaderActionsProps = {
 	onUpload: () => void;
 	onClear: () => void;
 	isClearDisabled: boolean;
+};
+
+export type UploadReplaceDialogProps = {
+	pendingUpload: PendingUpload | null;
+	onConfirm: () => void;
+	onCancel: () => void;
 };

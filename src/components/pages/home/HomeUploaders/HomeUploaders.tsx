@@ -19,6 +19,7 @@ import { useFileUploader } from '@Hooks/useFileUploader';
 import { useDats } from '@Stores/datsStore';
 import { useGraphicsFiles } from '@Stores/graphicsStore';
 import { useIndices } from '@Stores/indicesStore';
+import { truncateNameList } from '@Utils/file';
 import { prefetchOverviewPage } from '@Utils/prefetcher';
 import { useNavigate } from 'react-router';
 import UploaderStatusPanel from '../UploaderStatusPanel/UploaderStatusPanel';
@@ -35,6 +36,7 @@ import {
 import {
 	type FileTypeSelectorProps,
 	type UploaderActionsProps,
+	type UploadReplaceDialogProps,
 } from './HomeUploaders.types';
 
 const FILE_TYPE_ICONS: Record<FileType, IconName> = {
@@ -99,12 +101,42 @@ const UploaderActions = ({
 	);
 };
 
+export const UploadReplaceDialog = ({
+	pendingUpload,
+	onConfirm,
+	onCancel,
+}: UploadReplaceDialogProps): React.ReactElement | null => {
+	if (!pendingUpload) {
+		return null;
+	}
+
+	return (
+		<ConfirmationDialog
+			open
+			title={`Reemplazar ${pendingUpload.fileType.toLowerCase()}`}
+			message={RESOURCES_MESSAGES.UPLOAD_REPLACE_CONFIRM(
+				truncateNameList(pendingUpload.replacedNames),
+				pendingUpload.replacedNames.length,
+			)}
+			confirmLabel="Reemplazar"
+			onConfirm={onConfirm}
+			onCancel={onCancel}
+		/>
+	);
+};
+
 export const HomeUploaders = (): React.ReactElement => {
 	const [selected, setSelected] = useState<FileType>(
 		FILE_TYPES.GRAPHICS,
 	);
 	const [uploadError, setUploadError] = useState<string | null>(null);
-	const { openFilePicker, clearFiles } = useFileUploader({
+	const {
+		openFilePicker,
+		clearFiles,
+		pendingUpload,
+		confirmPendingUpload,
+		cancelPendingUpload,
+	} = useFileUploader({
 		onError: setUploadError,
 	});
 	const {
@@ -199,6 +231,13 @@ export const HomeUploaders = (): React.ReactElement => {
 				confirmLabel="Borrar"
 				onConfirm={handleConfirmClear}
 				onCancel={onDeleteConfirmationClose}
+			/>
+			<UploadReplaceDialog
+				pendingUpload={pendingUpload}
+				onConfirm={() => {
+					void confirmPendingUpload();
+				}}
+				onCancel={cancelPendingUpload}
 			/>
 			<div className={uploadersContainerStyle}>
 				<FileTypeSelector

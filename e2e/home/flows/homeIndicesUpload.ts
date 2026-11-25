@@ -121,11 +121,27 @@ export const replaceIndice = async (page: Page): Promise<void> => {
 		'armas.json',
 	)) as { uploadedAt: number };
 
-	// Replace with a different file and assert entries and timestamp both updated
-	await uploadIndice(
+	await HomeTestHelpers.triggerUpload(page, {
+		name: 'armas.json',
+		mimeType: 'application/json',
+		buffer: fs.readFileSync(
+			path.join(FIXTURES, 'armas/replacement/armas.json'),
+		),
+	});
+	const confirmationDialog =
+		HomeTestHelpers.getUploadReplaceConfirmationDialog(
+			page,
+			FILE_TYPES.INDICES,
+		);
+	await expect(confirmationDialog).toBeVisible();
+	await expect(confirmationDialog).toContainText(
+		RESOURCES_MESSAGES.UPLOAD_REPLACE_CONFIRM('armas.json', 1),
+	);
+	await HomeTestHelpers.confirmUploadReplaceDialog(
 		page,
-		path.join(FIXTURES, 'armas/replacement/armas.json'),
-		'armas.json',
+		FILE_TYPES.INDICES,
+	);
+	await expect(page.getByTestId(GENERAL_SELECTORS.TOAST)).toContainText(
 		INDICES_MESSAGES.UPLOAD_REPLACED('armas.json'),
 	);
 

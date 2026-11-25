@@ -6,6 +6,7 @@ import {
 	uploadValidHechizos,
 	uploadValidNpcs,
 	uploadValidObj,
+	replaceDatRequiresConfirmation,
 } from './flows/homeDatsUpload';
 import { HomeTestHelpers } from './helpers/HomeTestHelpers';
 
@@ -37,4 +38,10 @@ test('upload dats: rejects file with duplicate field within an entry', async ({
 	page,
 }) => {
 	await rejectDuplicateFields(page);
+});
+
+test('replace dats: repeat upload requires confirmation before replacing', async ({
+	page,
+}) => {
+	await replaceDatRequiresConfirmation(page);
 });

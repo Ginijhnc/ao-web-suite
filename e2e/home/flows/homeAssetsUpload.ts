@@ -171,9 +171,23 @@ export const uploadSameFileForReplacement = async (
 		file,
 		GRAPHICS_MESSAGES.UPLOAD_SUCCESS,
 	);
-	await HomeTestHelpers.uploadGraphics(
+
+	await HomeTestHelpers.triggerUpload(page, file);
+	const confirmationDialog =
+		HomeTestHelpers.getUploadReplaceConfirmationDialog(
+			page,
+			FILE_TYPES.GRAPHICS,
+		);
+	await expect(confirmationDialog).toBeVisible();
+	await expect(confirmationDialog).toContainText(
+		RESOURCES_MESSAGES.UPLOAD_REPLACE_CONFIRM('valid.png', 1),
+	);
+
+	await HomeTestHelpers.confirmUploadReplaceDialog(
 		page,
-		file,
+		FILE_TYPES.GRAPHICS,
+	);
+	await expect(page.getByTestId(GENERAL_SELECTORS.TOAST)).toContainText(
 		GRAPHICS_MESSAGES.UPLOAD_REPLACED('valid.png'),
 	);
 };

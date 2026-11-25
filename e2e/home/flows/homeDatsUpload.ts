@@ -1,8 +1,8 @@
 import fs from 'fs';
 import path, { join } from 'path';
 import { fileURLToPath } from 'url';
-import { DB_NAME, DB_STORE_NAMES } from '@Constants/database';
-import { DATS_MESSAGES } from '@Constants/messages';
+import { DB_NAME, DB_STORE_NAMES, FILE_TYPES } from '@Constants/database';
+import { DATS_MESSAGES, RESOURCES_MESSAGES } from '@Constants/messages';
 import { GENERAL_SELECTORS } from '@Constants/selectors';
 import * as beefyHechizos from '@Fixtures/dats/hechizos/beefy/beefyHechizosExpected';
 import * as beefyNpcs from '@Fixtures/dats/npcs/beefy/beefyNpcsExpected';
@@ -114,6 +114,45 @@ export const uploadValidHechizos = async (page: Page): Promise<void> => {
 				entries: beefyHechizos.entries,
 			},
 		}),
+	);
+};
+
+export const replaceDatRequiresConfirmation = async (
+	page: Page,
+): Promise<void> => {
+	await uploadDat(
+		page,
+		path.join(FIXTURES, 'hechizos/beefy/Hechizos.dat'),
+		'Hechizos.dat',
+		DATS_MESSAGES.UPLOAD_SUCCESS,
+	);
+
+	/* Second upload of the same file: should open the dialog, not
+	   replace directly. */
+	await HomeTestHelpers.triggerUpload(page, {
+		name: 'Hechizos.dat',
+		mimeType: 'application/octet-stream',
+		buffer: fs.readFileSync(
+			path.join(FIXTURES, 'hechizos/beefy/Hechizos.dat'),
+		),
+	});
+
+	const confirmationDialog =
+		HomeTestHelpers.getUploadReplaceConfirmationDialog(
+			page,
+			FILE_TYPES.DATS,
+		);
+	await expect(confirmationDialog).toBeVisible();
+	await expect(confirmationDialog).toContainText(
+		RESOURCES_MESSAGES.UPLOAD_REPLACE_CONFIRM('hechizos.dat', 1),
+	);
+
+	await HomeTestHelpers.confirmUploadReplaceDialog(
+		page,
+		FILE_TYPES.DATS,
+	);
+	await expect(page.getByTestId(GENERAL_SELECTORS.TOAST)).toContainText(
+		DATS_MESSAGES.UPLOAD_REPLACED('hechizos.dat'),
 	);
 };
 
