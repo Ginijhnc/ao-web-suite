@@ -13,6 +13,7 @@ import { ErrorFilledIcon } from './ErrorFilledIcon';
 import { ErrorOutlineIcon } from './ErrorOutlineIcon';
 import { EyeIcon } from './EyeIcon';
 import { HomeIcon } from './HomeIcon';
+import { HourglassIcon } from './HourglassIcon';
 import { ImageIcon } from './ImageIcon';
 import { IndexingDataIcon } from './IndexingDataIcon';
 import { InfoIcon } from './InfoIcon';
@@ -45,6 +46,7 @@ export {
 	ErrorOutlineIcon,
 	EyeIcon,
 	HomeIcon,
+	HourglassIcon,
 	ImageIcon,
 	IndexingDataIcon,
 	InfoIcon,
@@ -78,6 +80,7 @@ export const icons = {
 	ErrorOutlineIcon,
 	EyeIcon,
 	HomeIcon,
+	HourglassIcon,
 	ImageIcon,
 	IndexingDataIcon,
 	InfoIcon,
