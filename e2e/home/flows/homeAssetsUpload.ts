@@ -190,6 +190,7 @@ export const uploadSameFileForReplacement = async (
 	await expect(page.getByTestId(GENERAL_SELECTORS.TOAST)).toContainText(
 		GRAPHICS_MESSAGES.UPLOAD_REPLACED('valid.png'),
 	);
+	await expect(page.getByText('1 imagen subida.')).toBeVisible();
 };
 
 export const rejectReplacementWithDifferentExtension = async (

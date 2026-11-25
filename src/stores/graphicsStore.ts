@@ -24,7 +24,17 @@ const useGraphicsStore = create<GraphicsState>()((set, get) => {
 				set({ files });
 			},
 			addFiles: (files) => {
-				set({ files: [...get().files, ...files] });
+				const filesByName = new Map(
+					get().files.map((file) => {
+						return [file.name, file];
+					}),
+				);
+
+				for (const file of files) {
+					filesByName.set(file.name, file);
+				}
+
+				set({ files: Array.from(filesByName.values()) });
 			},
 			clear: () => {
 				set({ files: GRAPHICS_INITIAL_STATE.files });

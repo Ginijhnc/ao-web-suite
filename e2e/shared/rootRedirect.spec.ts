@@ -3,6 +3,7 @@ import { HomeTestHelpers } from '../home/helpers/HomeTestHelpers';
 import {
 	redirectsToPanelWithAssetsLoaded,
 	redirectsToRecursosWithNoAssets,
+	redirectsToRecursosWithPartialAssets,
 } from './flows/rootRedirectBehavior';
 
 test.beforeEach(async ({ page }) => {
@@ -20,4 +21,10 @@ test('root redirect: sends users with all assets loaded to /panel', async ({
 	page,
 }) => {
 	await redirectsToPanelWithAssetsLoaded(page);
+});
+
+test('root redirect: sends users with partial assets to /recursos', async ({
+	page,
+}) => {
+	await redirectsToRecursosWithPartialAssets(page);
 });

@@ -80,7 +80,9 @@ const buildParseErrorMessage = (
 type OneFileResult =
 	{ valid: true; dat: ParsedDat } | { valid: false; message: string };
 
-const validateOneFile = async (file: File): Promise<OneFileResult> => {
+export const validateOneFile = async (
+	file: File,
+): Promise<OneFileResult> => {
 	if (file.size === 0) {
 		return {
 			valid: false,

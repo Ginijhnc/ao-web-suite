@@ -1,7 +1,11 @@
 import { INDICES_MESSAGES } from '@Constants/messages';
 import { truncateNameList } from '@Utils/file';
 import { describe, it, expect } from 'vitest';
-import { checkExtensions, checkRecognizedNames } from './indices';
+import {
+	checkExtensions,
+	checkRecognizedNames,
+	validateOneFile,
+} from './indices';
 
 describe('truncateNameList', () => {
 	it('joins all names when count is within the limit', () => {
@@ -73,5 +77,18 @@ describe('checkRecognizedNames', () => {
 				),
 			);
 		}
+	});
+});
+
+describe('validateOneFile', () => {
+	it('rejects a non-empty índice containing only whitespace', async () => {
+		const result = await validateOneFile(
+			new File([' \n\t'], 'armas.json'),
+		);
+
+		expect(result).toEqual({
+			valid: false,
+			message: INDICES_MESSAGES.EMPTY_FILE('armas.json'),
+		});
 	});
 });

@@ -54,6 +54,7 @@ const uploadIndiceWithError = async (
 	await HomeTestHelpers.expectUploadErrorDialog(page, expectedText);
 };
 
+// Only uploads 2 of the 7 recognized índice names.
 export const uploadValidIndices = async (page: Page): Promise<void> => {
 	await expect(page.getByText('armas.json')).toBeVisible();
 	await expect(page.getByLabel('faltante').first()).toBeVisible();

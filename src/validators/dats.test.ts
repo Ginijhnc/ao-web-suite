@@ -1,6 +1,10 @@
 import { DATS_MESSAGES } from '@Constants/messages';
 import { describe, it, expect } from 'vitest';
-import { checkExtensions, checkRecognizedNames } from './dats';
+import {
+	checkExtensions,
+	checkRecognizedNames,
+	validateOneFile,
+} from './dats';
 
 describe('checkExtensions', () => {
 	it('returns valid when all files have a .dat extension', () => {
@@ -58,5 +62,18 @@ describe('checkRecognizedNames', () => {
 				DATS_MESSAGES.UNKNOWN_DAT('a.dat, b.dat, c.dat y 1 más'),
 			);
 		}
+	});
+});
+
+describe('validateOneFile', () => {
+	it('rejects a non-empty DAT containing only whitespace', async () => {
+		const result = await validateOneFile(
+			new File([' \n\t'], 'NPCs.dat'),
+		);
+
+		expect(result).toEqual({
+			valid: false,
+			message: DATS_MESSAGES.EMPTY_FILE('NPCs.dat'),
+		});
 	});
 });
