@@ -31,3 +31,23 @@ export const searchFieldStyle = css`
 	width: 17rem;
 	flex-shrink: 0;
 `;
+
+export const clearButtonStyle = css`
+	display: flex;
+	align-items: center;
+	background: none;
+	border: none;
+	padding: 0;
+	cursor: pointer;
+	color: inherit;
+	opacity: 0.8;
+
+	&:hover {
+		opacity: 1;
+	}
+
+	svg {
+		width: 1.1em;
+		height: 1.1em;
+	}
+`;

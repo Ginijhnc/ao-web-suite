@@ -195,7 +195,6 @@ export const assertSearchFiltersByMessage = async (
 
 	const searchInput = LogsTestHelpers.getSearchInput(page);
 	await searchInput.fill(SEARCH_TERM);
-	await page.waitForTimeout(400);
 
 	await expect(LogsTestHelpers.getPaginationSummary(page)).toHaveText(
 		`Mostrando 1-${SEARCH_MATCH_COUNT} de ${SEARCH_MATCH_COUNT}`,
@@ -221,11 +220,58 @@ export const assertSearchResetsToPage1 = async (
 
 	const searchInput = LogsTestHelpers.getSearchInput(page);
 	await searchInput.fill(SEARCH_TERM);
-	await page.waitForTimeout(400);
 
 	await expect(LogsTestHelpers.getPaginationSummary(page)).toHaveText(
 		`Mostrando 1-${SEARCH_MATCH_COUNT} de ${SEARCH_MATCH_COUNT}`,
 	);
+};
+
+export const assertSearchClearButtonVisibility = async (
+	page: Page,
+): Promise<void> => {
+	await seedAndNavigate(page, loadFixture());
+	await LogsTestHelpers.waitForLogsTable(page);
+
+	const clearButton = page.getByRole('button', {
+		name: 'Limpiar búsqueda',
+	});
+	await expect(clearButton).not.toBeAttached();
+
+	const searchInput = LogsTestHelpers.getSearchInput(page);
+	await searchInput.fill(SEARCH_TERM);
+
+	await expect(clearButton).toBeVisible();
+
+	await searchInput.clear();
+
+	await expect(clearButton).not.toBeAttached();
+};
+
+export const assertSearchClearButtonRestoresResults = async (
+	page: Page,
+): Promise<void> => {
+	await seedAndNavigate(page, loadFixture());
+	await LogsTestHelpers.waitForLogsTable(page);
+
+	const searchInput = LogsTestHelpers.getSearchInput(page);
+	await searchInput.fill(SEARCH_TERM);
+
+	await expect(LogsTestHelpers.getPaginationSummary(page)).toHaveText(
+		`Mostrando 1-${SEARCH_MATCH_COUNT} de ${SEARCH_MATCH_COUNT}`,
+	);
+
+	const clearButton = page.getByRole('button', {
+		name: 'Limpiar búsqueda',
+	});
+	await clearButton.click();
+
+	await expect(LogsTestHelpers.getPaginationSummary(page)).toHaveText(
+		`Mostrando 1-10 de ${FIXTURE_TOTAL}`,
+	);
+	await expect(LogsTestHelpers.getBodyRows(page)).toHaveCount(
+		ROWS_PER_PAGE,
+	);
+	await expect(searchInput).toHaveValue('');
 };
 
 export const assertFilterResetsToPage1 = async (
