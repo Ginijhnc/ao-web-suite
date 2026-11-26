@@ -10,6 +10,7 @@ export type UploaderActionsProps = {
 	onUpload: () => void;
 	onClear: () => void;
 	isClearDisabled: boolean;
+	isUploading: boolean;
 };
 
 export type UploadReplaceDialogProps = {

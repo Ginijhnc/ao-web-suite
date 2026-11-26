@@ -1,13 +1,15 @@
 import path, { join } from 'path';
 import { fileURLToPath } from 'url';
-import { FILE_TYPES } from '@Constants/database';
+import { DB_NAME, DB_STORE_NAMES, FILE_TYPES } from '@Constants/database';
 import {
 	GRAPHICS_MESSAGES,
 	RESOURCES_MESSAGES,
 } from '@Constants/messages';
+import { ROUTES_TITLES } from '@Constants/routes';
 import { GENERAL_SELECTORS } from '@Constants/selectors';
 import { expect, type Page } from '@playwright/test';
 import { GeneralTestHelpers } from '../../shared/helpers/GeneralTestHelpers';
+import { SidebarTestHelpers } from '../../shared/helpers/SidebarTestHelpers';
 import { HomeTestHelpers } from '../helpers/HomeTestHelpers';
 
 const dirName = path.dirname(fileURLToPath(import.meta.url));
@@ -208,5 +210,71 @@ export const rejectReplacementWithDifferentExtension = async (
 		page,
 		bmpFile,
 		GRAPHICS_MESSAGES.CONFLICT_EXISTING('3082.bmp'),
+	);
+};
+
+export const showsSpinnerAndDisablesActionsDuringUpload = async (
+	page: Page,
+): Promise<void> => {
+	const files =
+		GeneralTestHelpers.getFilePathsFromDirectory(PUBLIC_GRAPHICS);
+
+	const uploadButton = HomeTestHelpers.getUploadButton(page);
+	const clearButton = HomeTestHelpers.getClearButton(page);
+
+	const fileChooserPromise = page.waitForEvent('filechooser');
+	await uploadButton.click();
+	const chooser = await fileChooserPromise;
+	await chooser.setFiles(files);
+
+	await expect(uploadButton).toHaveText('Subiendo...');
+	await expect(uploadButton.getByRole('progressbar')).toBeVisible();
+	await expect(uploadButton).toBeDisabled();
+	await expect(clearButton).toBeDisabled();
+
+	await expect(page.getByTestId(GENERAL_SELECTORS.TOAST)).toContainText(
+		GRAPHICS_MESSAGES.UPLOAD_SUCCESS,
+	);
+	await expect(uploadButton).toHaveText('Subir');
+	await expect(uploadButton.getByRole('progressbar')).toBeHidden();
+	await expect(uploadButton).toBeEnabled();
+	await expect(clearButton).toBeEnabled();
+};
+
+export const uploadContinuesInBackgroundAfterNavigatingAway = async (
+	page: Page,
+): Promise<void> => {
+	const files =
+		GeneralTestHelpers.getFilePathsFromDirectory(PUBLIC_GRAPHICS);
+	const uploadButton = HomeTestHelpers.getUploadButton(page);
+
+	const fileChooserPromise = page.waitForEvent('filechooser');
+	await uploadButton.click();
+	const chooser = await fileChooserPromise;
+	await chooser.setFiles(files);
+
+	/* Confirms the upload is still in flight before navigating away,
+	   so the assertions below actually prove the write survives the
+	   unmount instead of coincidentally running after it already
+	   finished. */
+	await expect(uploadButton).toBeDisabled();
+
+	await SidebarTestHelpers.getNavLink(
+		page,
+		ROUTES_TITLES.CONFIGURACION,
+	).click();
+
+	await expect(page.getByTestId(GENERAL_SELECTORS.TOAST)).toContainText(
+		GRAPHICS_MESSAGES.UPLOAD_SUCCESS,
+	);
+
+	const expectedKeys = files.map((filePath) => {
+		return path.basename(filePath);
+	});
+	await GeneralTestHelpers.assertIdbStoreHasKeys(
+		page,
+		DB_NAME,
+		DB_STORE_NAMES.GRAPHICS,
+		expectedKeys,
 	);
 };

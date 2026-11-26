@@ -1,5 +1,6 @@
 import { FILE_TYPES } from '@Constants/database';
 import type { FileType } from '@Constants/database';
+import { UploadStatusProvider } from '@Contexts/UploadStatusContext';
 import type { ParsedDat } from '@Helpers/dats';
 import { act, renderHook, waitFor } from '@testing-library/react';
 import type { ValidationResult } from '@Types/database';
@@ -90,9 +91,12 @@ describe('useFileUploader', () => {
 	it('does not update the dats store when the persist write fails', async () => {
 		putFilesMock.mockRejectedValueOnce(new Error('quota exceeded'));
 		const onError = vi.fn();
-		const { result } = renderHook(() => {
-			return useFileUploader({ onError });
-		});
+		const { result } = renderHook(
+			() => {
+				return useFileUploader({ onError });
+			},
+			{ wrapper: UploadStatusProvider },
+		);
 
 		openAndSelect(result, FILE_TYPES.DATS, [
 			{ name: 'npcs.dat' } as File,
@@ -110,9 +114,12 @@ describe('useFileUploader', () => {
 			message: 'Estructura invalida',
 		});
 		const onError = vi.fn();
-		const { result } = renderHook(() => {
-			return useFileUploader({ onError });
-		});
+		const { result } = renderHook(
+			() => {
+				return useFileUploader({ onError });
+			},
+			{ wrapper: UploadStatusProvider },
+		);
 
 		const input = openAndSelect(result, FILE_TYPES.DATS, [
 			{ name: 'npcs.dat' } as File,
@@ -130,9 +137,12 @@ describe('useFileUploader', () => {
 			error: new Error('transaction aborted'),
 		});
 		const onError = vi.fn();
-		const { result } = renderHook(() => {
-			return useFileUploader({ onError });
-		});
+		const { result } = renderHook(
+			() => {
+				return useFileUploader({ onError });
+			},
+			{ wrapper: UploadStatusProvider },
+		);
 
 		await act(async () => {
 			await result.current.clearFiles(FILE_TYPES.DATS);
@@ -150,9 +160,12 @@ describe('useFileUploader', () => {
 			}),
 		);
 		const onError = vi.fn();
-		const { result } = renderHook(() => {
-			return useFileUploader({ onError });
-		});
+		const { result } = renderHook(
+			() => {
+				return useFileUploader({ onError });
+			},
+			{ wrapper: UploadStatusProvider },
+		);
 
 		const input = openAndSelect(result, FILE_TYPES.DATS, [
 			{ name: 'npcs.dat' } as File,

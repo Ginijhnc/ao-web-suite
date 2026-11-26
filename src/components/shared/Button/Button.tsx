@@ -1,6 +1,9 @@
 import { icons } from '@Components/icons';
+import type { IconName } from '@Components/icons';
+import { Spinner } from '@Components/shared/Spinner';
 import { cx } from '@emotion/css';
 import MuiButton from '@mui/material/Button';
+import theme from '@Theme/theme';
 import {
 	baseButtonStyle,
 	mdSizeStyle,
@@ -24,6 +27,20 @@ const SIZE_STYLES: Record<ButtonSize, string> = {
 	sm: smSizeStyle,
 };
 
+const getStartIcon = (
+	loading: boolean | undefined,
+	startIcon: IconName | undefined,
+): React.ReactElement | undefined => {
+	if (loading) {
+		return <Spinner size={0.9} color={theme.palette.text.secondary} />;
+	}
+	if (startIcon) {
+		const Icon = icons[startIcon];
+		return <Icon />;
+	}
+	return undefined;
+};
+
 export const Button = ({
 	children,
 	variant,
@@ -31,19 +48,20 @@ export const Button = ({
 	disabled,
 	startIcon,
 	endIcon,
+	loading,
 	className,
 	onClick,
 	...rest
 }: ButtonProps): React.ReactElement => {
-	const StartIcon = startIcon ? icons[startIcon] : null;
 	const EndIcon = endIcon ? icons[endIcon] : null;
+	const isDisabled = Boolean(disabled) || Boolean(loading);
 
 	return (
 		<MuiButton
 			disableRipple
-			disabled={disabled}
-			onClick={disabled ? undefined : onClick}
-			startIcon={StartIcon ? <StartIcon /> : undefined}
+			disabled={isDisabled}
+			onClick={isDisabled ? undefined : onClick}
+			startIcon={getStartIcon(loading, startIcon)}
 			endIcon={EndIcon ? <EndIcon /> : undefined}
 			className={cx(
 				baseButtonStyle,

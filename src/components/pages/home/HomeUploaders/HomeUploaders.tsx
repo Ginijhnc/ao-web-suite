@@ -14,6 +14,7 @@ import {
 } from '@Constants/indices';
 import { RESOURCES_MESSAGES } from '@Constants/messages';
 import { ROUTES } from '@Constants/routes';
+import { HOME_SELECTORS } from '@Constants/selectors';
 import { useDisclosure } from '@Hooks/useDisclosure';
 import { useFileUploader } from '@Hooks/useFileUploader';
 import { useDats } from '@Stores/datsStore';
@@ -77,6 +78,7 @@ const UploaderActions = ({
 	onUpload,
 	onClear,
 	isClearDisabled,
+	isUploading,
 }: UploaderActionsProps): React.ReactElement => {
 	return (
 		<div className={actionsRowStyle}>
@@ -85,15 +87,18 @@ const UploaderActions = ({
 				variant="primary"
 				startIcon="UploadIcon"
 				onClick={onUpload}
+				loading={isUploading}
+				data-testid={HOME_SELECTORS.UPLOAD_BUTTON}
 			>
-				Subir
+				{isUploading ? 'Subiendo...' : 'Subir'}
 			</Button>
 			<Button
 				size="md"
 				variant="secondary"
 				startIcon="TrashIcon"
 				onClick={onClear}
-				disabled={isClearDisabled}
+				disabled={isClearDisabled || isUploading}
+				data-testid={HOME_SELECTORS.CLEAR_BUTTON}
 			>
 				Borrar
 			</Button>
@@ -133,6 +138,7 @@ export const HomeUploaders = (): React.ReactElement => {
 	const {
 		openFilePicker,
 		clearFiles,
+		isUploading,
 		pendingUpload,
 		confirmPendingUpload,
 		cancelPendingUpload,
@@ -249,6 +255,7 @@ export const HomeUploaders = (): React.ReactElement => {
 						onUpload={handleUpload}
 						onClear={handleClear}
 						isClearDisabled={isClearDisabled}
+						isUploading={isUploading}
 					/>
 					{getStatusPanel()}
 				</div>

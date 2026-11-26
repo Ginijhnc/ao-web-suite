@@ -8,3 +8,8 @@ export const GENERAL_SELECTORS = {
 export const LOGS_SELECTORS = {
 	PAGINATION_SUMMARY: 'pagination-summary',
 } as const;
+
+export const HOME_SELECTORS = {
+	UPLOAD_BUTTON: 'upload-button',
+	CLEAR_BUTTON: 'clear-button',
+} as const;

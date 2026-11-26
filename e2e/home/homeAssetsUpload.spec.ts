@@ -7,6 +7,8 @@ import {
 	dismissClearGraphicsDialog,
 	uploadSameFileForReplacement,
 	rejectReplacementWithDifferentExtension,
+	showsSpinnerAndDisablesActionsDuringUpload,
+	uploadContinuesInBackgroundAfterNavigatingAway,
 } from './flows/homeAssetsUpload';
 import { HomeTestHelpers } from './helpers/HomeTestHelpers';
 
@@ -51,4 +53,16 @@ test('replace graphics: rejects if same basename with different extension alread
 	page,
 }) => {
 	await rejectReplacementWithDifferentExtension(page);
+});
+
+test('upload graphics: shows a spinner and disables Subir/Borrar during an upload', async ({
+	page,
+}) => {
+	await showsSpinnerAndDisablesActionsDuringUpload(page);
+});
+
+test('upload graphics: continues in the background after navigating away mid-upload', async ({
+	page,
+}) => {
+	await uploadContinuesInBackgroundAfterNavigatingAway(page);
 });
