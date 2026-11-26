@@ -1,0 +1,1 @@
+export { DateadorLayout } from './DateadorLayout';

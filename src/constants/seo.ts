@@ -42,6 +42,12 @@ export const PAGES_META = {
 		canonical: `${env.SITE_URL}${ROUTES.INDEXADOR}`,
 		ogImage: defaultOgImage,
 	},
+	DATEADOR: {
+		title: `${ROUTES_TITLES.DATEADOR} · ${APP_NAME}`,
+		description: 'Dateador para Argentum Online Web.',
+		canonical: `${env.SITE_URL}${ROUTES.DATEADOR}`,
+		ogImage: defaultOgImage,
+	},
 } as const;
 
 export type PageMetaEntry = ValueOf<typeof PAGES_META>;
