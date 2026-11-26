@@ -19,6 +19,7 @@ export const headerStyle = css`
 	display: flex;
 	justify-content: center;
 	align-items: center;
+	view-transition-name: app-header;
 `;
 
 export const torchWrapperStyle = css`

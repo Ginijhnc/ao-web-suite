@@ -4,7 +4,7 @@ import mapeadorImg from '@Assets/images/pages/mapeador.png';
 import { ArrowForwardIcon } from '@Components/icons';
 import { Text } from '@Components/shared/Text';
 import { ROUTES } from '@Constants/routes';
-import { useNavigate } from 'react-router';
+import { useAppNavigate } from '@Hooks/useAppNavigate';
 import {
 	arrowStyle,
 	cardContentStyle,
@@ -27,13 +27,13 @@ const ToolCard = ({
 	route,
 	image,
 }: ToolCardProps): React.ReactElement => {
-	const navigate = useNavigate();
+	const navigate = useAppNavigate();
 	const isPending = route === null;
 
 	const handleClick = (): void => {
 		/* onClick is already gated; this guard exists only to satisfy TypeScript. */
 		if (route !== null) {
-			void navigate(route);
+			navigate(route);
 		}
 	};
 

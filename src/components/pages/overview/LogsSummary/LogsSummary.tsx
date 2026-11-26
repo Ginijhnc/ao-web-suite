@@ -3,12 +3,12 @@ import { Button } from '@Components/shared/Button';
 import { Text } from '@Components/shared/Text';
 import { ROUTES } from '@Constants/routes';
 import { cx } from '@emotion/css';
+import { useAppNavigate } from '@Hooks/useAppNavigate';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { useLogEntries } from '@Stores/logStore';
 import theme from '@Theme/theme';
 import { formatDayMonthYearTime } from '@Utils/date';
 import { prefetchLogsPage } from '@Utils/prefetcher';
-import { useNavigate } from 'react-router';
 import {
 	cardStyle,
 	emptyStateStyle,
@@ -74,7 +74,7 @@ const LogEntryRow = ({ entry }: LogEntryRowProps): React.ReactElement => {
 
 export const LogsSummary = (): React.ReactElement => {
 	const entries = useLogEntries();
-	const navigate = useNavigate();
+	const navigate = useAppNavigate();
 	const isMobile = useMediaQuery(
 		`(max-width: ${theme.breakpoints.values.md}em)`,
 	);
@@ -98,7 +98,7 @@ export const LogsSummary = (): React.ReactElement => {
 					endIcon="ArrowForwardIcon"
 					disabled={recent.length === 0}
 					onClick={() => {
-						void navigate(ROUTES.LOGS);
+						navigate(ROUTES.LOGS);
 					}}
 				>
 					Ver todos

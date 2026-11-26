@@ -15,6 +15,7 @@ import {
 import { RESOURCES_MESSAGES } from '@Constants/messages';
 import { ROUTES } from '@Constants/routes';
 import { HOME_SELECTORS } from '@Constants/selectors';
+import { useAppNavigate } from '@Hooks/useAppNavigate';
 import { useDisclosure } from '@Hooks/useDisclosure';
 import { useFileUploader } from '@Hooks/useFileUploader';
 import { useDats } from '@Stores/datsStore';
@@ -22,7 +23,6 @@ import { useGraphicsFiles } from '@Stores/graphicsStore';
 import { useIndices } from '@Stores/indicesStore';
 import { truncateNameList } from '@Utils/file';
 import { prefetchOverviewPage } from '@Utils/prefetcher';
-import { useNavigate } from 'react-router';
 import UploaderStatusPanel from '../UploaderStatusPanel/UploaderStatusPanel';
 import {
 	actionsAndPanelGroupStyle,
@@ -153,7 +153,7 @@ export const HomeUploaders = (): React.ReactElement => {
 	const graphicsFiles = useGraphicsFiles();
 	const dats = useDats();
 	const indices = useIndices();
-	const navigate = useNavigate();
+	const navigate = useAppNavigate();
 
 	const EXPECTED_DATS_COUNT = Object.values(DAT_NAMES).length;
 	const EXPECTED_INDICES_COUNT = Object.values(INDICES_NAMES).length;
@@ -267,7 +267,7 @@ export const HomeUploaders = (): React.ReactElement => {
 					endIcon="ArrowForwardIcon"
 					disabled={!isDashboardEnabled}
 					onClick={() => {
-						void navigate(ROUTES.OVERVIEW);
+						navigate(ROUTES.OVERVIEW);
 					}}
 				>
 					Siguiente

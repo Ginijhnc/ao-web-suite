@@ -14,6 +14,7 @@ export const sidebarStyle = css`
 	transition: width 0.25s ease-in-out;
 	overflow-y: auto;
 	scrollbar-width: none;
+	view-transition-name: app-sidebar;
 
 	&::-webkit-scrollbar {
 		display: none;
@@ -232,6 +233,7 @@ export const mobileDrawerToggleStyle = css`
 	background-color: hsl(14, 22%, 9%);
 	border: 2px solid hsl(12, 17%, 12%);
 	cursor: pointer;
+	view-transition-name: mobile-drawer-toggle;
 
 	@media (min-width: ${BREAKPOINTS.lg}em) {
 		display: none;

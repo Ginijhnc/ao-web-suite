@@ -102,3 +102,52 @@ picture {
 }
 
 /* End of Scrollbar */
+
+/* Start of View Transitions */
+
+@media (prefers-reduced-motion: no-preference) {
+	::view-transition-old(root) {
+		animation: none;
+	}
+
+	::view-transition-new(root) {
+		animation: page-enter 150ms ease-out;
+	}
+}
+
+@keyframes page-enter {
+	from {
+		opacity: 0;
+		transform: translateY(0.5rem);
+	}
+	to {
+		opacity: 1;
+		transform: translateY(0);
+	}
+}
+
+::view-transition-group(app-header),
+::view-transition-new(app-header),
+::view-transition-group(app-sidebar),
+::view-transition-old(app-sidebar),
+::view-transition-new(app-sidebar),
+::view-transition-group(mobile-drawer-toggle),
+::view-transition-old(mobile-drawer-toggle),
+::view-transition-new(mobile-drawer-toggle) {
+	animation: none;
+}
+
+::view-transition-old(app-header) {
+	animation: none;
+	display: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+	::view-transition-group(*),
+	::view-transition-old(*),
+	::view-transition-new(*) {
+		animation: none !important;
+	}
+}
+
+/* End of View Transitions */

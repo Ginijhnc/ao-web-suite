@@ -1,11 +1,12 @@
 import { ChevronLeftIcon, CloseIcon, MenuIcon } from '@Components/icons';
 import { Text } from '@Components/shared/Text';
 import { Tooltip, loadMuiTooltip } from '@Components/shared/Tooltip';
+import { useAppNavigate } from '@Hooks/useAppNavigate';
 import { useAssetsReady } from '@Hooks/useAssetsReady';
 import Drawer from '@mui/material/Drawer';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { useLogCount } from '@Stores/logStore';
-import { useLocation, useNavigate } from 'react-router';
+import { useLocation } from 'react-router';
 import {
 	SIDEBAR_BADGE_KEYS,
 	SIDEBAR_EXTERNAL_LINKS,
@@ -274,14 +275,14 @@ export const Sidebar = ({
 	onToggleMobile,
 	onToggleCollapse,
 }: SidebarProps): React.ReactElement => {
-	const navigate = useNavigate();
+	const navigate = useAppNavigate();
 	const location = useLocation();
 	const isDesktop = useMediaQuery('(min-width: 1024px)');
 	const assetsReady = useAssetsReady();
 	const showTooltip = isDesktop && isCollapsed;
 
 	const handleNavigate: SidebarLinksProps['onNavigate'] = (route) => {
-		void navigate(route);
+		navigate(route);
 		onAfterNavigation();
 	};
 
