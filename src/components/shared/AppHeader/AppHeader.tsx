@@ -2,6 +2,7 @@ import firetorchGif from '@Assets/animations/firetorch.gif';
 import { Text } from '@Components/shared/Text';
 import { APP_NAME, ROUTES } from '@Constants/routes';
 import { useAssetsReady } from '@Hooks/useAssetsReady';
+import { isFirefox } from '@Utils/browser';
 import { Link } from 'react-router';
 import {
 	headerStyle,
@@ -29,7 +30,11 @@ export const AppHeader = (): React.ReactElement => {
 	return (
 		<header className={headerStyle}>
 			<Torch />
-			<Link to={destination} aria-label="Ir al inicio">
+			<Link
+				to={destination}
+				aria-label="Ir al inicio"
+				viewTransition={!isFirefox()}
+			>
 				<Text renderAs="h1">{APP_NAME}</Text>
 			</Link>
 			<Torch />
