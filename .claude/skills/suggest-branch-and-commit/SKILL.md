@@ -65,7 +65,7 @@ git push origin fix/dateador-form-validation
 | `indexador` | Texture atlas and asset management                    |
 | `dateador`  | Game data and entity attribute editing                |
 | `mapeador`  | World map visual editor and rendering                 |
-| `config`    | Settings page for app customization                   |
+| `settings`  | Settings page for app customization                   |
 | `tutorial`  | Tutorial and app usage documentation                  |
 | `storage`   | Stores and client-side persistence                    |
 | `deps`      | Dependency updates                                    |
