@@ -48,6 +48,12 @@ export const PAGES_META = {
 		canonical: `${env.SITE_URL}${ROUTES.DATEADOR}`,
 		ogImage: defaultOgImage,
 	},
+	CONFIGURACION: {
+		title: `${ROUTES_TITLES.CONFIGURACION} · ${APP_NAME}`,
+		description: 'Configuración de AOWeb Suite.',
+		canonical: `${env.SITE_URL}${ROUTES.CONFIGURACION}`,
+		ogImage: defaultOgImage,
+	},
 } as const;
 
 export type PageMetaEntry = ValueOf<typeof PAGES_META>;

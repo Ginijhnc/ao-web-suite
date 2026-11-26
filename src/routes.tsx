@@ -92,6 +92,14 @@ export const router = createBrowserRouter([
 					return { Component: DateadorPage };
 				},
 			},
+			{
+				path: ROUTES.CONFIGURACION,
+				lazy: async () => {
+					const { SettingsPage } =
+						await import('@Pages/SettingsPage');
+					return { Component: SettingsPage };
+				},
+			},
 			// temporal hasta que termine de agregar todas las páginas
 			{ path: '*', element: null },
 		],
