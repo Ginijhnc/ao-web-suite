@@ -56,17 +56,18 @@ git push origin fix/dateador-form-validation
 
 ### Scopes
 
-| Scope       | Description                            |
-| ----------- | -------------------------------------- |
-| `home`      | Asset upload and file management page  |
-| `overview`  | Dashboard with tools, stats, and logs  |
-| `ui`        | Shared UI components and design system |
-| `indexador` | Texture atlas and asset management     |
-| `dateador`  | Game data and entity attribute editing |
-| `mapeador`  | World map visual editor and rendering  |
-| `config`    | Settings page for app customization    |
-| `tutorial`  | Tutorial and app usage documentation   |
-| `storage`   | Stores and client-side persistence     |
-| `deps`      | Dependency updates                     |
-| `ci`        | CI/CD pipelines                        |
-| `tooling`   | Linting, formatting, workspace config  |
+| Scope       | Description                                           |
+| ----------- | ----------------------------------------------------- |
+| `app`       | Root-level app composition, providers, routing wiring |
+| `home`      | Asset upload and file management page                 |
+| `overview`  | Dashboard with tools, stats, and logs                 |
+| `ui`        | Shared UI components and design system                |
+| `indexador` | Texture atlas and asset management                    |
+| `dateador`  | Game data and entity attribute editing                |
+| `mapeador`  | World map visual editor and rendering                 |
+| `config`    | Settings page for app customization                   |
+| `tutorial`  | Tutorial and app usage documentation                  |
+| `storage`   | Stores and client-side persistence                    |
+| `deps`      | Dependency updates                                    |
+| `ci`        | CI/CD pipelines                                       |
+| `tooling`   | Linting, formatting, workspace config                 |
