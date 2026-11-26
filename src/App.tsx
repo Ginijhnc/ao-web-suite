@@ -1,5 +1,6 @@
 import { ToastContainer } from '@Components/shared/ToastContainer';
 import { LoadingOverlayProvider } from '@Contexts/LoadingOverlayContext';
+import { UploadStatusProvider } from '@Contexts/UploadStatusContext';
 import { useHydrateStores } from '@Hooks/useHydrateStores';
 import CssBaseline from '@mui/material/CssBaseline';
 import { StyledEngineProvider, ThemeProvider } from '@mui/material/styles';
@@ -17,7 +18,9 @@ export const App = (): React.ReactElement => {
 				<CssBaseline />
 				<ToastContainer />
 				<LoadingOverlayProvider>
-					<RouterProvider router={router} />
+					<UploadStatusProvider>
+						<RouterProvider router={router} />
+					</UploadStatusProvider>
 				</LoadingOverlayProvider>
 			</ThemeProvider>
 		</StyledEngineProvider>

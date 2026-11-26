@@ -14,6 +14,7 @@ import {
 	INDICES_MESSAGES,
 	RESOURCES_MESSAGES,
 } from '@Constants/messages';
+import { useUploadStatus } from '@Contexts/UploadStatusContext';
 import type { ParsedDat } from '@Helpers/dats';
 import type { ParsedIndice } from '@Helpers/indices';
 import { getDatsActions } from '@Stores/datsStore';
@@ -36,10 +37,6 @@ import { validateIndicesFiles } from '@Validators/indices';
 
 type UseFileUploaderOptions = {
 	onError: (message: string) => void;
-};
-
-type UploadState = {
-	isUploading: boolean;
 };
 
 export type PendingUpload = {
@@ -271,7 +268,7 @@ const formatReplacedList = (
 const runUpload = async (
 	fileType: FileType,
 	fileArray: ReadonlyArray<File>,
-	setUploadState: (state: UploadState) => void,
+	setIsUploading: (isUploading: boolean) => void,
 	setPendingUpload: (pending: PendingUpload | null) => void,
 	onError: (message: string) => void,
 ): Promise<void> => {
@@ -300,7 +297,7 @@ const runUpload = async (
 		return;
 	}
 
-	setUploadState({ isUploading: true });
+	setIsUploading(true);
 	await persistAndNotify(
 		fileType,
 		fileArray,
@@ -308,7 +305,7 @@ const runUpload = async (
 		parsed,
 		onError,
 	);
-	setUploadState({ isUploading: false });
+	setIsUploading(false);
 };
 
 /**
@@ -354,9 +351,7 @@ const persistAndNotify = async (
 
 export const useFileUploader = ({ onError }: UseFileUploaderOptions) => {
 	const inputRef = useRef<HTMLInputElement | null>(null);
-	const [uploadState, setUploadState] = useState<UploadState>({
-		isUploading: false,
-	});
+	const { isUploading, setIsUploading } = useUploadStatus();
 	const [pendingUpload, setPendingUpload] =
 		useState<PendingUpload | null>(null);
 
@@ -376,7 +371,7 @@ export const useFileUploader = ({ onError }: UseFileUploaderOptions) => {
 			await runUpload(
 				fileType,
 				fileArray,
-				setUploadState,
+				setIsUploading,
 				setPendingUpload,
 				onError,
 			);
@@ -389,7 +384,7 @@ export const useFileUploader = ({ onError }: UseFileUploaderOptions) => {
 	 * and persists the selected files to the corresponding IDB store.
 	 */
 	const openFilePicker = (fileType: FileType): void => {
-		if (uploadState.isUploading) {
+		if (isUploading) {
 			return;
 		}
 
@@ -414,7 +409,7 @@ export const useFileUploader = ({ onError }: UseFileUploaderOptions) => {
 			return;
 		}
 		setPendingUpload(null);
-		setUploadState({ isUploading: true });
+		setIsUploading(true);
 		await persistAndNotify(
 			pendingUpload.fileType,
 			pendingUpload.fileArray,
@@ -422,7 +417,7 @@ export const useFileUploader = ({ onError }: UseFileUploaderOptions) => {
 			pendingUpload.parsed,
 			onError,
 		);
-		setUploadState({ isUploading: false });
+		setIsUploading(false);
 	};
 
 	const cancelPendingUpload = (): void => {
@@ -446,7 +441,7 @@ export const useFileUploader = ({ onError }: UseFileUploaderOptions) => {
 	return {
 		openFilePicker,
 		clearFiles,
-		uploadState,
+		isUploading,
 		pendingUpload,
 		confirmPendingUpload,
 		cancelPendingUpload,

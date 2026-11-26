@@ -14,5 +14,6 @@ export type ButtonProps = OverrideProperties<
 		size: ButtonSize;
 		startIcon?: IconName;
 		endIcon?: IconName;
+		loading?: boolean;
 	}
 >;

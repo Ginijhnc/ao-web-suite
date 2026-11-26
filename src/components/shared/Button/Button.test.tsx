@@ -16,4 +16,14 @@ describe('Button', () => {
 		await user.click(screen.getByRole('button'));
 		expect(handleClick).toHaveBeenCalledOnce();
 	});
+
+	it('shows a spinner and disables the button when loading', () => {
+		render(
+			<Button size="md" variant="primary" loading onClick={vi.fn()}>
+				Subir
+			</Button>,
+		);
+		expect(screen.getByRole('progressbar')).toBeInTheDocument();
+		expect(screen.getByRole('button')).toBeDisabled();
+	});
 });

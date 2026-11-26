@@ -1,13 +1,21 @@
 import { FILE_TYPES } from '@Constants/database';
 import type { FileType } from '@Constants/database';
 import { ROUTES } from '@Constants/routes';
-import { GENERAL_SELECTORS } from '@Constants/selectors';
+import { GENERAL_SELECTORS, HOME_SELECTORS } from '@Constants/selectors';
 import { expect, type Locator, type Page } from '@playwright/test';
 import type { FileChooser } from '@playwright/test';
 
 const navigateToHomePage = async (page: Page): Promise<void> => {
 	await page.goto(ROUTES.RECURSOS, { waitUntil: 'domcontentloaded' });
 	await page.waitForLoadState('networkidle');
+};
+
+const getUploadButton = (page: Page): Locator => {
+	return page.getByTestId(HOME_SELECTORS.UPLOAD_BUTTON);
+};
+
+const getClearButton = (page: Page): Locator => {
+	return page.getByTestId(HOME_SELECTORS.CLEAR_BUTTON);
 };
 
 const waitForHomePageElements = async (page: Page): Promise<void> => {
@@ -17,12 +25,8 @@ const waitForHomePageElements = async (page: Page): Promise<void> => {
 	await page
 		.getByRole('button', { name: FILE_TYPES.INDICES })
 		.waitFor({ state: 'visible' });
-	await page
-		.getByRole('button', { name: 'Subir' })
-		.waitFor({ state: 'visible' });
-	await page
-		.getByRole('button', { name: 'Borrar' })
-		.waitFor({ state: 'visible' });
+	await getUploadButton(page).waitFor({ state: 'visible' });
+	await getClearButton(page).waitFor({ state: 'visible' });
 };
 
 /**
@@ -34,14 +38,6 @@ const selectFileType = async (
 	fileType: FileType,
 ): Promise<void> => {
 	await page.getByRole('button', { name: fileType }).click();
-};
-
-const getUploadButton = (page: Page): Locator => {
-	return page.getByRole('button', { name: 'Subir' });
-};
-
-const getClearButton = (page: Page): Locator => {
-	return page.getByRole('button', { name: 'Borrar' });
 };
 
 const getClearAssetConfirmationDialog = (
