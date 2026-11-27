@@ -1,7 +1,9 @@
+import { useEffect } from 'react';
 import { UploadIcon } from '@Components/icons/UploadIcon';
 import { Spinner } from '@Components/shared/Spinner';
 import { Tooltip } from '@Components/shared/Tooltip';
 import { useDemoUpload } from '@Hooks/useDemoUpload';
+import { useHydrated } from '@Hooks/useHydrateStores';
 import { useDats } from '@Stores/datsStore';
 import { useGraphicsFiles } from '@Stores/graphicsStore';
 import { useIndices } from '@Stores/indicesStore';
@@ -9,6 +11,7 @@ import theme from '@Theme/theme';
 import { fabStyle } from './DemoUploadFab.styles';
 
 const DemoUploadFab = (): React.ReactElement | null => {
+	const isHydrated = useHydrated();
 	const graphicsFiles = useGraphicsFiles();
 	const dats = useDats();
 	const indices = useIndices();
@@ -16,8 +19,16 @@ const DemoUploadFab = (): React.ReactElement | null => {
 
 	const hasData =
 		graphicsFiles.length > 0 || dats.size > 0 || indices.size > 0;
+	const isFabVisible = isHydrated && !hasData;
 
-	if (hasData) return null;
+	useEffect(() => {
+		document.body.dataset['fabVisible'] = String(isFabVisible);
+		return () => {
+			delete document.body.dataset['fabVisible'];
+		};
+	}, [isFabVisible]);
+
+	if (!isHydrated || hasData) return null;
 
 	const handleClick = (): void => {
 		void start();

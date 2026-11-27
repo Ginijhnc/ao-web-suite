@@ -31,6 +31,7 @@ Read the local uncommitted changes' diffs and suggest a branch name and commit m
 - Write everything in **English**: branch names, commit title, and commit body must all be in English
 - Use **Conventional Commits** with a **mandatory scope**: `feat(scope):`, `fix(scope):`, `refactor(scope):`, etc
 - Always include a commit body describing **what the change does and why it exists**, not how it is implemented
+- Before defining the commit message or title, verify the actual behavior of the changed code instead of inferring it from naming alone. Do not assert a behavior you have not confirmed
 - Do not reference function/file names or hard-coded values; keep the body implementation-agnostic and future-proof
 - The commit message should be a single continuous block with title and body together, separated by a blank line (do not separate them into different sections)
 - Wrap commit body lines at **72 characters**
