@@ -10,6 +10,7 @@ export const snackbarStyle = css`
 	max-width: 28rem;
 	padding: 0.5em 1em 0.7em 1em;
 	view-transition-name: snackbar;
+	view-transition-class: no-page-transition;
 	background-color: ${theme.palette.background.default};
 	color: ${theme.palette.text.primary};
 	border: 1px solid ${theme.palette.neutral.main};

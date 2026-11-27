@@ -6,6 +6,7 @@ export const fabStyle = css`
 	bottom: 1.5rem;
 	left: 1.5rem;
 	view-transition-name: demo-upload-fab;
+	view-transition-class: no-page-transition;
 	width: 3.5rem;
 	height: 3.5rem;
 	border-radius: 50%;

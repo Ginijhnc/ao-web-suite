@@ -15,6 +15,7 @@ export const sidebarStyle = css`
 	overflow-y: auto;
 	scrollbar-width: none;
 	view-transition-name: app-sidebar;
+	view-transition-class: no-page-transition;
 
 	&::-webkit-scrollbar {
 		display: none;
@@ -234,6 +235,7 @@ export const mobileDrawerToggleStyle = css`
 	border: 2px solid hsl(12, 17%, 12%);
 	cursor: pointer;
 	view-transition-name: mobile-drawer-toggle;
+	view-transition-class: no-page-transition;
 
 	@media (min-width: ${BREAKPOINTS.lg}em) {
 		display: none;
