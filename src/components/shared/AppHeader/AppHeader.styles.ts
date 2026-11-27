@@ -20,6 +20,7 @@ export const headerStyle = css`
 	justify-content: center;
 	align-items: center;
 	view-transition-name: app-header;
+	view-transition-class: no-page-transition no-page-transition-header;
 `;
 
 export const torchWrapperStyle = css`

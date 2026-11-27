@@ -1,5 +1,12 @@
 import { css } from '@emotion/css';
 
+export const toastTransitionStyle = (toastId: string): string => {
+	return css`
+		view-transition-name: toast-${toastId};
+		view-transition-class: no-page-transition;
+	`;
+};
+
 export const toastBaseStyle = css`
 	font-size: 0.9rem;
 	font-weight: 600;

@@ -126,24 +126,13 @@ picture {
 	}
 }
 
-::view-transition-group(app-header),
-::view-transition-new(app-header),
-::view-transition-group(app-sidebar),
-::view-transition-old(app-sidebar),
-::view-transition-new(app-sidebar),
-::view-transition-group(mobile-drawer-toggle),
-::view-transition-old(mobile-drawer-toggle),
-::view-transition-new(mobile-drawer-toggle),
-::view-transition-group(demo-upload-fab),
-::view-transition-old(demo-upload-fab),
-::view-transition-new(demo-upload-fab),
-::view-transition-group(snackbar),
-::view-transition-old(snackbar),
-::view-transition-new(snackbar) {
+::view-transition-group(.no-page-transition),
+::view-transition-old(.no-page-transition),
+::view-transition-new(.no-page-transition) {
 	animation: none;
 }
 
-::view-transition-old(app-header) {
+::view-transition-old(.no-page-transition-header) {
 	animation: none;
 	display: none;
 }
